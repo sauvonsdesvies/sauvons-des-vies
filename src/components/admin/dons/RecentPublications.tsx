@@ -78,8 +78,9 @@ export default function RecentPublications({
         method: "PATCH", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title: edition.title, shortDescription: edition.shortDescription, content: edition.content }),
       });
-      if (!result.publication || result.publication.id !== edition.id || typeof result.publication.title !== "string") throw new Error("La modification n’a pas pu être confirmée.");
-      setTitles(current => ({ ...current, [edition.id]: result.publication.title }));
+      const updated = result.publication;
+      if (!updated || updated.id !== edition.id || typeof updated.title !== "string") throw new Error("La modification n’a pas pu être confirmée.");
+      setTitles(current => ({ ...current, [edition.id]: updated.title }));
       setEditing(null);
       setMessage("Publication modifiée avec succès.");
       router.refresh();
