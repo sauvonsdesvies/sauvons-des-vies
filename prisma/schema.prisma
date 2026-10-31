@@ -1,0 +1,459 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ==========================================
+// FONDATION SAUVONS DES VIES
+// SCHÉMA GLOBAL — PRISMA / SUPABASE
+// ==========================================
+//
+// Administration
+// Campagnes et collectes
+// Bénéficiaires et demandes d'aide
+// Donateurs et transactions
+// Paiements aux établissements et fournisseurs
+// Journaux et publications
+// Médias et justificatifs
+// Notifications et traçabilité
+//
+// Les montants sont stockés en unités entières
+// de la devise indiquée.
+//
+// Les dons confirmés sont distingués
+// des paiements en attente ou échoués.
+// ==========================================
+
+// ==========================================
+// 1. AUTHENTIFICATION ADMINISTRATEUR
+// ==========================================
+
+model AdminSession {
+  id        String   @id
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+
+  @@index([expiresAt])
+}
+
+model AdminOtpChallenge {
+  id         String    @id
+  codeHash   String
+  attempts   Int       @default(0)
+  createdAt  DateTime  @default(now())
+  expiresAt  DateTime
+  consumedAt DateTime?
+
+  @@index([expiresAt])
+  @@index([consumedAt])
+}
+
+model AdminLoginAttempt {
+  id        String   @id @default(uuid())
+  rateKey   String
+  createdAt DateTime @default(now())
+
+  @@index([rateKey, createdAt])
+}
+
+// ==========================================
+// 2. CATÉGORIES DES CAMPAGNES
+// ==========================================
+
+model CampaignCategory {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  campaigns Campaign[]
+}
+
+// ==========================================
+// 3. BÉNÉFICIAIRES
+// ==========================================
+
+model Beneficiary {
+  id        String   @id @default(uuid())
+  firstName String
+  lastName  String
+  phone     String?
+  city      String?
+  country   String   @default("Bénin")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  campaigns Campaign[]
+  requests  AidRequest[]
+
+  documents BeneficiaryDocument[]
+}
+
+// ==========================================
+// 4. CAMPAGNES DE COLLECTE
+// ==========================================
+
+model Campaign {
+  countryCode      String?
+  isUrgent         Boolean   @default(false)
+  id               String    @id @default(uuid())
+  title            String
+  slug             String    @unique
+  shortDescription String    @default("")
+  description      String
+  targetAmount     Int
+  currency         String    @default("XOF")
+  status           String    @default("DRAFT")
+  imageUrl         String?
+  categoryId       String
+  beneficiaryId    String?
+  startDate        DateTime?
+  endDate          DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  publishedAt      DateTime?
+  completedAt      DateTime?
+
+  category CampaignCategory @relation(fields: [categoryId], references: [id])
+
+  beneficiary Beneficiary? @relation(fields: [beneficiaryId], references: [id])
+
+  photos    CampaignPhoto[]
+  donations Donation[]
+  payments  HospitalPayment[]
+
+  updates CampaignUpdate[]
+
+  @@index([status, createdAt])
+  @@index([categoryId])
+  @@index([beneficiaryId])
+  @@index([startDate, endDate])
+  @@index([publishedAt])
+}
+
+// ==========================================
+// 5. PHOTOS DES CAMPAGNES
+// ==========================================
+
+model CampaignPhoto {
+  id          String   @id @default(uuid())
+  campaignId  String
+  storagePath String
+  imageUrl    String
+  position    Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@unique([campaignId, position])
+  @@index([campaignId])
+}
+
+// ==========================================
+// 6. DONATEURS
+// ==========================================
+
+model Donor {
+  id        String   @id @default(uuid())
+  firstName String?
+  lastName  String?
+  email     String?
+  phone     String?
+  country   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  donations Donation[]
+
+  @@index([email])
+  @@index([phone])
+  @@index([createdAt])
+}
+
+// ==========================================
+// 7. DONS
+// ==========================================
+
+model Donation {
+  id          String    @id @default(uuid())
+  campaignId  String
+  amount      Int
+  currency    String    @default("XOF")
+  donorName   String?
+  donorEmail  String?
+  status      String    @default("PENDING")
+  paymentRef  String?   @unique
+  createdAt   DateTime  @default(now())
+  confirmedAt DateTime?
+
+  donorId     String?
+  isAnonymous Boolean @default(false)
+  message     String?
+
+  campaign Campaign @relation(fields: [campaignId], references: [id])
+
+  donor Donor? @relation(fields: [donorId], references: [id], onDelete: SetNull)
+
+  transactions PaymentTransaction[]
+
+  @@index([status, createdAt])
+  @@index([campaignId])
+  @@index([confirmedAt])
+  @@index([currency, status])
+  @@index([donorId])
+}
+
+// ==========================================
+// 8. TRANSACTIONS DE PAIEMENT
+// ==========================================
+
+model PaymentTransaction {
+  id                    String    @id @default(uuid())
+  donationId            String
+  provider              String
+  providerReference     String?
+  providerTransactionId String?
+  paymentMethod         String?
+  amount                Int
+  currency              String    @default("XOF")
+  status                String    @default("PENDING")
+  failureReason         String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  confirmedAt           DateTime?
+
+  donation Donation @relation(fields: [donationId], references: [id])
+
+  @@unique([provider, providerReference])
+  @@unique([provider, providerTransactionId])
+  @@index([donationId, createdAt])
+  @@index([status, createdAt])
+  @@index([provider])
+}
+
+// ==========================================
+// 9. DEMANDES D'AIDE
+// ==========================================
+
+model AidRequest {
+  id            String   @id @default(uuid())
+  reference     String   @unique
+  title         String
+  description   String
+  status        String   @default("PENDING")
+  beneficiaryId String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  beneficiary Beneficiary? @relation(fields: [beneficiaryId], references: [id])
+
+  applicantName   String?
+  applicantEmail  String?
+  applicantPhone  String?
+  city            String?
+  country         String?
+  requestedAmount Int?
+  currency        String    @default("XOF")
+  reviewedAt      DateTime?
+  reviewNotes     String?
+
+  documents AidRequestDocument[]
+
+  @@index([status, createdAt])
+  @@index([beneficiaryId])
+  @@index([applicantEmail])
+}
+
+// ==========================================
+// 10. DOCUMENTS DES DEMANDES D'AIDE
+// ==========================================
+
+model AidRequestDocument {
+  id          String   @id @default(uuid())
+  requestId   String
+  fileName    String
+  storagePath String
+  mimeType    String
+  createdAt   DateTime @default(now())
+
+  request AidRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+
+  @@index([requestId])
+}
+
+// ==========================================
+// 11. DOCUMENTS DES BÉNÉFICIAIRES
+// ==========================================
+
+model BeneficiaryDocument {
+  id            String   @id @default(uuid())
+  beneficiaryId String
+  fileName      String
+  storagePath   String
+  mimeType      String
+  createdAt     DateTime @default(now())
+
+  beneficiary Beneficiary @relation(fields: [beneficiaryId], references: [id], onDelete: Cascade)
+
+  @@index([beneficiaryId])
+}
+
+// ==========================================
+// 12. PAIEMENTS DIRECTS AUX HÔPITAUX
+// ==========================================
+
+model HospitalPayment {
+  id           String    @id @default(uuid())
+  campaignId   String
+  hospitalName String
+  amount       Int
+  currency     String    @default("XOF")
+  status       String    @default("PENDING")
+  paymentRef   String?   @unique
+  createdAt    DateTime  @default(now())
+  paidAt       DateTime?
+
+  recipientType String  @default("HOSPITAL")
+  description   String?
+  receiptPath   String?
+
+  campaign Campaign @relation(fields: [campaignId], references: [id])
+
+  @@index([status, createdAt])
+  @@index([campaignId])
+  @@index([paidAt])
+}
+
+// ==========================================
+// 13. JOURNAUX ET PUBLICATIONS
+// ==========================================
+
+model Publication {
+  id               String    @id @default(uuid())
+  title            String
+  slug             String    @unique
+  shortDescription String
+  content          String    @db.Text
+  category         String
+  language         String    @default("fr")
+  authorName       String    @default("Fondation Sauvons des Vies")
+  status           String    @default("DRAFT")
+  publicationDate  DateTime?
+  publishedAt      DateTime?
+  tags             String[]  @default([])
+  imageUrl         String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  archivedAt DateTime?
+
+  photos  PublicationPhoto[]
+  updates CampaignUpdate[]
+
+  @@index([status, publicationDate])
+  @@index([language, status])
+  @@index([category])
+  @@index([publishedAt])
+  @@index([createdAt])
+  @@index([archivedAt])
+}
+
+// ==========================================
+// 14. PHOTOS DES PUBLICATIONS
+// ==========================================
+
+model PublicationPhoto {
+  id            String   @id @default(uuid())
+  publicationId String
+  storagePath   String
+  imageUrl      String
+  position      Int      @default(0)
+  createdAt     DateTime @default(now())
+
+  publication Publication @relation(fields: [publicationId], references: [id], onDelete: Cascade)
+
+  @@unique([publicationId, position])
+  @@index([publicationId])
+}
+
+// ==========================================
+// 15. LIEN ENTRE CAMPAGNES ET JOURNAUX
+// ==========================================
+
+model CampaignUpdate {
+  id            String   @id @default(uuid())
+  campaignId    String
+  publicationId String
+  createdAt     DateTime @default(now())
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  publication Publication @relation(fields: [publicationId], references: [id], onDelete: Cascade)
+
+  @@unique([campaignId, publicationId])
+  @@index([publicationId])
+}
+
+// ==========================================
+// 16. MÉDIATHÈQUE
+// ==========================================
+
+model MediaFile {
+  id          String   @id @default(uuid())
+  fileName    String
+  storagePath String   @unique
+  publicUrl   String?
+  mimeType    String
+  fileSize    Int?
+  altText     String?
+  createdAt   DateTime @default(now())
+
+  @@index([mimeType])
+  @@index([createdAt])
+}
+
+// ==========================================
+// 17. NOTIFICATIONS ADMINISTRATEUR
+// ==========================================
+
+model AdminNotification {
+  id        String   @id @default(uuid())
+  title     String
+  message   String
+  type      String   @default("INFO")
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([isRead, createdAt])
+}
+
+// ==========================================
+// 18. HISTORIQUE DES ACTIONS ADMINISTRATEUR
+// ==========================================
+
+model AdminAuditLog {
+  id         String   @id @default(uuid())
+  action     String
+  entityType String
+  entityId   String?
+  details    Json?
+  createdAt  DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([entityType, entityId])
+  @@index([action])
+}
+
+// ==========================================
+// 19. PARAMÈTRES DE LA PLATEFORME
+// ==========================================
+
+model SiteSetting {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt
+}

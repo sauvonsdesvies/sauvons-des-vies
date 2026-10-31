@@ -1,0 +1,59 @@
+/* Typographie commune aux écrans de gestion, sans modifier le site public. */
+.administration {
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  font-synthesis: none;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.administration :where(h1) {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+.administration :where(h2) {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: -0.015em;
+}
+
+.administration :where(h3) {
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+
+.administration :where(label) {
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.administration :where(input, select, textarea, button) {
+  font-family: inherit;
+  letter-spacing: normal;
+}
+
+/* 16 px dans les champs mobiles évitent le zoom automatique à la saisie. */
+.administration :where(input, select, textarea) {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.administration :where(button) {
+  font-weight: 600;
+}
+
+@media (min-width: 640px) {
+  .administration :where(h1) {
+    font-size: 1.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .administration :where(input, select, textarea) {
+    font-size: 0.875rem;
+  }
+}

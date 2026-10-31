@@ -1,0 +1,35 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model AdminSession {
+  id        String   @id
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+
+  @@index([expiresAt])
+}
+
+model AdminOtpChallenge {
+  id         String    @id
+  codeHash   String
+  attempts   Int       @default(0)
+  createdAt  DateTime  @default(now())
+  expiresAt  DateTime
+  consumedAt DateTime?
+
+  @@index([expiresAt])
+  @@index([consumedAt])
+}
+
+model AdminLoginAttempt {
+  id        String   @id @default(uuid())
+  rateKey   String
+  createdAt DateTime @default(now())
+
+  @@index([rateKey, createdAt])
+}
