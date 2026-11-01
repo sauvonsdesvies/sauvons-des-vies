@@ -20,6 +20,8 @@ export type CampaignFormData = {
   description: string;
   categoryId: string;
   targetAmount: string;
+  initialCollectedAmount: string;
+  initialDonorCount: string;
   startDate: string;
   endDate: string;
   status: CampaignStatus;
@@ -34,6 +36,8 @@ export type CampaignCreateInput = {
   description: string;
   categoryId: string;
   targetAmount: number;
+  initialCollectedAmount: number;
+  initialDonorCount: number;
   startDate: string | null;
   endDate: string | null;
   status: CampaignStatus;

@@ -60,7 +60,7 @@ export default function DonationsChart({
     <section className="min-w-0 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
       <div className="mb-5">
         <h2 className="text-base font-semibold text-slate-900">
-          Évolution des dons
+          Évolution de la collecte
         </h2>
         <p className="mt-1 text-sm text-slate-500">
           Montants confirmés sur la période sélectionnée
@@ -80,7 +80,7 @@ export default function DonationsChart({
             <svg
               viewBox={`0 0 ${width} ${height}`}
               role="img"
-              aria-label="Graphique des montants des dons confirmés par date"
+              aria-label="Graphique des montants enregistrés dans la collecte par date"
               className="block h-auto w-full max-w-full"
             >
               <defs>

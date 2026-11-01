@@ -1,5 +1,6 @@
 
 "use client";
+import { subscribeCampaignUpdates } from "@/lib/campaigns/live-updates";
 import { useTranslation } from "@/lib/i18n/LanguageProvider";
 
 import {
@@ -39,7 +40,7 @@ import {
 
 const CAMPAIGNS_API_URL = "/api/public/campaigns";
 
-const DEFAULT_REFRESH_INTERVAL = 30_000;
+const DEFAULT_REFRESH_INTERVAL = 10_000;
 const MIN_REFRESH_INTERVAL = 5_000;
 
 const DEFAULT_PAGE_SIZE = 12;
@@ -889,6 +890,11 @@ export function usePublicCampaigns({
   // --------------------------------------------------------
   // RÉSULTAT
   // --------------------------------------------------------
+
+  useEffect(() => {
+    if (!enabled) return;
+    return subscribeCampaignUpdates(() => { void refresh(); });
+  }, [enabled, refresh]);
 
   return {
     campaigns,

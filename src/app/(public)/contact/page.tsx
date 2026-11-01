@@ -83,21 +83,21 @@ const PHONE_CONTACTS = [
     country: "France",
     flag: "🇫🇷",
     location: "Paris",
-    number: "+33 1 XX XX XX XX",
+    number: "+33 6 35 03 34 08",
     label: "Contact France",
   },
   {
     country: "États-Unis",
     flag: "🇺🇸",
     location: "Washington, D.C.",
-    number: "+1 202 XXX XXXX",
+    number: "+1 6463257236",
     label: "Contact États-Unis",
   },
   {
     country: "Royaume-Uni",
     flag: "🇬🇧",
     location: "Londres",
-    number: "+44 20 XXXX XXXX",
+    number: "+44 79 8526 0404",
     label: "Contact Royaume-Uni",
   },
 ] as const;
@@ -462,9 +462,6 @@ function PhoneContacts() {
       </div>
 
       <p className="mt-4 text-[12px] leading-6 text-[#758AA0]">
-        Les numéros sont des exemples de format. Ils seront
-        remplacés par les coordonnées officielles avant
-        leur activation.
       </p>
     </section>
   );
@@ -550,10 +547,6 @@ function InternationalOffices() {
       </div>
 
       <p className="mt-4 text-[12px] leading-6 text-[#758AA0]">
-        Les villes indiquent les implantations ou
-        représentations annoncées. Les adresses exactes
-        et les horaires d&apos;accueil seront communiqués
-        après confirmation.
       </p>
     </section>
   );

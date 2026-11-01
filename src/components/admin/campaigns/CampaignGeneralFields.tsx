@@ -138,6 +138,17 @@ export default function CampaignGeneralFields({
           className={inputClass}
         />
       </div>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div>
+          <label htmlFor="campaign-opening-amount" className="text-sm font-semibold text-slate-700">Montant déjà récolté (FCFA)</label>
+          <input id="campaign-opening-amount" type="number" min="0" max="2147483647" step="1" value={form.initialCollectedAmount} onChange={event => update("initialCollectedAmount", event.target.value)} className={inputClass} />
+        </div>
+        <div>
+          <label htmlFor="campaign-opening-donors" className="text-sm font-semibold text-slate-700">Nombre de participants</label>
+          <input id="campaign-opening-donors" type="number" min="0" max="2147483647" step="1" value={form.initialDonorCount} onChange={event => update("initialDonorCount", event.target.value)} className={inputClass} />
+        </div>
+      </div>
+      <p className="text-xs text-slate-500">La collecte continue à partir de ces chiffres. Chaque nouveau don confirmé augmente le total.</p>
     </section>
   );
 }

@@ -1,5 +1,6 @@
 
 import "server-only";
+import { countParticipants } from "@/lib/campaigns/participants";
 
 import { prisma } from "@/lib/prisma";
 
@@ -215,14 +216,18 @@ function calculateProgress(
 
 function calculateDonationSummary(
   donations: Array<{
+    id?: string;
+    donorEmail?: string | null;
     amount: number;
     currency: string;
   }>,
   targetAmount: number,
-  campaignCurrency: string
+  campaignCurrency: string,
+  initialCollectedAmount = 0,
+  initialDonorCount = 0
 ): DonationSummary {
-  let collectedAmount = 0;
-  let donorCount = 0;
+  let collectedAmount = initialCollectedAmount;
+  const donorCount = initialDonorCount + countParticipants(donations.filter(donation => donation.currency === campaignCurrency && donation.amount > 0));
 
   for (const donation of donations) {
     // Les montants de devises différentes
@@ -246,7 +251,6 @@ function calculateDonationSummary(
     }
 
     collectedAmount += amount;
-    donorCount += 1;
   }
 
   const remainingAmount = Math.max(
@@ -343,6 +347,7 @@ const CAMPAIGN_SELECT = {
   currency: true,
 
   targetAmount: true,
+  initialCollectedAmount: true, initialDonorCount: true,
   isUrgent: true,
 
   startDate: true,
@@ -388,7 +393,7 @@ const CAMPAIGN_SELECT = {
       },
     },
     select: {
-      amount: true,
+      id: true, donorEmail: true, amount: true,
       currency: true,
     },
   },
@@ -435,6 +440,7 @@ const SIMILAR_CAMPAIGN_SELECT = {
 
   currency: true,
   targetAmount: true,
+  initialCollectedAmount: true, initialDonorCount: true,
   isUrgent: true,
 
   endDate: true,
@@ -466,7 +472,7 @@ const SIMILAR_CAMPAIGN_SELECT = {
       },
     },
     select: {
-      amount: true,
+      id: true, donorEmail: true, amount: true,
       currency: true,
     },
   },
@@ -634,7 +640,7 @@ async function getSimilarCampaigns(
         calculateDonationSummary(
           campaign.donations,
           targetAmount,
-          campaign.currency
+          campaign.currency, campaign.initialCollectedAmount, campaign.initialDonorCount
         );
 
       const status = getCampaignStatus(
@@ -755,7 +761,7 @@ export async function getPublicCampaignDetail(
     calculateDonationSummary(
       campaign.donations,
       targetAmount,
-      campaign.currency
+      campaign.currency, campaign.initialCollectedAmount, campaign.initialDonorCount
     );
 
   // --------------------------------------------------------

@@ -11,37 +11,84 @@ import LanguageProvider from "@/lib/i18n/LanguageProvider";
 // LAYOUT PRINCIPAL — ESPACE PUBLIC
 // ==========================================================
 //
-// Logo officiel :
-// public/logo/logo.png
-//
-// Icône officielle :
-// public/icon/icon.png
+// Logo officiel : public/logo/logo.png
+// Icône officielle : public/icon/icon.png
+// Image de partage : public/images/partage-social.jpg
 //
 // Langues : Français, Anglais, Espagnol, Allemand
 //
-// Compatible :
-// - Next.js 16
-// - TypeScript
-// - Tailwind CSS
-// - PC / Tablette / Mobile
+// Compatible : Next.js 16 / TypeScript / Tailwind CSS
+// Responsive : PC / Tablette / Mobile
 //
 // Ce layout ne modifie pas l'administration.
 // ==========================================================
+
+// ----------------------------------------------------------
+// CONFIGURATION GÉNÉRALE
+// ----------------------------------------------------------
+
+const SITE_URL = "https://sauvonsdesvies.com";
+
+const SITE_NAME = "Fondation Sauvons des Vies";
+
+const SITE_TITLE =
+  "Fondation Sauvons des Vies | Ensemble, sauvons des vies";
+
+const SITE_DESCRIPTION =
+  "Ensemble, sauvons des vies. Soutenez les personnes ayant besoin de soins médicaux, participez aux campagnes solidaires et contribuez à sauver des vies grâce à vos dons.";
+
+const SOCIAL_IMAGE = "/images/partage-social.jpg";
 
 // ----------------------------------------------------------
 // MÉTADONNÉES PUBLIQUES
 // ----------------------------------------------------------
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
+
   title: {
-    default: "Fondation Sauvons des Vies",
-    template: "%s | Fondation Sauvons des Vies",
+    default: SITE_TITLE,
+    template: `%s | ${SITE_NAME}`,
   },
 
-  description:
-    "Fondation Sauvons des Vies : solidarité, aide médicale, accompagnement des personnes vulnérables et soutien aux familles en difficulté.",
+  description: SITE_DESCRIPTION,
 
-  applicationName: "Fondation Sauvons des Vies",
+  applicationName: SITE_NAME,
+
+  keywords: [
+    "Fondation Sauvons des Vies",
+    "Sauvons des vies",
+    "Fondation humanitaire",
+    "Dons humanitaires",
+    "Faire un don",
+    "Aide médicale",
+    "Solidarité",
+    "Santé",
+    "Entraide",
+    "Collecte de dons",
+    "Campagnes solidaires",
+    "Aide aux malades",
+    "Bénin",
+    "Afrique",
+  ],
+
+  authors: [
+    {
+      name: SITE_NAME,
+    },
+  ],
+
+  creator: SITE_NAME,
+
+  publisher: SITE_NAME,
+
+  category: "humanitarian",
+
+  formatDetection: {
+    telephone: false,
+    email: false,
+    address: false,
+  },
 
   icons: {
     icon: [
@@ -65,21 +112,77 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
+
+  // --------------------------------------------------------
+  // OPEN GRAPH : FACEBOOK / WHATSAPP / TELEGRAM / LINKEDIN
+  // --------------------------------------------------------
 
   openGraph: {
     type: "website",
-    siteName: "Fondation Sauvons des Vies",
-    title: "Fondation Sauvons des Vies",
-    description:
-      "Ensemble, sauvons des vies. Soutenons les personnes confrontées à des difficultés médicales et sociales.",
+
+    url: SITE_URL,
+
+    siteName: SITE_NAME,
+
+    title: SITE_TITLE,
+
+    description: SITE_DESCRIPTION,
+
     locale: "fr_FR",
+
+    alternateLocale: [
+      "en_US",
+      "es_ES",
+      "de_DE",
+    ],
+
     images: [
       {
-        url: "/logo/logo.png",
-        alt: "Fondation Sauvons des Vies",
+        url: SOCIAL_IMAGE,
+        secureUrl: `${SITE_URL}${SOCIAL_IMAGE}`,
+        width: 1200,
+        height: 630,
+        alt:
+          "Fondation Sauvons des Vies — Ensemble, sauvons des vies. Solidarité, Santé et Entraide.",
+        type: "image/jpeg",
       },
     ],
+  },
+
+  // --------------------------------------------------------
+  // X / TWITTER ET AUTRES APERÇUS COMPATIBLES
+  // --------------------------------------------------------
+
+  twitter: {
+    card: "summary_large_image",
+
+    title: SITE_TITLE,
+
+    description: SITE_DESCRIPTION,
+
+    images: [
+      {
+        url: SOCIAL_IMAGE,
+        alt:
+          "Fondation Sauvons des Vies — Ensemble, sauvons des vies",
+      },
+    ],
+  },
+
+  // --------------------------------------------------------
+  // INFORMATIONS SUPPLÉMENTAIRES
+  // --------------------------------------------------------
+
+  other: {
+    "theme-color": "#082B50",
   },
 };
 
@@ -128,7 +231,18 @@ export default function PublicLayout({
             Logo / Navigation / Langues / Don
             ========================================== */}
 
-        <Suspense fallback={<div role="status" className="h-20 w-full bg-white"><span className="sr-only">Chargement de la navigation…</span></div>}>
+        <Suspense
+          fallback={
+            <div
+              role="status"
+              className="h-20 w-full bg-white"
+            >
+              <span className="sr-only">
+                Chargement de la navigation…
+              </span>
+            </div>
+          }
+        >
           <PublicHeader />
         </Suspense>
 

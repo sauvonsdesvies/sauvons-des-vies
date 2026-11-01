@@ -4,6 +4,7 @@ import "server-only";
 import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { STATISTICS_RECORD_ID } from "@/lib/statistics/service";
+import { countParticipants } from "@/lib/campaigns/participants";
 
 import type {
   AdminDashboardData,
@@ -140,6 +141,8 @@ export async function getAdminDashboardData(
     completedCampaignsCount,
     activeCampaignsCount,
     monthlyDonationsAggregate,
+    openingCampaigns,
+    allConfirmedDonations,
   ] = await Promise.all([
     prisma.donation.findMany({
       where: {
@@ -153,6 +156,8 @@ export async function getAdminDashboardData(
       select: {
         id: true,
         amount: true,
+        donorEmail: true,
+        campaignId: true,
         confirmedAt: true,
         campaign: {
           select: {
@@ -180,6 +185,8 @@ export async function getAdminDashboardData(
         title: true,
         status: true,
         targetAmount: true,
+        initialCollectedAmount: true,
+        initialDonorCount: true,
         imageUrl: true,
         createdAt: true,
         donations: {
@@ -192,6 +199,7 @@ export async function getAdminDashboardData(
           },
           select: {
             amount: true,
+            id: true, donorEmail: true,
           },
         },
       },
@@ -295,15 +303,33 @@ export async function getAdminDashboardData(
         amount: true,
       },
     }),
+    prisma.campaign.findMany({
+      where: { currency: "XOF", publishedAt: { not: null } },
+      select: { id: true, initialCollectedAmount: true, initialDonorCount: true, publishedAt: true,
+        categoryId: true, category: { select: { name: true } } },
+    }),
+    prisma.donation.findMany({
+      where: { status: DONATION_CONFIRMED, currency: "XOF", confirmedAt: { not: null } },
+      select: { id: true, campaignId: true, donorEmail: true, amount: true },
+    }),
   ]);
+
+  // Opening figures join the same collection totals. They have no individual
+  // payment dates: use their campaign registration date for period reporting.
+  const inRange = (date: Date, interval: DateRange) => (!interval.start || date >= interval.start) && (!interval.end || date < interval.end);
+  const periodOpenings = openingCampaigns.filter(campaign => campaign.publishedAt && inRange(campaign.publishedAt, range));
+  const openingAmount = periodOpenings.reduce((sum, campaign) => sum + campaign.initialCollectedAmount, 0);
+  const monthlyOpeningAmount = openingCampaigns.filter(campaign => campaign.publishedAt && inRange(campaign.publishedAt, { start: currentMonthStart, end: nextMonthStart })).reduce((sum, campaign) => sum + campaign.initialCollectedAmount, 0);
 
   // ========================================
   // TOTAL DES DONS CONFIRMÉS
   // ========================================
 
-  const totalDonations = sumAmounts(
+  const periodCollectedAmount = openingAmount + sumAmounts(
     confirmedDonations,
   );
+  const totalDonations = sumAmounts(allConfirmedDonations) + openingCampaigns.reduce((sum, campaign) => sum + campaign.initialCollectedAmount, 0);
+  const totalParticipants = countParticipants(allConfirmedDonations) + openingCampaigns.reduce((sum, campaign) => sum + campaign.initialDonorCount, 0);
 
   // ========================================
   // ÉVOLUTION DES DONS
@@ -317,6 +343,7 @@ export async function getAdminDashboardData(
     }
   >();
 
+  const dailyParticipants = new Set<string>();
   for (const donation of confirmedDonations) {
     if (!donation.confirmedAt) {
       continue;
@@ -330,11 +357,22 @@ export async function getAdminDashboardData(
     };
 
     previous.amount += donation.amount;
-    previous.count += 1;
+    const participant = `${donation.campaignId}:${donation.donorEmail?.trim().toLowerCase() || donation.id}`;
+    if (!dailyParticipants.has(participant)) {
+      previous.count += 1;
+      dailyParticipants.add(participant);
+    }
 
     dailyMap.set(key, previous);
   }
 
+  for (const campaign of periodOpenings) {
+    const key = formatDateKey(campaign.publishedAt!);
+    const previous = dailyMap.get(key) ?? { amount: 0, count: 0 };
+    previous.amount += campaign.initialCollectedAmount;
+    previous.count += campaign.initialDonorCount;
+    dailyMap.set(key, previous);
+  }
   const donationEvolution: DashboardDonationPoint[] =
     Array.from(dailyMap.entries())
       .sort(([dateA], [dateB]) =>
@@ -376,6 +414,11 @@ export async function getAdminDashboardData(
     categoryMap.set(categoryId, previous);
   }
 
+  for (const campaign of periodOpenings) {
+    const previous = categoryMap.get(campaign.categoryId) ?? { name: campaign.category.name, amount: 0 };
+    previous.amount += campaign.initialCollectedAmount;
+    categoryMap.set(campaign.categoryId, previous);
+  }
   const donationsByCategory: DashboardCategoryPoint[] =
     Array.from(categoryMap.entries())
       .map(([categoryId, values]) => ({
@@ -383,8 +426,8 @@ export async function getAdminDashboardData(
         categoryName: values.name,
         amount: values.amount,
         percentage:
-          totalDonations > 0
-            ? (values.amount / totalDonations) * 100
+          periodCollectedAmount > 0
+            ? (values.amount / periodCollectedAmount) * 100
             : 0,
       }))
       .sort(
@@ -428,7 +471,7 @@ export async function getAdminDashboardData(
 
   const campaignItems = recentCampaigns.map(
     (campaign) => {
-      const collectedAmount = sumAmounts(
+      const collectedAmount = campaign.initialCollectedAmount + sumAmounts(
         campaign.donations,
       );
 
@@ -451,6 +494,7 @@ export async function getAdminDashboardData(
         status: campaign.status,
         targetAmount: campaign.targetAmount,
         collectedAmount,
+        donorCount: campaign.initialDonorCount + countParticipants(campaign.donations),
         progressPercentage,
         imageUrl: campaign.imageUrl,
         createdAt: campaign.createdAt.toISOString(),
@@ -526,14 +570,14 @@ export async function getAdminDashboardData(
       totalDonations,
 
       monthlyDonations:
-        monthlyDonationsAggregate._sum.amount ?? 0,
+        (monthlyDonationsAggregate._sum.amount ?? 0) + monthlyOpeningAmount,
 
       activeCampaigns: activeCampaignsCount,
 
       beneficiariesHelped,
 
       confirmedDonations:
-        confirmedDonations.length,
+        totalParticipants,
 
       hospitalPayments:
         sumAmounts(hospitalPayments),

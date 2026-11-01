@@ -4,6 +4,7 @@ import "server-only";
 import { connection } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { countryName } from "@/lib/countries";
+import { countParticipants } from "@/lib/campaigns/participants";
 
 import {
   getPublicStatistics,
@@ -55,21 +56,21 @@ export async function getPublicCampaignCards(options: { urgent?: boolean; catego
     take: Math.min(options.limit ?? 24, 100), orderBy: { publishedAt: "desc" },
     select: {
       id: true, slug: true, title: true, shortDescription: true, imageUrl: true,
-      countryCode: true, targetAmount: true, currency: true, isUrgent: true, startDate: true, endDate: true, completedAt: true,
+      initialCollectedAmount: true, initialDonorCount: true, countryCode: true, targetAmount: true, currency: true, isUrgent: true, startDate: true, endDate: true, completedAt: true,
       category: { select: { id: true, name: true, slug: true } },
       photos: { take: 1, orderBy: { position: "asc" }, select: { imageUrl: true } },
       donations: { where: { status: "CONFIRMED", currency: "XOF", confirmedAt: { not: null } }, select: { id: true, amount: true, donorEmail: true } },
     },
   });
   return rows.map(({ donations, photos, completedAt, ...row }) => {
-    const collectedAmount = donations.reduce((sum, donation) => sum + donation.amount, 0);
+    const collectedAmount = (row.initialCollectedAmount ?? 0) + donations.reduce((sum, donation) => sum + donation.amount, 0);
     return {
       ...row, imageUrl: row.imageUrl ?? photos[0]?.imageUrl ?? null,
       country: row.countryCode ? countryName(row.countryCode) : null,
       status: completedAt ? "COMPLETED" : row.endDate && row.endDate.toISOString().slice(0, 10) < new Date().toISOString().slice(0, 10) ? "CLOSED" : "ACTIVE", startDate: row.startDate?.toISOString() ?? null, endDate: row.endDate?.toISOString() ?? null,
       collectedAmount, remainingAmount: Math.max(0, row.targetAmount - collectedAmount),
       progressPercentage: row.targetAmount > 0 ? Math.min(100, collectedAmount / row.targetAmount * 100) : 0,
-      donorCount: new Set(donations.map((donation) => donation.donorEmail?.trim().toLowerCase() || donation.id)).size,
+      donorCount: (row.initialDonorCount ?? 0) + countParticipants(donations),
     };
   });
 }

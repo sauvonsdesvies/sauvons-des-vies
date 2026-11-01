@@ -14,7 +14,7 @@ const definitions: {
 }[] = [
   {
     key: "totalDonations",
-    label: "Montant des dons confirmés",
+    label: "Montant récolté",
     unit: "XOF",
   },
   {
@@ -34,7 +34,7 @@ const definitions: {
   },
   {
     key: "confirmedDonations",
-    label: "Nombre de dons confirmés",
+    label: "Participants",
     unit: "count",
   },
   {

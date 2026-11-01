@@ -1,5 +1,6 @@
 
 import "server-only";
+import { countParticipants } from "@/lib/campaigns/participants";
 import { connection } from "next/server";
 
 import { prisma } from "@/lib/prisma";
@@ -353,6 +354,7 @@ export async function getPublicCampaigns(
           imageUrl: true,
           countryCode: true,
           targetAmount: true,
+  initialCollectedAmount: true, initialDonorCount: true,
           currency: true,
           isUrgent: true,
           startDate: true,
@@ -387,7 +389,7 @@ export async function getPublicCampaigns(
               },
             },
             select: {
-              amount: true,
+              id: true, donorEmail: true, amount: true,
               currency: true,
             },
           },
@@ -418,7 +420,7 @@ export async function getPublicCampaigns(
         );
 
       const collectedAmount =
-        confirmedDonations.reduce(
+        (campaign.initialCollectedAmount ?? 0) + confirmedDonations.reduce(
           (total, donation) =>
             total + donation.amount,
           0
@@ -465,7 +467,7 @@ export async function getPublicCampaigns(
           targetAmount
         ),
 
-        donorCount: confirmedDonations.length,
+        donorCount: (campaign.initialDonorCount ?? 0) + countParticipants(confirmedDonations),
 
         currency: campaign.currency,
 

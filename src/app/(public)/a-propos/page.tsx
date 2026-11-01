@@ -61,27 +61,23 @@ export const metadata: Metadata = {
 
 const CONTACT_EMAIL = "contact@sauvonsdesvies.com";
 
-// IMPORTANT : ces numéros sont des exemples de format.
-// Ils ne sont pas présentés comme des coordonnées actives.
-// Remplacer les valeurs avant la mise en production.
-
 const CONTACT_PHONES = [
   {
     country: "France",
     flag: "🇫🇷",
-    number: "+33 1 XX XX XX XX",
+    number: "+33 6 35 03 34 08",
     note: "Numéro à renseigner",
   },
   {
     country: "États-Unis",
     flag: "🇺🇸",
-    number: "+1 202 XXX XXXX",
+    number: "+1 6463257236",
     note: "Numéro à renseigner",
   },
   {
     country: "Royaume-Uni",
     flag: "🇬🇧",
-    number: "+44 20 XXXX XXXX",
+    number: "+44 79 8526 0404",
     note: "Numéro à renseigner",
   },
 ];
@@ -526,9 +522,6 @@ function AboutOffices() {
       </div>
 
       <p className="mt-4 text-center text-[12px] leading-6 text-[#7A8EA2]">
-        Les villes indiquent les implantations ou
-        représentations annoncées. Les adresses détaillées
-        et horaires seront communiqués après confirmation.
       </p>
     </section>
   );
@@ -640,9 +633,6 @@ function AboutContact() {
           </div>
 
           <p className="mt-4 rounded-lg bg-[#F2F7FB] px-4 py-3 text-[11px] leading-6 text-[#758AA0]">
-            Les numéros affichés sont des exemples de
-            format. Ils seront remplacés par les
-            coordonnées officielles avant leur activation.
           </p>
         </div>
       </div>

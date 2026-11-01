@@ -1,5 +1,6 @@
 
 "use client";
+import { subscribeCampaignUpdates } from "@/lib/campaigns/live-updates";
 import { useTranslation } from "@/lib/i18n/LanguageProvider";
 
 import {
@@ -18,7 +19,7 @@ import type { HomeData } from "@/lib/public/home-types";
 // ==========================================================
 //
 // - Statistiques officielles de l'administration
-// - Actualisation automatique toutes les 30 secondes
+// - Actualisation automatique toutes les 10 secondes
 // - Actualisation au retour sur l'onglet
 // - Actualisation au retour de la connexion
 // - Aucune donnée fictive
@@ -36,7 +37,7 @@ import type { HomeData } from "@/lib/public/home-types";
 
 const HOME_API_URL = "/api/public/home";
 
-const DEFAULT_REFRESH_INTERVAL = 30_000;
+const DEFAULT_REFRESH_INTERVAL = 10_000;
 
 const MIN_REFRESH_INTERVAL = 5_000;
 
@@ -489,6 +490,11 @@ export function useHomeUpdates({
   // --------------------------------------------------------
   // RÉSULTAT PUBLIC DU HOOK
   // --------------------------------------------------------
+
+  useEffect(() => {
+    if (!enabled) return;
+    return subscribeCampaignUpdates(() => { void refresh(); });
+  }, [enabled, refresh]);
 
   return {
     homeData,

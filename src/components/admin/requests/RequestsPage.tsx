@@ -1,5 +1,6 @@
 
 "use client";
+import { subscribeCampaignUpdates } from "@/lib/campaigns/live-updates";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import RequestsHeader from "./RequestsHeader";
@@ -64,9 +65,10 @@ export default function RequestsPage() {
     const controller = new AbortController();
     void load(controller.signal);
     const refresh = () => { if (document.visibilityState === "visible") void load(controller.signal); };
-    const timer = window.setInterval(refresh, 30000);
+    const timer = window.setInterval(refresh, 10000);
+    const unsubscribe = subscribeCampaignUpdates(refresh);
     window.addEventListener("focus", refresh);
-    return () => { controller.abort(); window.clearInterval(timer); window.removeEventListener("focus", refresh); };
+    return () => { unsubscribe(); controller.abort(); window.clearInterval(timer); window.removeEventListener("focus", refresh); };
   }, [load]);
 
   const reload = useCallback(async () => {

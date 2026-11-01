@@ -75,6 +75,7 @@ export interface DashboardCategoryPoint {
 }
 
 export interface DashboardCampaign {
+  donorCount: number;
   id: string;
   title: string;
   status: string;

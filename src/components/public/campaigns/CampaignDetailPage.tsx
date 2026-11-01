@@ -9,6 +9,7 @@ import {
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import {
   ArrowLeft,
@@ -1226,6 +1227,7 @@ export default function CampaignDetailPage({
   initialCampaign,
   onDonate,
 }: CampaignDetailPageProps) {
+  const router = useRouter();
   const translationContext =
     useTranslation();
 
@@ -1277,17 +1279,8 @@ export default function CampaignDetailPage({
   }, [photos, campaign]);
 
   const scrollToDonation = useCallback(() => {
-    const panel = document.getElementById(
-      "campaign-donation-panel"
-    );
-
-    if (panel) {
-      panel.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
-    }
-  }, []);
+    if (campaign?.id) router.push(`/faire-un-don?campagne=${encodeURIComponent(campaign.id)}`);
+  }, [campaign, router]);
 
   const handleDonate = useCallback(
     async (
@@ -1295,14 +1288,14 @@ export default function CampaignDetailPage({
       selectedCampaign: PublicCampaignDetail
     ) => {
       if (!onDonate) {
-        setDonationNotice(true);
+        router.push(`/faire-un-don?campagne=${encodeURIComponent(selectedCampaign.id)}&montant=${amount}`);
         return;
       }
 
       setDonationNotice(false);
       await onDonate(amount, selectedCampaign);
     },
-    [onDonate]
+    [onDonate, router]
   );
 
   if (!campaign) {

@@ -21,6 +21,12 @@ export function validateRequestUpdate(
   }
 
   const data = input as Record<string, unknown>;
+  for (const key of ["initialCollectedAmount", "initialDonorCount"]) {
+    const value = data[key];
+    if (value !== undefined && (typeof value !== "number" || !Number.isSafeInteger(value) || value < 0 || value > 2147483647)) {
+      return { success: false, error: "Le montant déjà récolté et le nombre de participants doivent être des entiers positifs ou nuls." };
+    }
+  }
   if (data.countryCode != null && data.countryCode !== "" && !COUNTRIES.some((country) => country.code === data.countryCode)) return { success: false, error: "Pays invalide." };
   if (data.isUrgent !== undefined && typeof data.isUrgent !== "boolean") return { success: false, error: "Indicateur d’urgence invalide." };
 
@@ -84,6 +90,8 @@ export function validateRequestUpdate(
       shortDescription,
       description,
       targetAmount,
+      initialCollectedAmount: data.initialCollectedAmount as number | undefined,
+      initialDonorCount: data.initialDonorCount as number | undefined,
     },
   };
 }

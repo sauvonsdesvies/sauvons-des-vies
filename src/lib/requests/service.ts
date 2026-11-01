@@ -54,7 +54,7 @@ function toRequestItem(
   collectedAmount: number
 ): RequestItem {
   const target = Math.max(0, campaign.targetAmount);
-  const collected = Math.max(0, collectedAmount);
+  const collected = Math.max(0, collectedAmount) + campaign.initialCollectedAmount;
 
   return {
     countryCode: campaign.countryCode,
@@ -68,6 +68,8 @@ function toRequestItem(
     categoryName: campaign.category.name,
     targetAmount: target,
     collectedAmount: collected,
+    initialCollectedAmount: campaign.initialCollectedAmount,
+    initialDonorCount: campaign.initialDonorCount,
     remainingAmount: Math.max(0, target - collected),
     percentage:
       target > 0
@@ -183,6 +185,8 @@ export async function updateRequest(
       shortDescription: input.shortDescription,
       description: input.description,
       targetAmount: input.targetAmount,
+      initialCollectedAmount: input.initialCollectedAmount,
+      initialDonorCount: input.initialDonorCount,
     },
   });
 

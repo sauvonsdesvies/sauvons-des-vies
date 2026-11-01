@@ -1,524 +1,124 @@
-
 "use client";
 
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-  useSyncExternalStore,
-  type ReactNode,
-} from "react";
+import { createContext, useContext, useEffect, useMemo, useState, useSyncExternalStore, type ReactNode } from "react";
+import { DEFAULT_LANGUAGE, LANGUAGE_COOKIE_MAX_AGE, LANGUAGE_COOKIE_NAME, LANGUAGE_STORAGE_KEY, getLanguageConfig, isSupportedLanguage, normalizeLanguage, type Language, type LanguageConfig } from "./config";
+import { getTranslations, translate, translateWithValues } from "./translations";
 
-import {
-  DEFAULT_LANGUAGE,
-  LANGUAGE_COOKIE_MAX_AGE,
-  LANGUAGE_COOKIE_NAME,
-  LANGUAGE_STORAGE_KEY,
-  getLanguageConfig,
-  isSupportedLanguage,
-  normalizeLanguage,
-  type Language,
-  type LanguageConfig,
-} from "./config";
-
-import {
-  getTranslations,
-  translate,
-  translateWithValues,
-} from "./translations";
-
-// ==========================================================
-// FONDATION SAUVONS DES VIES
-// GESTIONNAIRE MULTILINGUE — ESPACE PUBLIC
-// ==========================================================
-//
-// Langues : Français, Anglais, Espagnol, Allemand
-//
-// Fonctionnalités conservées :
-// - Gestion centralisée de la langue
-// - Conservation du choix du visiteur
-// - Synchronisation des sélecteurs
-// - Synchronisation entre plusieurs onglets
-// - Traductions accessibles aux composants
-// - Compatibilité Next.js / TypeScript
-// - Aucun impact sur Prisma ou l'administration
-//
-// ==========================================================
-
-// ----------------------------------------------------------
-// 1. TYPES
-// ----------------------------------------------------------
-
-export type TranslationValues = Record<
-  string,
-  string | number
->;
-
+export type TranslationValues = Record<string, string | number>;
 export interface LanguageContextValue {
   language: Language;
-
   locale: Language;
-
   setLanguage: (language: Language) => void;
-
   changeLanguage: (language: Language) => void;
-
   languageConfig: LanguageConfig;
-
   translations: ReturnType<typeof getTranslations>;
-
-  t: (
-    key: string,
-    values?: TranslationValues
-  ) => string;
-
+  t: (key: string, values?: TranslationValues) => string;
   isDefaultLanguage: boolean;
-
   isReady: boolean;
 }
+export interface LanguageProviderProps { children: ReactNode; initialLanguage?: Language }
+const LANGUAGE_CHANGE_EVENT = "sdv:public-language-change";
 
-export interface LanguageProviderProps {
-  children: ReactNode;
-
-  initialLanguage?: Language;
-}
-
-// ----------------------------------------------------------
-// 2. CONTEXTE
-// ----------------------------------------------------------
-
-const LanguageContext =
-  createContext<LanguageContextValue | null>(null);
-
-// ----------------------------------------------------------
-// 3. LECTURE SÉCURISÉE DU STOCKAGE LOCAL
-// ----------------------------------------------------------
-
-function readStoredLanguage(): Language | null {
-  if (typeof window === "undefined") {
-    return null;
-  }
-
+function readPreference(fallback: Language): Language {
   try {
-    const stored = window.localStorage.getItem(
-      LANGUAGE_STORAGE_KEY
-    );
-
-    if (stored && isSupportedLanguage(stored)) {
-      return stored;
-    }
-  } catch {
-    // Le navigateur peut bloquer localStorage.
-  }
-
-  return null;
-}
-
-// ----------------------------------------------------------
-// 4. LECTURE SÉCURISÉE DU COOKIE
-// ----------------------------------------------------------
-
-function readCookieLanguage(): Language | null {
-  if (typeof document === "undefined") {
-    return null;
-  }
-
+    const entry = document.cookie.split(";").map(value => value.trim()).find(value => value.startsWith(`${LANGUAGE_COOKIE_NAME}=`));
+    const cookie = entry ? decodeURIComponent(entry.slice(LANGUAGE_COOKIE_NAME.length + 1)) : null;
+    if (isSupportedLanguage(cookie)) return cookie;
+  } catch { /* Cookie access may be blocked. */ }
   try {
-    const cookiePrefix =
-      `${LANGUAGE_COOKIE_NAME}=`;
-
-    const cookie = document.cookie
-      .split(";")
-      .map((item) => item.trim())
-      .find((item) =>
-        item.startsWith(cookiePrefix)
-      );
-
-    if (!cookie) {
-      return null;
-    }
-
-    const rawValue = cookie.slice(
-      cookiePrefix.length
-    );
-
-    const decoded = decodeURIComponent(rawValue);
-
-    if (isSupportedLanguage(decoded)) {
-      return decoded;
-    }
-  } catch {
-    // Cookie inaccessible ou mal formé.
-  }
-
-  return null;
-}
-
-// ----------------------------------------------------------
-// 5. ENREGISTREMENT DU CHOIX DE LANGUE
-// ----------------------------------------------------------
-
-function persistLanguage(language: Language): void {
-  if (typeof window === "undefined") {
-    return;
-  }
-
-  try {
-    window.localStorage.setItem(
-      LANGUAGE_STORAGE_KEY,
-      language
-    );
-  } catch {
-    // Le site reste utilisable sans localStorage.
-  }
-
-  try {
-    const secure =
-      window.location.protocol === "https:"
-        ? "; Secure"
-        : "";
-
-    document.cookie = [
-      `${LANGUAGE_COOKIE_NAME}=${encodeURIComponent(language)}`,
-      "Path=/",
-      `Max-Age=${LANGUAGE_COOKIE_MAX_AGE}`,
-      "SameSite=Lax",
-    ].join("; ") + secure;
-  } catch {
-    // Le site reste utilisable sans cookies.
-  }
-}
-
-// ----------------------------------------------------------
-// 6. RÉSOLUTION DE LA LANGUE INITIALE
-// ----------------------------------------------------------
-
-function resolveInitialLanguage(
-  fallback: Language
-): Language {
-  const cookieLanguage = readCookieLanguage();
-
-  if (cookieLanguage) {
-    return cookieLanguage;
-  }
-
-  const storedLanguage = readStoredLanguage();
-
-  if (storedLanguage) {
-    return storedLanguage;
-  }
-
+    const stored = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
+    if (isSupportedLanguage(stored)) return stored;
+  } catch { /* Storage access may be blocked. */ }
   return fallback;
 }
 
-// ----------------------------------------------------------
-// 7. ÉVÉNEMENTS DE SYNCHRONISATION
-// ----------------------------------------------------------
-
-const LANGUAGE_CHANGE_EVENT =
-  "sdv:public-language-change";
-
-function notifyLanguageChange(): void {
-  if (typeof window === "undefined") {
-    return;
-  }
-
-  window.dispatchEvent(
-    new Event(LANGUAGE_CHANGE_EVENT)
-  );
+function persistLanguage(language: Language) {
+  try { window.localStorage.setItem(LANGUAGE_STORAGE_KEY, language); } catch { /* Optional storage. */ }
+  try {
+    const secure = window.location.protocol === "https:" ? "; Secure" : "";
+    document.cookie = `${LANGUAGE_COOKIE_NAME}=${encodeURIComponent(language)}; Path=/; Max-Age=${LANGUAGE_COOKIE_MAX_AGE}; SameSite=Lax${secure}`;
+  } catch { /* Manual language switching still works without cookies. */ }
 }
 
-function subscribeToLanguage(
-  callback: () => void
-): () => void {
-  window.addEventListener(
-    LANGUAGE_CHANGE_EVENT,
-    callback
-  );
-
-  window.addEventListener(
-    "storage",
-    callback
-  );
-
-  return () => {
-    window.removeEventListener(
-      LANGUAGE_CHANGE_EVENT,
-      callback
-    );
-
-    window.removeEventListener(
-      "storage",
-      callback
-    );
+function createLanguageStore(initialLanguage: Language) {
+  // Each provider owns its store: no preference can leak across server requests.
+  const initialSnapshot = { language: initialLanguage, isReady: false };
+  let snapshot = initialSnapshot;
+  const listeners = new Set<() => void>();
+  const update = (language: Language) => {
+    if (snapshot.language === language && snapshot.isReady) return;
+    snapshot = { language, isReady: true };
+    listeners.forEach(listener => listener());
+  };
+  return {
+    initialLanguage,
+    getSnapshot: () => snapshot,
+    // This remains immutable even when a parent mounted before a streamed child.
+    getServerSnapshot: () => initialSnapshot,
+    subscribe: (listener: () => void) => { listeners.add(listener); return () => { listeners.delete(listener); }; },
+    restore: update,
+    setLanguage: (language: Language) => {
+      if (!isSupportedLanguage(language)) return;
+      persistLanguage(language);
+      update(language);
+      window.dispatchEvent(new CustomEvent(LANGUAGE_CHANGE_EVENT, { detail: language }));
+    },
   };
 }
 
-// ----------------------------------------------------------
-// 8. PROVIDER PRINCIPAL
-// ----------------------------------------------------------
+const LanguageContext = createContext<ReturnType<typeof createLanguageStore> | null>(null);
 
-export default function LanguageProvider({
-  children,
-  initialLanguage = DEFAULT_LANGUAGE,
-}: LanguageProviderProps) {
-  const fallbackLanguage =
-    normalizeLanguage(initialLanguage);
-
-  // useSyncExternalStore permet de lire la préférence
-  // enregistrée sans appeler setState dans un useEffect.
-  //
-  // Pendant le rendu serveur et l'hydratation initiale,
-  // le snapshot reste stable pour éviter les erreurs
-  // d'hydratation de Next.js.
-
-  const getSnapshot = useCallback(
-    () => resolveInitialLanguage(fallbackLanguage),
-    [fallbackLanguage]
-  );
-
-  const getServerSnapshot = useCallback(
-    () => fallbackLanguage,
-    [fallbackLanguage]
-  );
-
-  const storedLanguage = useSyncExternalStore(
-    subscribeToLanguage,
-    getSnapshot,
-    getServerSnapshot
-  );
-
-  // Un choix effectué via le sélecteur est conservé
-  // dans le stockage, puis diffusé aux composants.
-
-  const [selectedLanguage, setSelectedLanguage] =
-    useState<Language | null>(null);
-
-  const language =
-    selectedLanguage ?? storedLanguage;
-
-  // Indique que le stockage côté navigateur
-  // est disponible et que la langue peut être
-  // considérée comme restaurée.
-
-  const isReady = true;
-
-  useEffect(() => { document.documentElement.lang = language; }, [language]);
-
-  // --------------------------------------------------------
-  // 9. MODIFICATION DE LA LANGUE
-  // --------------------------------------------------------
-
-  const setLanguage = useCallback(
-    (nextLanguage: Language) => {
-      if (!isSupportedLanguage(nextLanguage)) {
-        return;
-      }
-
-      persistLanguage(nextLanguage);
-
-      setSelectedLanguage(nextLanguage);
-
-      notifyLanguageChange();
-    },
-    []
-  );
-
-  const changeLanguage = setLanguage;
-
-  // --------------------------------------------------------
-  // 10. SYNCHRONISATION ENTRE PLUSIEURS ONGLETS
-  // --------------------------------------------------------
-
+export default function LanguageProvider({ children, initialLanguage = DEFAULT_LANGUAGE }: LanguageProviderProps) {
+  const [store] = useState(() => createLanguageStore(normalizeLanguage(initialLanguage)));
   useEffect(() => {
-    function handleStorage(event: StorageEvent) {
-      if (
-        event.key !== LANGUAGE_STORAGE_KEY
-      ) {
-        return;
+    function restore(event?: Event) {
+      let next = readPreference(store.initialLanguage);
+      if (event?.type === LANGUAGE_CHANGE_EVENT) {
+        const detail: unknown = (event as CustomEvent<unknown>).detail;
+        if (!isSupportedLanguage(detail)) return;
+        next = detail;
+      } else if (event?.type === "storage") {
+        const change = event as StorageEvent;
+        if (change.key !== LANGUAGE_STORAGE_KEY && change.key !== null) return;
+        next = isSupportedLanguage(change.newValue) ? change.newValue : store.initialLanguage;
       }
-
-      if (
-        event.newValue &&
-        isSupportedLanguage(event.newValue)
-      ) {
-        setSelectedLanguage(event.newValue);
-      } else {
-        setSelectedLanguage(null);
-      }
+      store.restore(next);
     }
-
-    window.addEventListener(
-      "storage",
-      handleStorage
-    );
-
+    const unsubscribe = store.subscribe(() => { document.documentElement.lang = store.getSnapshot().language; });
+    const timer = window.setTimeout(restore, 0);
+    window.addEventListener(LANGUAGE_CHANGE_EVENT, restore);
+    window.addEventListener("storage", restore);
     return () => {
-      window.removeEventListener(
-        "storage",
-        handleStorage
-      );
+      window.clearTimeout(timer);
+      unsubscribe();
+      window.removeEventListener(LANGUAGE_CHANGE_EVENT, restore);
+      window.removeEventListener("storage", restore);
     };
-  }, []);
-
-  // --------------------------------------------------------
-  // 11. TRADUCTIONS DE LA LANGUE ACTIVE
-  // --------------------------------------------------------
-
-  const dictionary = useMemo(
-    () => getTranslations(language),
-    [language]
-  );
-
-  // --------------------------------------------------------
-  // 12. FONCTION DE TRADUCTION
-  // --------------------------------------------------------
-
-  const t = useCallback(
-    (
-      key: string,
-      values?: TranslationValues
-    ): string => {
-      if (values) {
-        return translateWithValues(
-          language,
-          key,
-          values
-        );
-      }
-
-      return translate(language, key);
-    },
-    [language]
-  );
-
-  // --------------------------------------------------------
-  // 13. CONFIGURATION DE LA LANGUE ACTIVE
-  // --------------------------------------------------------
-
-  const languageConfig = useMemo(
-    () => getLanguageConfig(language),
-    [language]
-  );
-
-  // --------------------------------------------------------
-  // 14. VALEUR DU CONTEXTE
-  // --------------------------------------------------------
-
-  const contextValue = useMemo<
-    LanguageContextValue
-  >(
-    () => ({
-      language,
-
-      locale: language,
-
-      setLanguage,
-
-      changeLanguage,
-
-      languageConfig,
-
-      translations: dictionary,
-
-      t,
-
-      isDefaultLanguage:
-        language === DEFAULT_LANGUAGE,
-
-      isReady,
-    }),
-    [
-      language,
-      setLanguage,
-      changeLanguage,
-      languageConfig,
-      dictionary,
-      t,
-      isReady,
-    ]
-  );
-
-  // --------------------------------------------------------
-  // 15. FOURNITURE DU CONTEXTE
-  // --------------------------------------------------------
-
-  return (
-    <LanguageContext.Provider
-      value={contextValue}
-    >
-      {children}
-    </LanguageContext.Provider>
-  );
+  }, [store]);
+  return <LanguageContext.Provider value={store}>{children}</LanguageContext.Provider>;
 }
-
-// ----------------------------------------------------------
-// 16. HOOK PRINCIPAL
-// ----------------------------------------------------------
 
 export function useLanguage(): LanguageContextValue {
-  const context = useContext(LanguageContext);
-
-  if (!context) {
-    throw new Error(
-      "useLanguage doit être utilisé à l'intérieur de LanguageProvider."
-    );
-  }
-
-  return context;
+  const store = useContext(LanguageContext);
+  if (!store) throw new Error("useLanguage doit être utilisé à l’intérieur de LanguageProvider.");
+  // Subscribe in each consumer, not in the provider above Suspense: a delayed
+  // header must hydrate with its own server snapshot before reading preferences.
+  const { language, isReady } = useSyncExternalStore(store.subscribe, store.getSnapshot, store.getServerSnapshot);
+  return useMemo(() => ({
+    language, locale: language, isReady,
+    setLanguage: store.setLanguage, changeLanguage: store.setLanguage,
+    languageConfig: getLanguageConfig(language), translations: getTranslations(language),
+    isDefaultLanguage: language === DEFAULT_LANGUAGE,
+    t: (key: string, values?: TranslationValues) => values ? translateWithValues(language, key, values) : translate(language, key),
+  }), [store, language, isReady]);
 }
-
-// ----------------------------------------------------------
-// 17. HOOK DE TRADUCTION
-// ----------------------------------------------------------
-
 export function useTranslation() {
-  const {
-    language,
-    locale,
-    t,
-    translations,
-    isReady,
-  } = useLanguage();
-
-  return {
-    language,
-    locale,
-    t,
-    translations,
-    isReady,
-  };
+  const { language, locale, t, translations, isReady } = useLanguage();
+  return { language, locale, t, translations, isReady };
 }
-
-// ----------------------------------------------------------
-// 18. HOOK POUR CHANGER LA LANGUE
-// ----------------------------------------------------------
-
 export function useChangeLanguage() {
-  const {
-    language,
-    setLanguage,
-    changeLanguage,
-  } = useLanguage();
-
-  return {
-    language,
-    setLanguage,
-    changeLanguage,
-  };
+  const { language, setLanguage, changeLanguage } = useLanguage();
+  return { language, setLanguage, changeLanguage };
 }
-
-// ----------------------------------------------------------
-// 19. EXPORTS
-// ----------------------------------------------------------
-
-export {
-  LanguageContext,
-};
-
-export type {
-  Language,
-};
+export { LanguageContext };
+export type { Language };

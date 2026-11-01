@@ -44,6 +44,13 @@ export function validateCampaignInput(input: unknown): ValidationResult {
   const startDate = cleanString(input.startDate);
   const endDate = cleanString(input.endDate);
   const status = input.status;
+  const openingValue = (value: unknown) => value === undefined || value === "" ? 0 :
+    typeof value === "number" || typeof value === "string" ? Number(value) : NaN;
+  const initialCollectedAmount = openingValue(input.initialCollectedAmount);
+  const initialDonorCount = openingValue(input.initialDonorCount);
+  if (![initialCollectedAmount, initialDonorCount].every(value => Number.isSafeInteger(value) && value >= 0 && value <= 2147483647)) {
+    return { success: false, error: "Le montant déjà récolté et le nombre de participants doivent être des entiers positifs ou nuls." };
+  }
 
   const targetAmount =
     typeof input.targetAmount === "number" ||
@@ -183,6 +190,8 @@ export function validateCampaignInput(input: unknown): ValidationResult {
       description,
       categoryId,
       targetAmount,
+      initialCollectedAmount,
+      initialDonorCount,
       startDate: startDate || null,
       endDate: endDate || null,
       status: status as CampaignStatus,

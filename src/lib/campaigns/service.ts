@@ -41,6 +41,8 @@ export async function createCampaign(input: CampaignCreateInput) {
       shortDescription: input.shortDescription,
       description: input.description,
       targetAmount: input.targetAmount,
+      initialCollectedAmount: input.initialCollectedAmount,
+      initialDonorCount: input.initialDonorCount,
       currency: "XOF",
       status: input.status,
       categoryId: input.categoryId,

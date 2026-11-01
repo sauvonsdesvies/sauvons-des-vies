@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { notifyCampaignUpdate } from "@/lib/campaigns/live-updates";
 import { COUNTRIES } from "@/lib/countries";
 import CampaignGeneralFields from "./CampaignGeneralFields";
 import CampaignDateFields from "./CampaignDateFields";
@@ -23,14 +24,16 @@ const initialForm: CampaignFormData = {
   description: "",
   categoryId: "",
   targetAmount: "",
+  initialCollectedAmount: "0",
+  initialDonorCount: "0",
   startDate: "",
   endDate: "",
   status: "DRAFT",
   photos: [],
 };
 
-export default function CampaignForm() {
-  const [form, setForm] = useState<CampaignFormData>(initialForm);
+export default function CampaignForm({ campaignId, initialData }: { campaignId?: string; initialData?: CampaignFormData } = {}) {
+  const [form, setForm] = useState<CampaignFormData>(initialData ?? initialForm);
   const [categories, setCategories] = useState<CampaignCategoryOption[]>([]);
   const [loadingCategories, setLoadingCategories] = useState(true);
   const [categoryError, setCategoryError] = useState("");
@@ -101,8 +104,8 @@ export default function CampaignForm() {
     setSuccess("");
 
     try {
-      const response = await fetch("/api/admin/campaigns", {
-        method: "POST",
+      const response = await fetch(campaignId ? `/api/admin/campaigns/${campaignId}` : "/api/admin/campaigns", {
+        method: campaignId ? "PUT" : "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "same-origin",
         body: JSON.stringify({
@@ -118,6 +121,7 @@ export default function CampaignForm() {
       }
 
       setCreatedSlug(result.campaign.slug);
+      notifyCampaignUpdate();
       setSuccess(
         status === "PUBLISHED"
           ? "La collecte a été publiée avec succès."
@@ -210,10 +214,11 @@ export default function CampaignForm() {
         )}
 
         <CampaignFormActions
+          editing={Boolean(campaignId)}
           saving={saving}
           disabled={loadingCategories || categories.length === 0}
           onDraft={() => void save("DRAFT")}
-          onPublish={() => void save("PUBLISHED")}
+          onPublish={() => void save(campaignId ? form.status : "PUBLISHED")}
           onPreview={() => setPreviewOpen(true)}
         />
       </section>

@@ -1,5 +1,6 @@
 
 "use client";
+import { subscribeCampaignUpdates } from "@/lib/campaigns/live-updates";
 import { useTranslation } from "@/lib/i18n/LanguageProvider";
 
 import {
@@ -1139,6 +1140,11 @@ export function usePublicCampaignDetail({
 
   const isNotFound =
     error?.code === "NOT_FOUND";
+
+  useEffect(() => {
+    if (!enabled) return;
+    return subscribeCampaignUpdates(() => { void refresh(); });
+  }, [enabled, refresh]);
 
   return {
     campaign,

@@ -20,6 +20,8 @@ export type RequestItem = {
   categoryName: string;
   targetAmount: number;
   collectedAmount: number;
+  initialCollectedAmount: number;
+  initialDonorCount: number;
   remainingAmount: number;
   percentage: number;
   status: RequestStatus;
@@ -50,6 +52,8 @@ export type RequestListResponse = {
 };
 
 export type RequestUpdateInput = {
+  initialCollectedAmount?: number;
+  initialDonorCount?: number;
   countryCode?: string | null;
   isUrgent?: boolean;
   title: string;

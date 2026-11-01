@@ -70,10 +70,11 @@ export default function CampaignPublicPreview({
         </p>
 
         <CampaignProgress
-          collectedAmount={0}
+          collectedAmount={Number(form.initialCollectedAmount) || 0}
           targetAmount={targetAmount}
           currency="XOF"
         />
+        <p className="text-sm text-slate-600">{new Intl.NumberFormat("fr-FR").format(Number(form.initialDonorCount) || 0)} participants déjà enregistrés</p>
 
         <div className="rounded-xl bg-blue-700 px-4 py-3 text-center text-sm font-bold text-white">
           Faire un don
@@ -81,7 +82,7 @@ export default function CampaignPublicPreview({
 
         <p className="text-center text-xs text-slate-500">
           Aperçu uniquement — aucun paiement n&apos;est effectué.
-          Le montant récolté sera calculé à partir des dons confirmés.
+          Les dons confirmés sur le site s’ajouteront au montant déjà récolté.
         </p>
       </div>
     </section>

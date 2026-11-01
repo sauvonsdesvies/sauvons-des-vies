@@ -1,6 +1,7 @@
 
 "use client";
 import { useSyncExternalStore } from "react";
+import { usePathname } from "next/navigation";
 
 import Link from "next/link";
 import Image from "next/image";
@@ -77,6 +78,7 @@ const getClientYear = () => String(new Date().getFullYear());
 const getServerYear = () => "";
 
 export default function PublicFooter() {
+  const pathname = usePathname();
   const { t } = useTranslation();
 
   const year = useSyncExternalStore(subscribeToYear, getClientYear, getServerYear);
@@ -84,6 +86,8 @@ export default function PublicFooter() {
   const availableSocialLinks = SOCIAL_LINKS.filter(
     (social) => social.url.trim().length > 0
   );
+
+  if (pathname === "/faire-un-don") return null;
 
   return (
     <footer className="w-full bg-[#082B50] text-white">

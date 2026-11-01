@@ -32,7 +32,7 @@ export default function RecentCampaigns({
         <h2 className="font-semibold text-slate-900">
           Campagnes récentes
         </h2>
-        <Link href="/admin/demandes" className="shrink-0 text-xs font-semibold text-blue-600 hover:underline">Voir toutes</Link>
+        <Link href="/admin/campagnes" className="shrink-0 text-xs font-semibold text-blue-600 hover:underline">Voir toutes</Link>
       </div>
 
       {campaigns.length === 0 ? (
@@ -53,13 +53,14 @@ export default function RecentCampaigns({
                 )}
                 <div className="min-w-0 flex-1">
                   <h3 className="break-words text-sm font-semibold text-slate-900">
-                    <Link href={`/admin/demandes/${campaign.id}`} className="hover:text-blue-700 hover:underline">{campaign.title}</Link>
+                    <Link href={`/admin/campagnes/${campaign.id}/modifier`} className="hover:text-blue-700 hover:underline">{campaign.title}</Link>
                   </h3>
                   <p className="mt-1 text-xs text-slate-500">
                     {money(campaign.collectedAmount)}
                     {" collectés sur "}
                     {money(campaign.targetAmount)}
                   </p>
+                  <p className="mt-1 text-xs text-slate-500">{new Intl.NumberFormat("fr-FR").format(campaign.donorCount)} participants</p>
                 </div>
                 <span className="shrink-0 rounded-full bg-slate-100 px-2 py-1 text-xs font-medium text-slate-700">
                   {statusLabel(campaign.status)}

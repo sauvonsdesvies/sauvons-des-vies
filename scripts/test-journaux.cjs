@@ -23,6 +23,8 @@ function loadSource(filename, client) {
     function resolve(name) {
       if (name === 'server-only') return {};
       if (name === '@/lib/prisma') return { prisma: client };
+      if (name === '@/lib/admin-auth') return { getAdminSession: async () => ({ id: 'transaction-test-only' }) };
+      if (name.startsWith('@/')) return load(path.resolve('src', name.slice(2) + '.ts'));
       if (name.startsWith('./')) return load(path.resolve(path.dirname(file), name + '.ts'));
       return require(name);
     }
@@ -48,17 +50,28 @@ async function databaseChecks() {
       });
       const initial = await tx.publication.findUniqueOrThrow({ where: { id: created.id } });
       assert.equal(initial.archivedAt, null);
+      const handlers = loadSource('src/app/api/admin/publications/[id]/route.ts', tx);
+      const { NextRequest } = require('next/server');
+      const endpoint = 'http://localhost:3000/api/admin/publications/' + created.id;
+      const context = { params: Promise.resolve({ id: created.id }) };
+      assert.equal((await handlers.GET(new NextRequest(endpoint), context)).status, 200);
       const changes = {
         title: 'Publication modifiee dans une transaction annulee',
         shortDescription: 'Resume mis a jour pour verification.',
         content: 'Contenu mis a jour et relu directement dans la vraie base avant annulation.',
       };
-      await service.updatePublicationText(created.id, changes);
+      const patch = await handlers.PATCH(new NextRequest(endpoint, {
+        method: 'PATCH', headers: { origin: 'http://localhost:3000', 'Content-Type': 'application/json' }, body: JSON.stringify(changes),
+      }), context);
+      assert.equal(patch.status, 200);
+      assert.equal((await patch.json()).publication.title, changes.title);
       const updated = await tx.publication.findUniqueOrThrow({ where: { id: created.id } });
       for (const key of Object.keys(changes)) assert.equal(updated[key], changes[key]);
       assert.equal(updated.slug, initial.slug);
       assert.equal(updated.status, initial.status);
-      await service.deletePublication(created.id);
+      const removed = await handlers.DELETE(new NextRequest(endpoint, { method: 'DELETE', headers: { origin: 'http://localhost:3000' } }), context);
+      assert.equal(removed.status, 200);
+      assert.equal((await removed.json()).success, true);
       assert.equal(await tx.publication.findUnique({ where: { id: created.id } }), null);
       assert.equal(await tx.publicationPhoto.count({ where: { publicationId: created.id } }), 0);
       throw rollback;

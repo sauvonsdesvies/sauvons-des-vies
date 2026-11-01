@@ -2,6 +2,7 @@
 "use client";
 
 import { useState } from "react";
+import { notifyCampaignUpdate } from "@/lib/campaigns/live-updates";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { COUNTRIES } from "@/lib/countries";
@@ -20,6 +21,8 @@ export default function RequestForm({ item }: { item: RequestItem }) {
     String(item.targetAmount)
   );
   const [saving, setSaving] = useState(false);
+  const [initialCollectedAmount, setInitialCollectedAmount] = useState(String(item.initialCollectedAmount));
+  const [initialDonorCount, setInitialDonorCount] = useState(String(item.initialDonorCount));
   const [error, setError] = useState("");
 
   async function save(event: React.FormEvent<HTMLFormElement>) {
@@ -42,6 +45,8 @@ export default function RequestForm({ item }: { item: RequestItem }) {
             description,
             shortDescription,
             targetAmount: Number(targetAmount),
+            initialCollectedAmount: Number(initialCollectedAmount),
+            initialDonorCount: Number(initialDonorCount),
           }),
         }
       );
@@ -53,6 +58,7 @@ export default function RequestForm({ item }: { item: RequestItem }) {
       }
 
       router.push(`/admin/demandes/${item.id}`);
+      notifyCampaignUpdate();
       router.refresh();
     } catch (cause) {
       setError(
@@ -148,6 +154,15 @@ export default function RequestForm({ item }: { item: RequestItem }) {
           />
         </div>
 
+        <div className="grid gap-4 sm:grid-cols-2">
+          <label className="text-sm font-semibold">Montant déjà récolté (FCFA)
+            <input type="number" min={0} max={2147483647} step={1} value={initialCollectedAmount} onChange={event => setInitialCollectedAmount(event.target.value)} className={fieldClass} />
+          </label>
+          <label className="text-sm font-semibold">Nombre de participants
+            <input type="number" min={0} max={2147483647} step={1} value={initialDonorCount} onChange={event => setInitialDonorCount(event.target.value)} className={fieldClass} />
+          </label>
+        </div>
+        <p className="text-xs text-slate-500">La collecte continue à partir de ces chiffres. Chaque nouveau don confirmé augmente le total.</p>
         {error && (
           <p role="alert" className="rounded-lg bg-red-50 p-3 text-sm text-red-700">
             {error}

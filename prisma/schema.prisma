@@ -8,23 +8,24 @@ datasource db {
 
 // ==========================================
 // FONDATION SAUVONS DES VIES
-// SCHÉMA GLOBAL — PRISMA / SUPABASE
+// SCHEMA PRISMA - SUPABASE
 // ==========================================
 //
 // Administration
 // Campagnes et collectes
-// Bénéficiaires et demandes d'aide
-// Donateurs et transactions
-// Paiements aux établissements et fournisseurs
-// Journaux et publications
-// Médias et justificatifs
-// Notifications et traçabilité
+// Beneficiaires et demandes d'aide
+// Donateurs et dons
+// Paiements FedaPay et Kkiapay
+// Paiements aux hopitaux
+// Publications et actualites
+// Medias et justificatifs
+// Notifications et historique
 //
-// Les montants sont stockés en unités entières
-// de la devise indiquée.
+// Les montants sont stockes en unites
+// entieres de la devise concernee.
 //
-// Les dons confirmés sont distingués
-// des paiements en attente ou échoués.
+// Un don ne doit etre comptabilise qu'apres
+// verification du paiement cote serveur.
 // ==========================================
 
 // ==========================================
@@ -60,7 +61,7 @@ model AdminLoginAttempt {
 }
 
 // ==========================================
-// 2. CATÉGORIES DES CAMPAGNES
+// 2. CATEGORIES DES CAMPAGNES
 // ==========================================
 
 model CampaignCategory {
@@ -74,7 +75,7 @@ model CampaignCategory {
 }
 
 // ==========================================
-// 3. BÉNÉFICIAIRES
+// 3. BENEFICIAIRES
 // ==========================================
 
 model Beneficiary {
@@ -89,7 +90,6 @@ model Beneficiary {
 
   campaigns Campaign[]
   requests  AidRequest[]
-
   documents BeneficiaryDocument[]
 }
 
@@ -98,14 +98,16 @@ model Beneficiary {
 // ==========================================
 
 model Campaign {
+  id               String    @id @default(uuid())
   countryCode      String?
   isUrgent         Boolean   @default(false)
-  id               String    @id @default(uuid())
   title            String
   slug             String    @unique
   shortDescription String    @default("")
   description      String
   targetAmount     Int
+  initialCollectedAmount Int @default(0)
+  initialDonorCount Int @default(0)
   currency         String    @default("XOF")
   status           String    @default("DRAFT")
   imageUrl         String?
@@ -125,8 +127,7 @@ model Campaign {
   photos    CampaignPhoto[]
   donations Donation[]
   payments  HospitalPayment[]
-
-  updates CampaignUpdate[]
+  updates   CampaignUpdate[]
 
   @@index([status, createdAt])
   @@index([categoryId])
@@ -177,6 +178,15 @@ model Donor {
 // ==========================================
 // 7. DONS
 // ==========================================
+//
+// PENDING   : paiement en attente
+// CONFIRMED : paiement verifie et confirme
+// FAILED    : paiement echoue
+// CANCELLED : paiement annule
+//
+// Seuls les dons CONFIRMED doivent entrer
+// dans le montant collecte d'une campagne.
+// ==========================================
 
 model Donation {
   id          String    @id @default(uuid())
@@ -185,6 +195,7 @@ model Donation {
   currency    String    @default("XOF")
   donorName   String?
   donorEmail  String?
+  donorPhone  String?
   status      String    @default("PENDING")
   paymentRef  String?   @unique
   createdAt   DateTime  @default(now())
@@ -210,21 +221,55 @@ model Donation {
 // ==========================================
 // 8. TRANSACTIONS DE PAIEMENT
 // ==========================================
+//
+// provider : FEDAPAY ou KKIAPAY
+//
+// paymentMethod :
+// MOBILE_MONEY
+// CARD
+// WAVE
+//
+// status :
+// PENDING
+// PROCESSING
+// CONFIRMED
+// FAILED
+// CANCELLED
+// EXPIRED
+//
+// Le visiteur ne choisit pas le provider.
+// Il choisit uniquement son moyen de paiement.
+//
+// Les references du prestataire permettent
+// de verifier chaque paiement.
+//
+// idempotencyKey protege contre la creation
+// de plusieurs tentatives identiques.
+//
+// providerData ne doit jamais contenir
+// de numero de carte complet, de CVV,
+// de mot de passe ou de cle API.
+// ==========================================
 
 model PaymentTransaction {
-  id                    String    @id @default(uuid())
+  id                    String  @id @default(uuid())
   donationId            String
   provider              String
   providerReference     String?
   providerTransactionId String?
   paymentMethod         String?
   amount                Int
-  currency              String    @default("XOF")
-  status                String    @default("PENDING")
+  currency              String  @default("XOF")
+  status                String  @default("PENDING")
   failureReason         String?
-  createdAt             DateTime  @default(now())
-  updatedAt             DateTime  @updatedAt
-  confirmedAt           DateTime?
+
+  idempotencyKey String?   @unique
+  expiresAt      DateTime?
+  providerData   Json?
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  confirmedAt DateTime?
 
   donation Donation @relation(fields: [donationId], references: [id])
 
@@ -233,6 +278,8 @@ model PaymentTransaction {
   @@index([donationId, createdAt])
   @@index([status, createdAt])
   @@index([provider])
+  @@index([paymentMethod, status])
+  @@index([expiresAt])
 }
 
 // ==========================================
@@ -286,7 +333,7 @@ model AidRequestDocument {
 }
 
 // ==========================================
-// 11. DOCUMENTS DES BÉNÉFICIAIRES
+// 11. DOCUMENTS DES BENEFICIAIRES
 // ==========================================
 
 model BeneficiaryDocument {
@@ -303,7 +350,7 @@ model BeneficiaryDocument {
 }
 
 // ==========================================
-// 12. PAIEMENTS DIRECTS AUX HÔPITAUX
+// 12. PAIEMENTS DIRECTS AUX HOPITAUX
 // ==========================================
 
 model HospitalPayment {
@@ -348,8 +395,7 @@ model Publication {
   imageUrl         String?
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt
-
-  archivedAt DateTime?
+  archivedAt       DateTime?
 
   photos  PublicationPhoto[]
   updates CampaignUpdate[]
@@ -381,7 +427,7 @@ model PublicationPhoto {
 }
 
 // ==========================================
-// 15. LIEN ENTRE CAMPAGNES ET JOURNAUX
+// 15. LIEN CAMPAGNES ET JOURNAUX
 // ==========================================
 
 model CampaignUpdate {
@@ -399,7 +445,7 @@ model CampaignUpdate {
 }
 
 // ==========================================
-// 16. MÉDIATHÈQUE
+// 16. MEDIATHEQUE
 // ==========================================
 
 model MediaFile {
@@ -432,7 +478,7 @@ model AdminNotification {
 }
 
 // ==========================================
-// 18. HISTORIQUE DES ACTIONS ADMINISTRATEUR
+// 18. HISTORIQUE ADMINISTRATEUR
 // ==========================================
 
 model AdminAuditLog {
@@ -449,11 +495,50 @@ model AdminAuditLog {
 }
 
 // ==========================================
-// 19. PARAMÈTRES DE LA PLATEFORME
+// 19. PARAMETRES DE LA PLATEFORME
 // ==========================================
 
 model SiteSetting {
   key       String   @id
   value     Json
   updatedAt DateTime @updatedAt
+}
+
+// ==========================================
+// 20. CONFIGURATION DES MOYENS DE PAIEMENT
+// ==========================================
+//
+// Exemples de configurations possibles :
+//
+// FEDAPAY + MOBILE_MONEY
+// KKIAPAY + MOBILE_MONEY
+// KKIAPAY + CARD
+// KKIAPAY + WAVE
+//
+// Ces exemples ne garantissent pas que
+// les moyens sont actives chez les providers.
+//
+// isEnabled doit etre active uniquement
+// apres verification du compte marchand.
+//
+// Le site affichera les moyens actives
+// et techniquement utilisables.
+//
+// priority permet de choisir le prestataire
+// prefere lorsqu'un meme moyen est propose
+// par plusieurs prestataires.
+// ==========================================
+
+model PaymentMethodConfig {
+  id            String   @id @default(uuid())
+  provider      String
+  paymentMethod String
+  isEnabled     Boolean  @default(false)
+  priority      Int      @default(100)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([provider, paymentMethod])
+  @@index([paymentMethod, isEnabled])
+  @@index([provider, isEnabled])
 }

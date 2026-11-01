@@ -82,11 +82,12 @@ export type CampaignDonationPanelProps = {
 // ----------------------------------------------------------
 
 const DEFAULT_AMOUNTS_XOF = [
+  1_000,
+  2_500,
   5_000,
   10_000,
   25_000,
   50_000,
-  100_000,
 ] as const;
 
 const DEFAULT_AMOUNTS_OTHER = [
@@ -102,7 +103,7 @@ const DEFAULT_AMOUNTS_OTHER = [
 // Le prestataire de paiement et le serveur doivent
 // effectuer leur propre validation avant toute transaction.
 
-const MIN_DONATION_XOF = 500;
+const MIN_DONATION_XOF = 100;
 const MIN_DONATION_OTHER = 1;
 
 // ----------------------------------------------------------

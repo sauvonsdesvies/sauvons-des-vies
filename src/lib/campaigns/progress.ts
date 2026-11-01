@@ -1,27 +1,24 @@
 
 import { prisma } from "@/lib/prisma";
 import type { CampaignProgressData } from "@/types/campaign";
+import { countParticipants } from "./participants";
 
 export async function getConfirmedCampaignProgress(
   campaignId: string,
   targetAmount: number
 ): Promise<CampaignProgressData> {
-  const result = await prisma.donation.aggregate({
+  const donations = await prisma.donation.findMany({
     where: {
       campaignId,
       status: "CONFIRMED",
       confirmedAt: { not: null },
       currency: "XOF",
     },
-    _sum: {
-      amount: true,
-    },
-    _count: {
-      id: true,
-    },
+    select: { id: true, amount: true, donorEmail: true },
   });
+  const campaign = await prisma.campaign.findUnique({ where: { id: campaignId }, select: { initialCollectedAmount: true, initialDonorCount: true } });
 
-  const collectedAmount = Math.max(0, result._sum.amount ?? 0);
+  const collectedAmount = donations.reduce((sum, donation) => sum + donation.amount, 0) + (campaign?.initialCollectedAmount ?? 0);
   const target = Math.max(0, targetAmount);
 
   const remainingAmount = Math.max(0, target - collectedAmount);
@@ -36,6 +33,6 @@ export async function getConfirmedCampaignProgress(
     targetAmount: target,
     remainingAmount,
     percentage: Number(percentage.toFixed(2)),
-    confirmedDonationsCount: result._count.id,
+    confirmedDonationsCount: countParticipants(donations) + (campaign?.initialDonorCount ?? 0),
   };
 }
