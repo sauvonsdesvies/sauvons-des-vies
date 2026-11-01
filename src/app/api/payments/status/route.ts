@@ -1,3 +1,4 @@
+import { getPaymentRequestOrigin } from "@/lib/payments/request-origin";
 
 /**
  * FONDATION SAUVONS DES VIES
@@ -279,26 +280,6 @@ async function authorizePaymentAccess(
 // 7. CONTRÔLE D'ORIGINE
 // =====================================================
 
-function isAllowedOrigin(
-  request: NextRequest
-): boolean {
-  const origin =
-    request.headers.get("origin");
-
-  if (!origin) {
-    return false;
-  }
-
-  try {
-    return (
-      new URL(origin).origin ===
-      request.nextUrl.origin
-    );
-  } catch {
-    return false;
-  }
-}
-
 // =====================================================
 // 8. LECTURE JSON LIMITÉE
 // =====================================================
@@ -490,7 +471,7 @@ export async function GET(
 export async function POST(
   request: NextRequest
 ): Promise<NextResponse<StatusResponse>> {
-  if (!isAllowedOrigin(request)) {
+  if (!getPaymentRequestOrigin(request)) {
     return failure(
       403,
       "UNAUTHORIZED",

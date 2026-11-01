@@ -136,6 +136,18 @@ async function main() {
   const validResponse = await route.POST(request({ ...input, donor: { ...input.donor, name: 'Ignored', country: 'BJ', isAnonymous: true }, message: 'Ignored' }));
   assert.equal(validResponse.status, 200, JSON.stringify(await validResponse.json()));
   assert.deepEqual(Object.keys(posted.donor).sort(), ['email', 'phone']); assert.equal(posted.message, undefined);
+  const originCheck = loader()('src/lib/payments/request-origin.ts').getPaymentRequestOrigin;
+  const proxied = headers => new NextRequest('http://internal:3000/api/payments/create', { headers: { origin: 'https://donations.example.org', ...headers } });
+  assert.equal(originCheck(proxied({ host: 'donations.example.org' })), 'https://donations.example.org');
+  const proxyHeaders = { host: 'internal:3000', 'x-forwarded-host': 'donations.example.org', 'x-forwarded-proto': 'https', 'sec-fetch-site': 'same-origin' };
+  assert.equal(originCheck(proxied(proxyHeaders)), 'https://donations.example.org');
+  assert.equal(originCheck(proxied({ ...proxyHeaders, 'sec-fetch-site': 'cross-site' })), null);
+  assert.equal(originCheck(proxied({ ...proxyHeaders, 'sec-fetch-site': 'none' })), null);
+  assert.equal(originCheck(proxied({ ...proxyHeaders, origin: 'https://attacker.example.org' })), null);
+  const rejected = await route.POST(new NextRequest('https://example.org/api/payments/create', { method: 'POST', headers: { origin: 'https://attacker.example.org', 'content-type': 'application/json' }, body: '{}' }));
+  assert.equal(rejected.status, 403);
+  const proxyValidation = await route.POST(new NextRequest('http://internal:3000/api/payments/create', { method: 'POST', headers: { origin: 'https://donations.example.org', ...proxyHeaders, 'content-type': 'application/json' }, body: '{}' }));
+  assert.equal(proxyValidation.status, 400); // Origin accepted; invalid body never reaches a provider.
   const statusRoute = routeLoad('src/app/api/payments/status/route.ts');
   const statusRequest = token => new NextRequest(`https://example.org/api/payments/status?transactionId=${created.transactionId}`, { headers: { 'x-payment-access-token': token } });
   assert.equal((await statusRoute.GET(statusRequest('0'.repeat(64)))).status, 403);
