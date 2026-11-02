@@ -10,8 +10,7 @@ type Props = {
   onRefresh: () => Promise<void>;
 };
 
-const money = (amount: number) =>
-  new Intl.NumberFormat("fr-FR").format(amount);
+const money = (value: number, currency: string) => new Intl.NumberFormat("fr-FR", { style: "currency", currency, currencyDisplay: "code", maximumFractionDigits: 0 }).format(value);
 
 export default function RequestMobileCard({
   item,
@@ -41,7 +40,7 @@ export default function RequestMobileCard({
             {item.title}
           </Link>
 
-          <p className="mt-1 text-xs text-blue-600">
+          <p className="mt-1 text-sm text-blue-600">
             {item.categoryName}
           </p>
         </div>
@@ -50,13 +49,13 @@ export default function RequestMobileCard({
       <div className="mt-3 grid grid-cols-2 gap-3 text-xs">
         <div>
           <p className="font-bold text-blue-700">
-            {money(item.collectedAmount)} FCFA
+            {money(item.collectedAmount, item.currency)}
           </p>
           <p className="text-slate-500">Collectés</p>
         </div>
         <div className="text-right">
           <p className="font-bold text-[#092d5b]">
-            {money(item.targetAmount)} FCFA
+            {money(item.targetAmount, item.currency)}
           </p>
           <p className="text-slate-500">Objectif</p>
         </div>

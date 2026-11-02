@@ -3,7 +3,9 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { Resend } from "resend";
+
 import { prisma } from "@/lib/prisma";
+
 import {
   PENDING_COOKIE,
   createPendingToken,
@@ -12,6 +14,12 @@ import {
   hashValue,
   secureCookieOptions,
 } from "@/lib/admin-auth";
+
+// ==========================================================
+// FONDATION SAUVONS DES VIES
+// AUTHENTIFICATION ADMINISTRATEUR
+// Compatible Next.js 16 / Hostinger / HTTPS
+// ==========================================================
 
 const schema = z.object({
   email: z.email().max(254),
@@ -24,22 +32,107 @@ const genericError =
 const emailError =
   "Le code de connexion n'a pas pu être envoyé par email. Réessayez plus tard.";
 
+// ----------------------------------------------------------
+// VÉRIFICATION SÉCURISÉE DE L'ORIGINE
+// ----------------------------------------------------------
+
+function isAllowedOrigin(request: NextRequest): boolean {
+  const origin = request.headers.get("origin");
+
+  if (!origin) {
+    return false;
+  }
+
+  let parsedOrigin: URL;
+
+  try {
+    parsedOrigin = new URL(origin);
+  } catch {
+    return false;
+  }
+
+  // Refuser toute origine contenant des identifiants,
+  // un chemin ou des paramètres.
+  if (
+    parsedOrigin.username ||
+    parsedOrigin.password ||
+    parsedOrigin.pathname !== "/" ||
+    parsedOrigin.search ||
+    parsedOrigin.hash
+  ) {
+    return false;
+  }
+
+  // En production, HTTPS est obligatoire.
+  if (
+    process.env.NODE_ENV === "production" &&
+    parsedOrigin.protocol !== "https:"
+  ) {
+    return false;
+  }
+
+  // Origines explicitement autorisées.
+  // ADMIN_ALLOWED_ORIGIN doit être une URL publique exacte.
+  const configuredOrigin =
+    process.env.ADMIN_ALLOWED_ORIGIN?.trim();
+
+  if (configuredOrigin) {
+    try {
+      const allowed = new URL(configuredOrigin);
+
+      return parsedOrigin.origin === allowed.origin;
+    } catch {
+      console.error(
+        "ADMIN_ALLOWED_ORIGIN est mal configurée."
+      );
+
+      return false;
+    }
+  }
+
+  // En développement uniquement, utiliser l'origine
+  // fournie par Next.js.
+  if (process.env.NODE_ENV !== "production") {
+    return parsedOrigin.origin === request.nextUrl.origin;
+  }
+
+  // Refuser en production si aucune origine
+  // publique autorisée n'est configurée.
+  return false;
+}
+
+// ----------------------------------------------------------
+// NETTOYAGE DES CODES OTP
+// ----------------------------------------------------------
+
 async function deleteChallenge(challengeId: string) {
   try {
     await prisma.adminOtpChallenge.deleteMany({
       where: { id: challengeId },
     });
   } catch (error) {
-    console.error("Erreur de nettoyage du code administrateur:", error);
+    console.error(
+      "Erreur de nettoyage du code administrateur:",
+      error
+    );
   }
 }
 
+// ----------------------------------------------------------
+// ROUTE DE CONNEXION
+// ----------------------------------------------------------
+
 export async function POST(request: NextRequest) {
   try {
-    // Vérification de l'origine de la requête.
-    const origin = request.headers.get("origin");
+    // Vérification de l'origine avant toute opération.
+    if (!isAllowedOrigin(request)) {
+      console.warn("ADMIN_ORIGIN_REJECTED", {
+        origin: request.headers.get("origin"),
+        requestOrigin: request.nextUrl.origin,
+        configured:
+          Boolean(process.env.ADMIN_ALLOWED_ORIGIN),
+      });
 
-    if (origin !== request.nextUrl.origin) {
       return NextResponse.json(
         {
           success: false,
@@ -49,8 +142,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validation des données reçues.
-    const body = await request.json();
+    // Validation des données.
+    let body: unknown;
+
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Informations invalides.",
+        },
+        { status: 400 }
+      );
+    }
+
     const parsed = schema.safeParse(body);
 
     if (!parsed.success) {
@@ -66,29 +172,33 @@ export async function POST(request: NextRequest) {
     const email = parsed.data.email.trim().toLowerCase();
     const password = parsed.data.password;
 
-    // Identification des tentatives sans conserver l'IP en clair.
+    // Identification des tentatives.
     const ip =
-      request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-      "unknown";
+      request.headers
+        .get("x-forwarded-for")
+        ?.split(",")[0]
+        ?.trim() || "unknown";
 
     const rateKey = hashValue(
       `${ip}:${email}:${process.env.AUTH_SECRET}`
     );
 
     const now = new Date();
+
     const windowStart = new Date(
-      Date.now() - 15 * 60 * 1000
+      now.getTime() - 15 * 60 * 1000
     );
 
-    // Limitation des tentatives de connexion.
-    const attempts = await prisma.adminLoginAttempt.count({
-      where: {
-        rateKey,
-        createdAt: {
-          gte: windowStart,
+    // Limitation des tentatives.
+    const attempts =
+      await prisma.adminLoginAttempt.count({
+        where: {
+          rateKey,
+          createdAt: {
+            gte: windowStart,
+          },
         },
-      },
-    });
+      });
 
     if (attempts >= 5) {
       return NextResponse.json(
@@ -108,8 +218,9 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    // Vérification des identifiants administrateur.
-    const passwordHash = process.env.ADMIN_PASSWORD_HASH;
+    // Vérification du mot de passe administrateur.
+    const passwordHash =
+      process.env.ADMIN_PASSWORD_HASH;
 
     if (!passwordHash) {
       throw new Error(
@@ -134,7 +245,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Vérification de la configuration Resend.
+    // Vérification Resend.
     const resendKey = process.env.RESEND_API_KEY;
     const sender = process.env.MAIL_FROM;
 
@@ -152,14 +263,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Génération du code de vérification à six chiffres.
+    // Génération OTP.
     const otp = generateOtp();
+
     const challengeId = crypto.randomUUID();
+
     const expiresAt = new Date(
       Date.now() + 5 * 60 * 1000
     );
 
-    // Invalidation des anciens codes actifs.
+    // Invalidation des anciens codes.
     await prisma.adminOtpChallenge.updateMany({
       where: {
         consumedAt: null,
@@ -169,7 +282,7 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    // Enregistrement sécurisé du nouveau code.
+    // Enregistrement du nouveau code.
     await prisma.adminOtpChallenge.create({
       data: {
         id: challengeId,
@@ -181,17 +294,18 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    // Préparation du jeton temporaire avant l'envoi.
+    // Création du jeton temporaire.
     let pendingToken: string;
 
     try {
-      pendingToken = await createPendingToken(challengeId);
+      pendingToken =
+        await createPendingToken(challengeId);
     } catch (error) {
       await deleteChallenge(challengeId);
       throw error;
     }
 
-    // Envoi du code par Resend.
+    // Envoi OTP par Resend.
     try {
       const resend = new Resend(resendKey);
 
@@ -207,8 +321,6 @@ export async function POST(request: NextRequest) {
       });
 
       if (error) {
-        // Diagnostic côté serveur uniquement.
-        // Ne jamais afficher la clé API ni le code OTP.
         console.error("REFUS_RESEND_ADMIN", {
           name: error.name,
           message: error.message,
@@ -228,7 +340,10 @@ export async function POST(request: NextRequest) {
       console.error(
         "ERREUR_TECHNIQUE_RESEND_ADMIN",
         error instanceof Error
-          ? { name: error.name, message: error.message }
+          ? {
+              name: error.name,
+              message: error.message,
+            }
           : "Erreur inconnue"
       );
 
@@ -243,7 +358,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Connexion initiale validée : attente du code OTP.
+    // Connexion validée : attente OTP.
     const response = NextResponse.json({
       success: true,
       message: "Un code de vérification a été envoyé.",

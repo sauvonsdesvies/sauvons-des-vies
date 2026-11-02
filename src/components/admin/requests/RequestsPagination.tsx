@@ -23,7 +23,7 @@ export default function RequestsPagination({
       aria-label="Pagination des demandes"
       className="mt-3 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3"
     >
-      <p className="text-xs text-slate-600">
+      <p className="text-sm text-slate-600">
         Affichage de {first} à {last} sur {total} demandes
       </p>
 

@@ -101,10 +101,10 @@ export default function AuthLayout({
             {children}
 
             <div className="mt-10 border-t border-slate-100 pt-5 text-center">
-              <p className="text-xs text-slate-400">
+              <p className="text-sm text-slate-400">
                 © 2026 Fondation Sauvons des Vies
               </p>
-              <p className="mt-1 text-xs text-slate-400">
+              <p className="mt-1 text-sm text-slate-400">
                 Espace réservé à l&apos;administration
               </p>
             </div>

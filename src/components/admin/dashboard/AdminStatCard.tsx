@@ -21,10 +21,10 @@ export default function AdminStatCard({ stat }: { stat: DashboardStat }) {
         <Icon className="h-6 w-6" strokeWidth={1.8} />
       </span>
       <div className="min-w-0 flex-1">
-        <p className="text-xs leading-5 text-slate-600">{stat.label}</p>
+        <p className="text-sm leading-5 text-slate-600">{stat.label}</p>
         <p className="mt-1 flex flex-wrap items-baseline gap-x-1 text-xl font-bold leading-tight tracking-tight text-[#061B49]">
           <span className="min-w-0 break-words">{new Intl.NumberFormat("fr-FR").format(stat.value)}</span>
-          {stat.unit === "XOF" && <span className="text-[10px] font-bold tracking-normal">FCFA</span>}
+          {stat.unit === "XOF" && <span className="text-xs font-bold tracking-normal">FCFA</span>}
         </p>
         {stat.trend?.percentage != null && (
           <p className={"mt-2 flex flex-wrap items-center gap-1 text-xs " + (stat.trend.direction === "down" ? "text-red-600" : stat.trend.direction === "up" ? "text-emerald-600" : "text-slate-500")}>

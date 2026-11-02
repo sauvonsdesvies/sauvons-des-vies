@@ -24,7 +24,7 @@ export default function DashboardHeader({
         <p className="mt-1 text-sm text-slate-500">
           Indicateurs calculés à partir des opérations enregistrées.
         </p>
-        <p className="mt-1 text-xs text-slate-400">
+        <p className="mt-1 text-sm text-slate-400">
           Données actualisées le {updatedAt}
         </p>
       </div>

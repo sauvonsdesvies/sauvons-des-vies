@@ -164,7 +164,7 @@ export default function AdminConnexionPage() {
         </div>
 
         <div className="rounded-xl border border-blue-100 bg-blue-50/70 px-4 py-3">
-          <p className="flex items-start gap-2 text-xs leading-5 text-blue-800">
+          <p className="flex items-start gap-2 text-sm leading-5 text-blue-800">
             <LockKeyhole
               aria-hidden="true"
               className="mt-0.5 h-4 w-4 shrink-0"
@@ -192,7 +192,7 @@ export default function AdminConnexionPage() {
           )}
         </button>
 
-        <p className="text-center text-xs leading-5 text-slate-400">
+        <p className="text-center text-sm leading-5 text-slate-400">
           Accès strictement réservé à l&apos;administrateur autorisé.
         </p>
       </form>

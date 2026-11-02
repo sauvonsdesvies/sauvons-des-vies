@@ -104,7 +104,7 @@ function NewsCard({
       </div>
 
       <div className="flex min-w-0 flex-1 flex-col justify-center px-3 py-3">
-        <div className="mb-1 flex items-center gap-1.5 text-[10px] font-medium text-[#73879B]">
+        <div className="mb-1 flex items-center gap-1.5 text-xs font-medium text-[#73879B]">
           <CalendarDays
             size={12}
             aria-hidden="true"
@@ -115,12 +115,12 @@ function NewsCard({
           </time>
         </div>
 
-        <h3 className="line-clamp-2 text-[14px] font-extrabold leading-[1.4] text-[#092B50] transition-colors group-hover:text-[#008BA6] sm:text-[16px]">
+        <h3 className="line-clamp-2 text-sm font-extrabold leading-[1.4] text-[#092B50] transition-colors group-hover:text-[#008BA6] sm:text-base">
           {item.title}
         </h3>
 
         {item.excerpt && (
-          <p className="mt-1 line-clamp-2 text-[13px] leading-[1.6] text-[#61768B]">
+          <p className="mt-1 line-clamp-2 text-sm leading-[1.6] text-[#61768B]">
             {item.excerpt}
           </p>
         )}
@@ -165,7 +165,7 @@ export default function HomeNews({
 
         <Link
           href="/actualites"
-          className="inline-flex shrink-0 items-center gap-1 text-[11px] font-bold text-[#007D9D] transition-colors hover:text-[#E71E3D] sm:text-xs"
+          className="inline-flex shrink-0 items-center gap-1 text-sm font-bold text-[#007D9D] transition-colors hover:text-[#E71E3D] sm:text-sm"
         >
           <span className="hidden min-[390px]:inline">
             {labels.viewAll}

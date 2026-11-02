@@ -65,7 +65,7 @@ export default function RecentRequests({
         <h2 className="text-base font-semibold text-slate-900">
           Dernières demandes d&apos;aide
         </h2>
-        <Link href="/admin/demandes" className="shrink-0 text-xs font-semibold text-blue-600 hover:underline">Voir toutes</Link>
+        <Link href="/admin/demandes" className="shrink-0 text-sm font-semibold text-blue-600 hover:underline">Voir toutes</Link>
 
         <p className="mt-1 text-sm text-slate-500">
           Dossiers récemment enregistrés
@@ -90,7 +90,7 @@ export default function RecentRequests({
                   <Link href={`/admin/demandes/${request.id}`} className="hover:text-blue-700 hover:underline">{request.title}</Link>
                 </h3>
 
-                <p className="mt-1 break-all text-xs text-slate-500">
+                <p className="mt-1 break-all text-sm text-slate-500">
                   Référence : {request.reference}
                 </p>
 

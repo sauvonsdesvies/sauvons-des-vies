@@ -2,8 +2,8 @@
 import type { DashboardCampaign } from "@/types/admin-dashboard";
 import Link from "next/link";
 
-const money = (amount: number) =>
-  `${new Intl.NumberFormat("fr-FR").format(amount)} FCFA`;
+const money = (amount: number, currency: string) =>
+  new Intl.NumberFormat("fr-FR", { style: "currency", currency, currencyDisplay: "code", maximumFractionDigits: 0 }).format(amount);
 
 function statusLabel(status: string) {
   const labels: Record<string, string> = {
@@ -32,7 +32,7 @@ export default function RecentCampaigns({
         <h2 className="font-semibold text-slate-900">
           Campagnes récentes
         </h2>
-        <Link href="/admin/campagnes" className="shrink-0 text-xs font-semibold text-blue-600 hover:underline">Voir toutes</Link>
+        <Link href="/admin/campagnes" className="shrink-0 text-sm font-semibold text-blue-600 hover:underline">Voir toutes</Link>
       </div>
 
       {campaigns.length === 0 ? (
@@ -55,12 +55,12 @@ export default function RecentCampaigns({
                   <h3 className="break-words text-sm font-semibold text-slate-900">
                     <Link href={`/admin/campagnes/${campaign.id}/modifier`} className="hover:text-blue-700 hover:underline">{campaign.title}</Link>
                   </h3>
-                  <p className="mt-1 text-xs text-slate-500">
-                    {money(campaign.collectedAmount)}
+                  <p className="mt-1 text-sm text-slate-500">
+                    {money(campaign.collectedAmount, campaign.currency)}
                     {" collectés sur "}
-                    {money(campaign.targetAmount)}
+                    {money(campaign.targetAmount, campaign.currency)}
                   </p>
-                  <p className="mt-1 text-xs text-slate-500">{new Intl.NumberFormat("fr-FR").format(campaign.donorCount)} participants</p>
+                  <p className="mt-1 text-sm text-slate-500">{new Intl.NumberFormat("fr-FR").format(campaign.donorCount)} participants</p>
                 </div>
                 <span className="shrink-0 rounded-full bg-slate-100 px-2 py-1 text-xs font-medium text-slate-700">
                   {statusLabel(campaign.status)}
@@ -87,7 +87,7 @@ export default function RecentCampaigns({
                 />
               </div>
 
-              <p className="text-right text-xs text-slate-500">
+              <p className="text-right text-sm text-slate-500">
                 {campaign.progressPercentage.toLocaleString(
                   "fr-FR",
                   { maximumFractionDigits: 1 },

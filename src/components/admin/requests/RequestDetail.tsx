@@ -6,8 +6,7 @@ import RequestProgress from "./RequestProgress";
 import type { RequestItem } from "@/types/request";
 
 export default function RequestDetail({ item }: { item: RequestItem }) {
-  const money = (value: number) =>
-    `${new Intl.NumberFormat("fr-FR").format(value)} FCFA`;
+  const money = (value: number, currency: string) => new Intl.NumberFormat("fr-FR", { style: "currency", currency, currencyDisplay: "code", maximumFractionDigits: 0 }).format(value);
 
   return (
     <div className="w-full min-w-0">
@@ -76,17 +75,17 @@ export default function RequestDetail({ item }: { item: RequestItem }) {
           <dl className="mt-6 space-y-4 text-sm">
             <div className="flex justify-between gap-3">
               <dt className="text-slate-500">Objectif</dt>
-              <dd className="font-bold">{money(item.targetAmount)}</dd>
+              <dd className="font-bold">{money(item.targetAmount, item.currency)}</dd>
             </div>
             <div className="flex justify-between gap-3">
               <dt className="text-slate-500">Collecté</dt>
               <dd className="font-bold text-emerald-700">
-                {money(item.collectedAmount)}
+                {money(item.collectedAmount, item.currency)}
               </dd>
             </div>
             <div className="flex justify-between gap-3">
               <dt className="text-slate-500">Restant</dt>
-              <dd className="font-bold">{money(item.remainingAmount)}</dd>
+              <dd className="font-bold">{money(item.remainingAmount, item.currency)}</dd>
             </div>
           </dl>
         </aside>

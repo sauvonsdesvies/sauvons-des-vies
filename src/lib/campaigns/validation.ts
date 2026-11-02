@@ -1,5 +1,6 @@
 
 import { COUNTRIES } from "@/lib/countries";
+import { isCampaignCurrency } from "./currencies";
 import type {
   CampaignCreateInput,
   CampaignPhotoInput,
@@ -44,6 +45,8 @@ export function validateCampaignInput(input: unknown): ValidationResult {
   const startDate = cleanString(input.startDate);
   const endDate = cleanString(input.endDate);
   const status = input.status;
+  const currency = input.currency === undefined ? "XOF" : input.currency;
+  if (!isCampaignCurrency(currency)) return { success: false, error: "Veuillez choisir une devise valide." };
   const openingValue = (value: unknown) => value === undefined || value === "" ? 0 :
     typeof value === "number" || typeof value === "string" ? Number(value) : NaN;
   const initialCollectedAmount = openingValue(input.initialCollectedAmount);
@@ -93,7 +96,7 @@ export function validateCampaignInput(input: unknown): ValidationResult {
   ) {
     return {
       success: false,
-      error: "L'objectif doit être un montant entier positif en FCFA.",
+      error: "L’objectif doit être un montant entier positif dans la devise choisie.",
     };
   }
 
@@ -190,6 +193,7 @@ export function validateCampaignInput(input: unknown): ValidationResult {
       description,
       categoryId,
       targetAmount,
+      currency,
       initialCollectedAmount,
       initialDonorCount,
       startDate: startDate || null,

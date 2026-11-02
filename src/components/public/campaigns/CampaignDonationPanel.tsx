@@ -333,8 +333,7 @@ function formatMoney(
     return new Intl.NumberFormat(
       localeForLanguage(language),
       {
-        style: "currency",
-        currency,
+        style: "currency", currencyDisplay: "code", currency,
         maximumFractionDigits: 0,
       }
     ).format(amount);
@@ -748,14 +747,14 @@ export default function CampaignDonationPanel({
               {t.support}
             </h2>
 
-            <p className="mt-1 text-[12px] leading-5 text-white/75">
+            <p className="mt-1 text-sm leading-5 text-white/75">
               {t.subtitle}
             </p>
           </div>
         </div>
 
         {isUrgent && (
-          <div className="mt-4 inline-flex items-center rounded-full bg-[#E71E3D] px-3 py-1.5 text-[11px] font-extrabold">
+          <div className="mt-4 inline-flex items-center rounded-full bg-[#E71E3D] px-3 py-1.5 text-xs font-extrabold">
             {t.urgent}
           </div>
         )}
@@ -772,7 +771,7 @@ export default function CampaignDonationPanel({
 
         <div className="flex items-end justify-between gap-3">
           <div className="min-w-0">
-            <p className="text-[12px] font-semibold text-slate-500">
+            <p className="text-sm font-semibold text-slate-500">
               {t.collected}
             </p>
 
@@ -808,7 +807,7 @@ export default function CampaignDonationPanel({
           />
         </div>
 
-        <p className="mt-2 text-right text-[11px] font-semibold text-slate-500">
+        <p className="mt-2 text-right text-sm font-semibold text-slate-500">
           {progress}% {t.progress}
         </p>
 
@@ -816,11 +815,11 @@ export default function CampaignDonationPanel({
 
         <div className="mt-5 grid grid-cols-2 gap-3 rounded-xl bg-[#F5F9FC] p-4">
           <div>
-            <p className="text-[11px] font-medium text-slate-500">
+            <p className="text-sm font-medium text-slate-500">
               {t.goal}
             </p>
 
-            <p className="mt-1 break-words text-[14px] font-extrabold text-[#092B50]">
+            <p className="mt-1 break-words text-sm font-extrabold text-[#092B50]">
               {formatMoney(
                 targetAmount,
                 campaign.currency,
@@ -830,11 +829,11 @@ export default function CampaignDonationPanel({
           </div>
 
           <div className="border-l border-slate-200 pl-3">
-            <p className="text-[11px] font-medium text-slate-500">
+            <p className="text-sm font-medium text-slate-500">
               {t.remaining}
             </p>
 
-            <p className="mt-1 break-words text-[14px] font-extrabold text-[#092B50]">
+            <p className="mt-1 break-words text-sm font-extrabold text-[#092B50]">
               {formatMoney(
                 remainingAmount,
                 campaign.currency,
@@ -847,7 +846,7 @@ export default function CampaignDonationPanel({
         {/* DONATEURS ET DÉLAI */}
 
         <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-5">
-          <div className="flex items-center gap-2 text-[12px] font-semibold text-slate-600">
+          <div className="flex items-center gap-2 text-xs font-semibold text-slate-600">
             <UsersRound className="h-4 w-4 text-[#0B9BAE]" />
 
             {formatNumber(
@@ -859,7 +858,7 @@ export default function CampaignDonationPanel({
               : t.donors}
           </div>
 
-          <div className="flex items-center gap-2 text-[12px] font-semibold text-slate-600">
+          <div className="flex items-center gap-2 text-xs font-semibold text-slate-600">
             <Clock3 className="h-4 w-4 text-[#0B9BAE]" />
 
             {!isActive
@@ -879,7 +878,7 @@ export default function CampaignDonationPanel({
         {/* SÉLECTION DU MONTANT */}
 
         <div className="mt-6">
-          <h3 className="text-[14px] font-extrabold text-[#092B50]">
+          <h3 className="text-sm font-extrabold text-[#092B50]">
             {t.selectAmount}
           </h3>
 
@@ -901,7 +900,7 @@ export default function CampaignDonationPanel({
                   className={[
                     "relative min-h-[48px] rounded-xl",
                     "border px-2 py-3",
-                    "text-[12px] font-extrabold",
+                    "text-xs font-extrabold",
                     "transition-all duration-200",
                     "disabled:cursor-not-allowed",
                     "disabled:opacity-50",
@@ -937,7 +936,7 @@ export default function CampaignDonationPanel({
               className={[
                 "min-h-[48px] rounded-xl",
                 "border px-3 py-3",
-                "text-[12px] font-extrabold",
+                "text-xs font-extrabold",
                 "transition-colors",
                 "disabled:cursor-not-allowed",
                 "disabled:opacity-50",
@@ -954,7 +953,7 @@ export default function CampaignDonationPanel({
             <div className="mt-3">
               <label
                 htmlFor={`custom-donation-${campaign.id}`}
-                className="mb-2 block text-[12px] font-bold text-slate-600"
+                className="mb-2 block text-sm font-bold text-slate-600"
               >
                 {t.customAmount} ({campaign.currency})
               </label>
@@ -987,7 +986,7 @@ export default function CampaignDonationPanel({
         {formError && (
           <p
             role="alert"
-            className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-[12px] font-semibold leading-5 text-red-700"
+            className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold leading-5 text-red-700"
           >
             {formError}
           </p>
@@ -999,7 +998,7 @@ export default function CampaignDonationPanel({
           type="button"
           onClick={() => void handleDonate()}
           disabled={!isActive || isProcessing}
-          className="mt-5 inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-[#E71E3D] px-4 text-[14px] font-extrabold text-white shadow-[0_8px_20px_rgba(231,30,61,0.18)] transition-colors hover:bg-[#C91834] disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none"
+          className="mt-5 inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-[#E71E3D] px-4 text-sm font-extrabold text-white shadow-[0_8px_20px_rgba(231,30,61,0.18)] transition-colors hover:bg-[#C91834] disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none"
         >
           {isProcessing ? (
             t.processing
@@ -1013,14 +1012,14 @@ export default function CampaignDonationPanel({
         </button>
 
         {!isActive && (
-          <p className="mt-3 text-center text-[12px] font-medium text-slate-500">
+          <p className="mt-3 text-center text-sm font-medium text-slate-500">
             {t.unavailableStatus}
           </p>
         )}
 
         {/* SÉCURITÉ */}
 
-        <div className="mt-5 flex items-center justify-center gap-2 text-[11px] font-semibold text-slate-500">
+        <div className="mt-5 flex items-center justify-center gap-2 text-xs font-semibold text-slate-500">
           <LockKeyhole className="h-3.5 w-3.5 text-[#0B9BAE]" />
           {t.security}
         </div>
@@ -1031,7 +1030,7 @@ export default function CampaignDonationPanel({
           <button
             type="button"
             onClick={() => void handleShare()}
-            className="flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 text-[12px] font-bold text-[#092B50] transition-colors hover:bg-slate-50"
+            className="flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 text-xs font-bold text-[#092B50] transition-colors hover:bg-slate-50"
           >
             <Share2 className="h-4 w-4" />
             {t.share}
@@ -1040,7 +1039,7 @@ export default function CampaignDonationPanel({
           <button
             type="button"
             onClick={() => void handleCopyLink()}
-            className="mt-2 flex min-h-10 w-full items-center justify-center gap-2 text-[12px] font-semibold text-slate-500 transition-colors hover:text-[#0B9BAE]"
+            className="mt-2 flex min-h-10 w-full items-center justify-center gap-2 text-xs font-semibold text-slate-500 transition-colors hover:text-[#0B9BAE]"
           >
             {copied ? (
               <>
@@ -1064,11 +1063,11 @@ export default function CampaignDonationPanel({
               <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[#0B9BAE]" />
 
               <div>
-                <p className="text-[12px] font-extrabold text-[#092B50]">
+                <p className="text-sm font-extrabold text-[#092B50]">
                   {t.transparency}
                 </p>
 
-                <p className="mt-1 text-[11px] leading-5 text-slate-500">
+                <p className="mt-1 text-sm leading-5 text-slate-500">
                   {t.transparencyDescription}
                 </p>
               </div>
@@ -1078,11 +1077,11 @@ export default function CampaignDonationPanel({
               <LockKeyhole className="mt-0.5 h-4 w-4 shrink-0 text-[#0B9BAE]" />
 
               <div>
-                <p className="text-[12px] font-extrabold text-[#092B50]">
+                <p className="text-sm font-extrabold text-[#092B50]">
                   {t.security}
                 </p>
 
-                <p className="mt-1 text-[11px] leading-5 text-slate-500">
+                <p className="mt-1 text-sm leading-5 text-slate-500">
                   {t.securityDescription}
                 </p>
               </div>

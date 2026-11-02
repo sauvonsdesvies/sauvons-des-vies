@@ -1,4 +1,3 @@
-
 import type { NextConfig } from "next";
 
 // ==========================================================
@@ -19,6 +18,8 @@ const nextConfig: NextConfig = {
   experimental: {
     cpus: 2,
     workerThreads: false,
+    // Deux processus au maximum, avec une seule page en cours par processus.
+    staticGenerationMaxConcurrency: 1,
   },
 
   // Autoriser les images publiques de Supabase

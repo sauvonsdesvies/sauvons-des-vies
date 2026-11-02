@@ -9,6 +9,7 @@ export type RequestStatus =
   | "REJECTED";
 
 export type RequestItem = {
+  currency: string;
   countryCode: string | null;
   isUrgent: boolean;
   id: string;

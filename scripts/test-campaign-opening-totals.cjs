@@ -86,8 +86,34 @@ async function main() {
       await tx.campaign.update({ where: { id }, data: { initialCollectedAmount: 0, initialDonorCount: 0 } });
       await check(50, 1);
       assert.equal(await tx.donation.count({ where: { campaignId: id } }), 4);
+      const currencyBaseline = new Map((await dashboard.getAdminDashboardData('all')).collectionTotalsByCurrency.map(total => [total.currency, total.collectedAmount]));
+      for (const currency of ['USD', 'EUR', 'XOF', 'GNF', 'XAF']) {
+        const parsedCurrency = validate({ ...input, currency });
+        assert.equal(parsedCurrency.success, true);
+        const other = await load('src/lib/campaigns/service.ts').createCampaign(parsedCurrency.data);
+        await tx.donation.create({ data: { campaignId: other.id, currency, amount: 25, status: 'CONFIRMED', confirmedAt: new Date() } });
+        await tx.donation.create({ data: { campaignId: other.id, currency: currency === 'XOF' ? 'EUR' : 'XOF', amount: 9000, status: 'CONFIRMED', confirmedAt: new Date() } });
+        const cards = await home.getPublicCampaignCards({ limit: 100 });
+        const listing = await list.getPublicCampaigns({ search: input.title });
+        const page = await detail.getPublicCampaignDetail(other.slug);
+        for (const item of [cards.find(row => row.id === other.id), listing.campaigns.find(row => row.id === other.id), page]) {
+          assert.ok(item); assert.equal(item.currency, currency);
+          assert.equal(item.collectedAmount, 225); assert.equal(item.remainingAmount, 775);
+          assert.equal(item.donorCount, 5);
+        }
+        const progress = await load('src/lib/campaigns/progress.ts').getConfirmedCampaignProgress(other.id, 1000);
+        assert.equal(progress.collectedAmount, 225);
+        const adminCurrency = (await dashboard.getAdminDashboardData('all')).collectionTotalsByCurrency.find(total => total.currency === currency);
+        assert.ok(adminCurrency);
+        assert.equal(adminCurrency.collectedAmount - (currencyBaseline.get(currency) ?? 0), 225);
+        const format = load('src/lib/public/formatters.ts').formatMoney;
+        for (const language of ['fr', 'en', 'de', 'es']) assert.ok(format(225, currency, language).includes(currency));
+        const edit = new NextRequest(`https://example.org/api/admin/campaigns/${other.id}`, { method: 'PUT', headers: { origin: 'https://example.org', host: 'example.org', 'content-type': 'application/json' }, body: JSON.stringify({ ...input, currency: currency === 'XOF' ? 'EUR' : 'XOF' }) });
+        assert.equal((await route.PUT(edit, { params: Promise.resolve({ id: other.id }) })).status, 400);
+      }
+      assert.equal(validate({ ...input, currency: 'INVALID' }).success, false);
       throw rollback;
-    }, { timeout: 120000, isolationLevel: 'RepeatableRead' });
+    }, { timeout: 180000, isolationLevel: 'RepeatableRead' });
   } catch (error) { if (error !== rollback) throw error; }
   assert.equal(await prisma.campaign.count({ where: { id } }), 0);
   const sync = loader(prisma)('src/lib/campaigns/live-updates.ts');

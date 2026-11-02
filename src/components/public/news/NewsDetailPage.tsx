@@ -446,7 +446,7 @@ function Breadcrumb({
   return (
     <nav
       aria-label="Fil d'Ariane"
-      className="flex flex-wrap items-center gap-2 text-[12px] font-medium text-[#4C78BD]"
+      className="flex flex-wrap items-center gap-2 text-xs font-medium text-[#4C78BD]"
     >
       <Link
         href="/"
@@ -494,7 +494,7 @@ function PublicationBadge({
 
   return (
     <span
-      className={`inline-flex w-fit items-center gap-2 rounded-full px-3 py-1.5 text-[11px] font-extrabold text-white sm:text-[12px] ${appearance.background}`}
+      className={`inline-flex w-fit items-center gap-2 rounded-full px-3 py-1.5 text-xs font-extrabold text-white sm:text-xs ${appearance.background}`}
     >
       <Icon
         size={14}
@@ -590,8 +590,8 @@ function PublicationMetadata({
           key={id}
           className={`inline-flex min-w-0 items-center gap-1.5 text-[#4165A6] ${
             mobile
-              ? "text-[10px] sm:text-[11px]"
-              : "text-[12px] xl:text-[13px]"
+              ? "text-xs sm:text-xs"
+              : "text-xs xl:text-sm"
           }`}
         >
           <Icon
@@ -736,7 +736,7 @@ function ActionFigures({
         {labels.actionFigures}
       </h2>
 
-      {figures.length === 0 && <p className="rounded-lg bg-[#F2F9FF] px-3 py-3 text-[12px] leading-relaxed text-[#5376B4]">{labels.figuresUnavailable}</p>}
+      {figures.length === 0 && <p className="rounded-lg bg-[#F2F9FF] px-3 py-3 text-sm leading-relaxed text-[#5376B4]">{labels.figuresUnavailable}</p>}
 
       <div className="grid grid-cols-2 gap-2">
         {figures.map(
@@ -759,11 +759,11 @@ function ActionFigures({
               />
 
               <div className="min-w-0">
-                <p className="break-words text-[12px] font-extrabold leading-tight text-[#082D8C] sm:text-[13px]">
+                <p className="break-words text-sm font-extrabold leading-tight text-[#082D8C] sm:text-sm">
                   {value}
                 </p>
 
-                <p className="mt-1 text-[10px] leading-[1.4] text-[#5376B4] sm:text-[11px]">
+                <p className="mt-1 text-sm leading-[1.4] text-[#5376B4] sm:text-sm">
                   {description}
                 </p>
               </div>
@@ -799,7 +799,7 @@ function RecentPublications({
 
         <Link
           href="/actualites"
-          className="inline-flex shrink-0 items-center gap-1 text-[11px] font-bold text-[#087CF3] hover:underline"
+          className="inline-flex shrink-0 items-center gap-1 text-sm font-bold text-[#087CF3] hover:underline"
         >
           {labels.viewAll}
           <ArrowRight size={14} />
@@ -823,12 +823,12 @@ function RecentPublications({
             />
 
             <div className="min-w-0 flex-1">
-              <h3 className="line-clamp-2 text-[11px] font-extrabold leading-[1.4] text-[#0A378B] group-hover:text-[#087CF3]">
+              <h3 className="line-clamp-2 text-xs font-extrabold leading-[1.4] text-[#0A378B] group-hover:text-[#087CF3]">
                 {item.title}
               </h3>
 
               {item.publicationDate && (
-                <p className="mt-1 text-[10px] text-[#6482B6]">
+                <p className="mt-1 text-sm text-[#6482B6]">
                   {formatDate(
                     item.publicationDate,
                     language
@@ -872,7 +872,7 @@ function CategoriesPanel({
 
         <Link
           href="/actualites"
-          className="inline-flex items-center gap-1 text-[11px] font-bold text-[#087CF3] hover:underline"
+          className="inline-flex items-center gap-1 text-sm font-bold text-[#087CF3] hover:underline"
         >
           {labels.viewAll}
           <ArrowRight size={14} />
@@ -881,14 +881,14 @@ function CategoriesPanel({
 
       <Link
         href="/actualites"
-        className="mb-1.5 flex items-center justify-between gap-2 rounded-md bg-[#EAF6FF] px-2.5 py-2 text-[11px] font-semibold text-[#2455A4]"
+        className="mb-1.5 flex items-center justify-between gap-2 rounded-md bg-[#EAF6FF] px-2.5 py-2 text-sm font-semibold text-[#2455A4]"
       >
         <span className="flex items-center gap-2">
           <ListFilter size={16} />
           {labels.allCategories}
         </span>
 
-        <span className="rounded-full bg-[#D3E9FF] px-2 py-0.5 text-[10px] font-extrabold text-[#073C9B]">
+        <span className="rounded-full bg-[#D3E9FF] px-2 py-0.5 text-xs font-extrabold text-[#073C9B]">
           {total}
         </span>
       </Link>
@@ -906,7 +906,7 @@ function CategoriesPanel({
             href={`/actualites?categorie=${encodeURIComponent(category.name)}`}
             className="flex items-center justify-between gap-2 border-b border-[#EAF0F7] px-2 py-1.5 last:border-b-0"
           >
-            <span className="flex min-w-0 items-center gap-2 text-[11px] text-[#315AA0]">
+            <span className="flex min-w-0 items-center gap-2 text-xs text-[#315AA0]">
               <span
                 className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md text-white ${appearance.background}`}
               >
@@ -918,7 +918,7 @@ function CategoriesPanel({
               </span>
             </span>
 
-            <span className="rounded-full bg-[#E6F1FE] px-2 py-0.5 text-[10px] font-extrabold text-[#073C9B]">
+            <span className="rounded-full bg-[#E6F1FE] px-2 py-0.5 text-xs font-extrabold text-[#073C9B]">
               {category.count}
             </span>
           </Link>
@@ -992,7 +992,7 @@ function ShareSection({
   if (mobile) {
     return (
       <section className="flex items-center justify-between gap-3">
-        <h2 className="text-[12px] font-extrabold text-[#092B80]">
+        <h2 className="text-xs font-extrabold text-[#092B80]">
           {labels.share}
         </h2>
 
@@ -1036,7 +1036,7 @@ function ShareSection({
 
   return (
     <section className="mt-5">
-      <h2 className="mb-2 text-[13px] font-extrabold text-[#092B80]">
+      <h2 className="mb-2 text-sm font-extrabold text-[#092B80]">
         {labels.share}
       </h2>
 
@@ -1044,7 +1044,7 @@ function ShareSection({
         <button
           type="button"
           onClick={shareWhatsApp}
-          className="inline-flex min-h-[40px] items-center justify-center gap-2 rounded-md bg-[#08A65A] px-3 text-[12px] font-bold text-white transition hover:bg-[#078B4B]"
+          className="inline-flex min-h-[40px] items-center justify-center gap-2 rounded-md bg-[#08A65A] px-3 text-sm font-bold text-white transition hover:bg-[#078B4B]"
         >
           <WhatsAppIcon size={19} />
           <span>{labels.whatsapp}</span>
@@ -1053,7 +1053,7 @@ function ShareSection({
         <button
           type="button"
           onClick={shareFacebook}
-          className="inline-flex min-h-[40px] items-center justify-center gap-2 rounded-md bg-[#0866F5] px-3 text-[12px] font-bold text-white transition hover:bg-[#0755D3]"
+          className="inline-flex min-h-[40px] items-center justify-center gap-2 rounded-md bg-[#0866F5] px-3 text-sm font-bold text-white transition hover:bg-[#0755D3]"
         >
           <FacebookIcon size={18} />
           <span>{labels.facebook}</span>
@@ -1062,7 +1062,7 @@ function ShareSection({
         <button
           type="button"
           onClick={copyLink}
-          className="inline-flex min-h-[40px] items-center justify-center gap-2 rounded-md border border-[#BBD9FA] bg-white px-3 text-[12px] font-bold text-[#083D9A] transition hover:bg-[#F0F7FF]"
+          className="inline-flex min-h-[40px] items-center justify-center gap-2 rounded-md border border-[#BBD9FA] bg-white px-3 text-sm font-bold text-[#083D9A] transition hover:bg-[#F0F7FF]"
         >
           {copied ? (
             <Check size={18} />
@@ -1096,7 +1096,7 @@ function RelatedCampaigns({
 
   return (
     <section className="mt-5 border-t border-[#E6EDF6] pt-4">
-      <h2 className="mb-3 text-[16px] font-extrabold text-[#092B80]">
+      <h2 className="mb-3 text-base font-extrabold text-[#092B80]">
         {labels.relatedCampaigns}
       </h2>
 
@@ -1110,12 +1110,12 @@ function RelatedCampaigns({
             className="flex items-center justify-between gap-3 rounded-lg border border-[#DCEAF7] bg-[#F4FAFF] p-3 transition hover:border-[#0BC2D4]"
           >
             <div className="min-w-0">
-              <h3 className="line-clamp-2 text-[12px] font-extrabold text-[#07317C]">
+              <h3 className="line-clamp-2 text-xs font-extrabold text-[#07317C]">
                 {campaign.title}
               </h3>
 
               {campaign.beneficiaryName && (
-                <p className="mt-1 text-[11px] text-[#5A77A9]">
+                <p className="mt-1 text-sm text-[#5A77A9]">
                   {campaign.beneficiaryName}
                 </p>
               )}
@@ -1216,7 +1216,7 @@ export default function NewsDetailPage({
 
                 {publication.shortDescription && (
                   <p
-                    className={`mt-3 text-[15px] leading-[1.5] text-[#4D6EAD] xl:text-[17px] ${
+                    className={`mt-3 text-base leading-[1.5] text-[#4D6EAD] xl:text-[17px] ${
                       coverImage
                         ? "max-w-[60%]"
                         : "max-w-[85%]"
@@ -1330,7 +1330,7 @@ export default function NewsDetailPage({
             {/* RÉSUMÉ */}
 
             {publication.shortDescription && (
-              <p className="mt-4 text-[13px] leading-[1.6] text-[#4A6AAA] sm:text-[14px]">
+              <p className="mt-4 text-sm leading-[1.6] text-[#4A6AAA] sm:text-sm">
                 {publication.shortDescription}
               </p>
             )}
@@ -1361,7 +1361,7 @@ export default function NewsDetailPage({
                     type="button"
                     onClick={() => setExpanded(true)}
                     aria-expanded={false}
-                    className="mt-2 inline-flex items-center gap-1 text-[12px] font-extrabold text-[#087CF3]"
+                    className="mt-2 inline-flex items-center gap-1 text-xs font-extrabold text-[#087CF3]"
                   >
                     {labels.readMore}
                     <ChevronDown size={15} />
@@ -1379,7 +1379,7 @@ export default function NewsDetailPage({
                       type="button"
                       onClick={() => setExpanded(false)}
                       aria-expanded={true}
-                      className="mt-2 inline-flex items-center gap-1 text-[12px] font-extrabold text-[#087CF3]"
+                      className="mt-2 inline-flex items-center gap-1 text-xs font-extrabold text-[#087CF3]"
                     >
                       {labels.readLess}
 
@@ -1429,7 +1429,7 @@ export default function NewsDetailPage({
 
             <Link
               href="/faire-un-don"
-              className="mt-4 inline-flex min-h-[46px] w-full items-center justify-center gap-2 rounded-lg bg-[#E71E3D] px-4 text-center text-[13px] font-extrabold text-white shadow-[0_4px_12px_rgba(231,30,61,0.16)] transition hover:bg-[#CB1734]"
+              className="mt-4 inline-flex min-h-[46px] w-full items-center justify-center gap-2 rounded-lg bg-[#E71E3D] px-4 text-center text-sm font-extrabold text-white shadow-[0_4px_12px_rgba(231,30,61,0.16)] transition hover:bg-[#CB1734]"
             >
               <Heart
                 size={21}

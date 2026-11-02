@@ -177,11 +177,11 @@ export default function HomeTrust({
               </div>
 
               <div className="min-w-0">
-                <h3 className="text-[12px] font-extrabold leading-tight text-[#092B50] sm:text-[13px]">
+                <h3 className="text-xs font-extrabold leading-tight text-[#092B50] sm:text-sm">
                   {item.title}
                 </h3>
 
-                <p className="mt-1 text-[10px] leading-[1.5] text-[#61768B] sm:text-[11px]">
+                <p className="mt-1 text-sm leading-[1.5] text-[#61768B] sm:text-sm">
                   {item.description}
                 </p>
               </div>

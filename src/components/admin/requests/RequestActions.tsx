@@ -33,7 +33,7 @@ export default function RequestActions({ item, onRefresh }: Props) {
         href={`/admin/demandes/${item.id}`}
         aria-label={`Consulter ${item.title}`}
         title="Consulter"
-        className="rounded-md border border-slate-200 px-2 py-1.5 text-xs font-semibold text-blue-700 hover:bg-blue-50"
+        className="rounded-md border border-slate-200 px-2 py-1.5 text-sm font-semibold text-blue-700 hover:bg-blue-50"
       >
         Voir
       </Link>
@@ -41,12 +41,12 @@ export default function RequestActions({ item, onRefresh }: Props) {
         href={`/admin/demandes/${item.id}/modifier`}
         aria-label={`Modifier ${item.title}`}
         title="Modifier"
-        className="rounded-md border border-slate-200 px-2 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+        className="rounded-md border border-slate-200 px-2 py-1.5 text-sm font-semibold text-slate-700 hover:bg-slate-50"
       >
         Modifier
       </Link>
       <button type="button" disabled={busy} onClick={() => void remove()} className="rounded-md border border-red-200 px-2 py-1.5 text-xs font-semibold text-red-700 disabled:opacity-50">{busy ? "Suppression…" : "Supprimer"}</button>
-      {error && <p role="alert" className="w-full max-w-xs whitespace-normal text-xs text-red-700">{error}</p>}
+      {error && <p role="alert" className="w-full max-w-xs whitespace-normal text-sm text-red-700">{error}</p>}
     </div>
   );
 }

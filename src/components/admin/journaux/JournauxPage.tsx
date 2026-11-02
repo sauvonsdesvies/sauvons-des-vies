@@ -372,7 +372,7 @@ export default function JournauxPage({ publications, referenceTime }: Props) {
       {message && <p role="status" className="mb-4 rounded-xl bg-emerald-50 p-3 text-sm text-emerald-800">{message}</p>}
       <div className="mb-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase text-slate-500">
+          <p className="mb-1 text-sm font-semibold uppercase text-slate-500">
             Contenu du site
           </p>
 
@@ -421,7 +421,7 @@ export default function JournauxPage({ publications, referenceTime }: Props) {
                       {stat.value}
                     </p>
 
-                    <p className="text-[11px] leading-4 text-slate-500">
+                    <p className="text-sm leading-4 text-slate-500">
                       {stat.label}
                     </p>
                   </div>
@@ -564,7 +564,7 @@ export default function JournauxPage({ publications, referenceTime }: Props) {
           </div>
 
           <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-            <p className="text-xs text-slate-500">
+            <p className="text-sm text-slate-500">
               {filtered.length === 0
                 ? "Aucun résultat"
                 : `Affichage de ${
@@ -647,22 +647,22 @@ export default function JournauxPage({ publications, referenceTime }: Props) {
                   {selected.title}
                 </h3>
 
-                <p className="mt-2 text-xs font-semibold text-blue-600">
+                <p className="mt-2 text-sm font-semibold text-blue-600">
                   {categoryLabel(selected.category)}
                 </p>
 
-                <p className="mt-2 text-xs text-slate-500">
+                <p className="mt-2 text-sm text-slate-500">
                   {formatJournalDate(
                     selected.publicationDate ??
                       selected.createdAt
                   )}
                 </p>
 
-                <p className="mt-1 text-xs text-slate-500">
+                <p className="mt-1 text-sm text-slate-500">
                   Par {selected.authorName}
                 </p>
 
-                <p className="mt-3 whitespace-pre-wrap break-words text-xs leading-5 text-slate-600">
+                <p className="mt-3 whitespace-pre-wrap break-words text-sm leading-5 text-slate-600">
                   {selected.shortDescription}
                 </p>
 
@@ -677,7 +677,7 @@ export default function JournauxPage({ publications, referenceTime }: Props) {
                 </button>
               </>
             ) : (
-              <p className="text-xs text-slate-500">
+              <p className="text-sm text-slate-500">
                 Aucune publication disponible.
               </p>
             )}
@@ -710,11 +710,11 @@ export default function JournauxPage({ publications, referenceTime }: Props) {
                   </div>
 
                   <div className="min-w-0">
-                    <p className="line-clamp-2 text-xs font-semibold text-[#092d5b]">
+                    <p className="line-clamp-2 text-sm font-semibold text-[#092d5b]">
                       {journal.title}
                     </p>
 
-                    <p className="text-[11px] text-slate-500">
+                    <p className="text-sm text-slate-500">
                       {formatJournalDate(
                         journal.createdAt
                       )}
@@ -724,7 +724,7 @@ export default function JournauxPage({ publications, referenceTime }: Props) {
               ))}
 
               {recent.length === 0 && (
-                <p className="text-xs text-slate-500">
+                <p className="text-sm text-slate-500">
                   Aucune publication récente.
                 </p>
               )}
@@ -760,7 +760,7 @@ export default function JournauxPage({ publications, referenceTime }: Props) {
               />
             )}
 
-            <p className="text-xs font-semibold text-blue-600">
+            <p className="text-sm font-semibold text-blue-600">
               {categoryLabel(selected.category)}
             </p>
 
@@ -768,7 +768,7 @@ export default function JournauxPage({ publications, referenceTime }: Props) {
               {selected.title}
             </h2>
 
-            <p className="mt-2 text-xs text-slate-500">
+            <p className="mt-2 text-sm text-slate-500">
               {formatJournalDate(
                 selected.publicationDate ??
                   selected.createdAt

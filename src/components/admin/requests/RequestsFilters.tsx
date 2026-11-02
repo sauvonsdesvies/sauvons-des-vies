@@ -26,8 +26,8 @@ export default function RequestsFilters({
 }: Props) {
   function exportCurrentPage() {
     const header = [
-      "Référence", "Titre", "Catégorie", "Objectif FCFA",
-      "Collecté FCFA", "Statut", "Date de lancement", "Date de fin",
+      "Référence", "Titre", "Catégorie", "Objectif",
+      "Collecté", "Devise", "Statut", "Date de lancement", "Date de fin",
     ];
 
     const rows = items.map((item) => [
@@ -36,7 +36,7 @@ export default function RequestsFilters({
       item.categoryName,
       String(item.targetAmount),
       String(item.collectedAmount),
-      item.status,
+      item.currency, item.status,
       item.startDate ?? "",
       item.endDate ?? "",
     ]);
@@ -110,7 +110,7 @@ export default function RequestsFilters({
           type="button"
           onClick={exportCurrentPage}
           disabled={items.length === 0}
-          className="ml-auto rounded-lg border border-slate-200 px-4 py-2.5 text-xs font-semibold text-slate-700 disabled:opacity-40"
+          className="ml-auto rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-semibold text-slate-700 disabled:opacity-40"
         >
           Exporter
         </button>

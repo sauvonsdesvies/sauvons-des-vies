@@ -66,8 +66,7 @@ export function formatMoney(
     return new Intl.NumberFormat(
       getPublicLocale(language),
       {
-        style: "currency",
-        currency,
+        style: "currency", currencyDisplay: "code", currency,
         maximumFractionDigits: 0,
       }
     ).format(amount);

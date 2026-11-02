@@ -17,6 +17,7 @@ import type {
 } from "@/types/campaign";
 
 const initialForm: CampaignFormData = {
+  currency: "XOF",
   countryCode: "",
   isUrgent: false,
   title: "",
@@ -152,6 +153,7 @@ export default function CampaignForm({ campaignId, initialData }: { campaignId?:
 
         <div className="space-y-7">
           <CampaignGeneralFields
+            currencyLocked={Boolean(campaignId && initialData?.status === "PUBLISHED")}
             form={form}
             categories={categories}
             loadingCategories={loadingCategories}

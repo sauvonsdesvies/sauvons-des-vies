@@ -140,7 +140,7 @@ export default function RequestForm({ item }: { item: RequestItem }) {
 
         <div>
           <label htmlFor="request-target" className="text-sm font-semibold">
-            Objectif (FCFA)
+            Objectif ({item.currency})
           </label>
           <input
             id="request-target"
@@ -162,7 +162,7 @@ export default function RequestForm({ item }: { item: RequestItem }) {
             <input type="number" min={0} max={2147483647} step={1} value={initialDonorCount} onChange={event => setInitialDonorCount(event.target.value)} className={fieldClass} />
           </label>
         </div>
-        <p className="text-xs text-slate-500">La collecte continue à partir de ces chiffres. Chaque nouveau don confirmé augmente le total.</p>
+        <p className="text-sm text-slate-500">La collecte continue à partir de ces chiffres. Chaque nouveau don confirmé augmente le total.</p>
         {error && (
           <p role="alert" className="rounded-lg bg-red-50 p-3 text-sm text-red-700">
             {error}

@@ -224,13 +224,13 @@ export default function VerificationPage() {
 
           <p
             id="verification-help"
-            className="mt-3 text-center text-xs text-slate-500"
+            className="mt-3 text-center text-sm text-slate-500"
           >
             Ce code est valable pendant 5 minutes.
           </p>
 
           <p
-            className="mt-2 text-center text-xs text-slate-500"
+            className="mt-2 text-center text-sm text-slate-500"
             aria-live="polite"
           >
             {code.length} / {CODE_LENGTH} chiffres saisis

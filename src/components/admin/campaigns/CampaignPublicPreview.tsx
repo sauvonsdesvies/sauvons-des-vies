@@ -29,7 +29,7 @@ export default function CampaignPublicPreview({
         <h2 className="text-base font-bold text-slate-900">
           Aperçu public
         </h2>
-        <p className="mt-1 text-xs text-slate-500">
+        <p className="mt-1 text-sm text-slate-500">
           Prévisualisation avant publication
         </p>
       </div>
@@ -72,7 +72,7 @@ export default function CampaignPublicPreview({
         <CampaignProgress
           collectedAmount={Number(form.initialCollectedAmount) || 0}
           targetAmount={targetAmount}
-          currency="XOF"
+          currency={form.currency}
         />
         <p className="text-sm text-slate-600">{new Intl.NumberFormat("fr-FR").format(Number(form.initialDonorCount) || 0)} participants déjà enregistrés</p>
 
@@ -80,7 +80,7 @@ export default function CampaignPublicPreview({
           Faire un don
         </div>
 
-        <p className="text-center text-xs text-slate-500">
+        <p className="text-center text-sm text-slate-500">
           Aperçu uniquement — aucun paiement n&apos;est effectué.
           Les dons confirmés sur le site s’ajouteront au montant déjà récolté.
         </p>

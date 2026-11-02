@@ -75,7 +75,7 @@ export default function AdminBottomNav({
                 strokeWidth={active ? 2.6 : 2}
                 aria-hidden="true"
               />
-              <span className="text-[10px] font-medium">
+              <span className="text-xs font-medium">
                 {item.label}
               </span>
             </>
@@ -120,7 +120,7 @@ export default function AdminBottomNav({
             className="h-5 w-5"
             aria-hidden="true"
           />
-          <span className="text-[10px] font-medium">
+          <span className="text-xs font-medium">
             Plus
           </span>
         </button>

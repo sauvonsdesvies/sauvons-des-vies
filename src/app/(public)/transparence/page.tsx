@@ -123,7 +123,7 @@ function SectionHeading({
   return (
     <div className="mb-4 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
       <div className="max-w-3xl">
-        <p className="mb-2 text-[11px] font-extrabold uppercase tracking-[0.16em] text-[#008FA7]">
+        <p className="mb-2 text-sm font-extrabold uppercase tracking-[0.16em] text-[#008FA7]">
           {eyebrow}
         </p>
 
@@ -132,7 +132,7 @@ function SectionHeading({
         </h2>
 
         {description && (
-          <p className="mt-3 text-[13px] leading-6 text-[#637D98] sm:text-[14px]">
+          <p className="mt-3 text-sm leading-6 text-[#637D98] sm:text-sm">
             {description}
           </p>
         )}
@@ -141,7 +141,7 @@ function SectionHeading({
       {href && linkText && (
         <Link
           href={href}
-          className="inline-flex w-fit shrink-0 items-center gap-2 text-[12px] font-extrabold text-[#087CF3] transition hover:gap-3"
+          className="inline-flex w-fit shrink-0 items-center gap-2 text-sm font-extrabold text-[#087CF3] transition hover:gap-3"
         >
           {linkText}
           <ArrowRight size={17} />
@@ -170,7 +170,7 @@ function TransparencyHero() {
 
       <div className="relative z-10 grid items-center gap-5 lg:grid-cols-[minmax(0,1fr)_330px]">
         <div className="max-w-3xl">
-          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3.5 py-2 text-[11px] font-extrabold uppercase tracking-[0.13em] text-[#7CE3E9]">
+          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3.5 py-2 text-xs font-extrabold uppercase tracking-[0.13em] text-[#7CE3E9]">
             <ShieldCheck size={17} />
             Notre engagement de transparence
           </div>
@@ -182,7 +182,7 @@ function TransparencyHero() {
             </span>
           </h1>
 
-          <p className="mt-3 max-w-2xl text-[14px] leading-[1.7] text-[#D3E2F0] sm:text-[16px]">
+          <p className="mt-3 max-w-2xl text-sm leading-[1.7] text-[#D3E2F0] sm:text-base">
             Découvrez les causes que nous soutenons,
             les actualités publiées et notre méthode
             d&apos;accompagnement des personnes en
@@ -193,7 +193,7 @@ function TransparencyHero() {
           <div className="mt-4 flex flex-wrap gap-3">
             <Link
               href="#publications"
-              className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-lg bg-[#E71E3D] px-5 text-[13px] font-extrabold text-white transition hover:bg-[#CC1935]"
+              className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-lg bg-[#E71E3D] px-5 text-sm font-extrabold text-white transition hover:bg-[#CC1935]"
             >
               <Newspaper size={18} />
               Voir nos publications
@@ -202,7 +202,7 @@ function TransparencyHero() {
 
             <Link
               href="#causes"
-              className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-lg border border-white/25 bg-white/10 px-5 text-[13px] font-extrabold text-white transition hover:bg-white/20"
+              className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-lg border border-white/25 bg-white/10 px-5 text-sm font-extrabold text-white transition hover:bg-white/20"
             >
               Découvrir nos causes
               <ArrowRight size={17} />
@@ -223,14 +223,14 @@ function TransparencyHero() {
               Notre engagement
             </h2>
 
-            <p className="mt-3 text-[13px] leading-6 text-[#D3E2F0]">
+            <p className="mt-3 text-sm leading-6 text-[#D3E2F0]">
               Vérifier les demandes, accompagner les
               bénéficiaires et documenter les actions
               réalisées, tout en respectant la
               confidentialité des personnes aidées.
             </p>
 
-            <div className="mt-3 border-t border-white/15 pt-4 text-[12px] font-bold text-[#7CE3E9]">
+            <div className="mt-3 border-t border-white/15 pt-4 text-xs font-bold text-[#7CE3E9]">
               Solidarité • Responsabilité • Transparence
             </div>
           </div>
@@ -285,11 +285,11 @@ function TransparencyCommitments() {
             </div>
 
             <div className="min-w-0">
-              <h3 className="text-[14px] font-black text-[#092B50]">
+              <h3 className="text-sm font-black text-[#092B50]">
                 {title}
               </h3>
 
-              <p className="mt-2 text-[12px] leading-6 text-[#687F99]">
+              <p className="mt-2 text-sm leading-6 text-[#687F99]">
                 {description}
               </p>
             </div>
@@ -402,7 +402,7 @@ async function TransparencyPublications() {
             Aucune publication disponible
           </h3>
 
-          <p className="mt-2 text-[13px] leading-6 text-[#6C839B]">
+          <p className="mt-2 text-sm leading-6 text-[#6C839B]">
             Les actualités apparaîtront ici après
             leur publication.
           </p>
@@ -454,11 +454,11 @@ async function TransparencyPublications() {
 
                 <div className="flex flex-1 flex-col p-4">
                   <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-                    <span className="rounded-full bg-[#E8F7FB] px-3 py-1 text-[10px] font-extrabold text-[#087A96]">
+                    <span className="rounded-full bg-[#E8F7FB] px-3 py-1 text-xs font-extrabold text-[#087A96]">
                       {item.category}
                     </span>
 
-                    <span className="inline-flex items-center gap-1.5 text-[11px] text-[#8094A9]">
+                    <span className="inline-flex items-center gap-1.5 text-xs text-[#8094A9]">
                       <CalendarDays size={13} />
                       {formatDate(date)}
                     </span>
@@ -474,7 +474,7 @@ async function TransparencyPublications() {
                     </h3>
                   </Link>
 
-                  <p className="mt-3 line-clamp-3 text-[13px] leading-6 text-[#687F99]">
+                  <p className="mt-3 line-clamp-3 text-sm leading-6 text-[#687F99]">
                     {item.shortDescription}
                   </p>
 
@@ -482,7 +482,7 @@ async function TransparencyPublications() {
                     href={publicationUrl(
                       item.slug
                     )}
-                    className="mt-auto inline-flex items-center gap-2 border-t border-[#EAF0F6] pt-4 text-[12px] font-extrabold text-[#087CF3]"
+                    className="mt-auto inline-flex items-center gap-2 border-t border-[#EAF0F6] pt-4 text-sm font-extrabold text-[#087CF3]"
                   >
                     Lire la publication
                     <ArrowRight size={16} />
@@ -568,11 +568,11 @@ function TransparencyProcess() {
                 <Icon size={22} />
               </div>
 
-              <h3 className="text-[14px] font-black leading-6 text-[#092B50]">
+              <h3 className="text-sm font-black leading-6 text-[#092B50]">
                 {title}
               </h3>
 
-              <p className="mt-2 text-[12px] leading-6 text-[#6D829A]">
+              <p className="mt-2 text-sm leading-6 text-[#6D829A]">
                 {description}
               </p>
             </div>
@@ -600,7 +600,7 @@ function PrivacyCommitment() {
             Transparence et respect de la vie privée
           </h2>
 
-          <p className="mt-2 max-w-4xl text-[13px] leading-6 text-[#587792]">
+          <p className="mt-2 max-w-4xl text-sm leading-6 text-[#587792]">
             Notre démarche de transparence doit également
             protéger la dignité des bénéficiaires. Les
             informations médicales personnelles et les
@@ -608,7 +608,7 @@ function PrivacyCommitment() {
             publics sans base légale appropriée.
           </p>
 
-          <div className="mt-4 flex flex-wrap gap-4 text-[12px] font-bold text-[#087A96]">
+          <div className="mt-4 flex flex-wrap gap-4 text-xs font-bold text-[#087A96]">
             <span className="inline-flex items-center gap-2">
               <CheckCircle2 size={16} />
               Respect des bénéficiaires
@@ -639,7 +639,7 @@ function TransparencyDonationBanner() {
     <section className="mt-6 overflow-hidden rounded-[22px] bg-[#092B50] px-6 py-6 text-white sm:px-6 sm:py-6">
       <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div className="max-w-2xl">
-          <p className="mb-2 text-[11px] font-extrabold uppercase tracking-[0.15em] text-[#67DCE7]">
+          <p className="mb-2 text-sm font-extrabold uppercase tracking-[0.15em] text-[#67DCE7]">
             Ensemble, sauvons des vies
           </p>
 
@@ -648,7 +648,7 @@ function TransparencyDonationBanner() {
             devient une action.
           </h2>
 
-          <p className="mt-3 text-[13px] leading-6 text-[#C5D6E7]">
+          <p className="mt-3 text-sm leading-6 text-[#C5D6E7]">
             Découvrez les campagnes en cours et les
             personnes qui ont besoin de soutien.
           </p>
@@ -656,7 +656,7 @@ function TransparencyDonationBanner() {
 
         <Link
           href="/campagnes"
-          className="inline-flex min-h-[48px] shrink-0 items-center justify-center gap-2 rounded-lg bg-[#E71E3D] px-6 text-[13px] font-black text-white transition hover:bg-[#CB1935]"
+          className="inline-flex min-h-[48px] shrink-0 items-center justify-center gap-2 rounded-lg bg-[#E71E3D] px-6 text-sm font-black text-white transition hover:bg-[#CB1935]"
         >
           <Heart
             size={18}

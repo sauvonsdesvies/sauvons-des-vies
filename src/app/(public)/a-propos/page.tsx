@@ -187,7 +187,7 @@ function SectionHeading({
 }) {
   return (
     <div className="mx-auto mb-4 max-w-3xl text-center">
-      <p className="mb-2 text-[11px] font-extrabold uppercase tracking-[0.17em] text-[#008FA7]">
+      <p className="mb-2 text-sm font-extrabold uppercase tracking-[0.17em] text-[#008FA7]">
         {eyebrow}
       </p>
 
@@ -196,7 +196,7 @@ function SectionHeading({
       </h2>
 
       {description && (
-        <p className="mt-3 text-[13px] leading-6 text-[#647F99] sm:text-[15px]">
+        <p className="mt-3 text-sm leading-6 text-[#647F99] sm:text-base">
           {description}
         </p>
       )}
@@ -223,7 +223,7 @@ function AboutHero() {
 
       <div className="relative z-10 grid items-center gap-5 lg:grid-cols-[minmax(0,1fr)_340px]">
         <div className="max-w-3xl">
-          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3.5 py-2 text-[11px] font-extrabold uppercase tracking-[0.14em] text-[#7CE3E9]">
+          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3.5 py-2 text-xs font-extrabold uppercase tracking-[0.14em] text-[#7CE3E9]">
             <Heart size={16} />
             À propos de notre fondation
           </div>
@@ -235,7 +235,7 @@ function AboutHero() {
             </span>
           </h1>
 
-          <p className="mt-4 max-w-2xl text-[14px] leading-[1.9] text-[#D3E2F0] sm:text-[16px]">
+          <p className="mt-4 max-w-2xl text-sm leading-[1.9] text-[#D3E2F0] sm:text-base">
             La Fondation Sauvons des Vies est une
             initiative humanitaire collective réunissant
             des personnes engagées dans différents pays
@@ -247,7 +247,7 @@ function AboutHero() {
           <div className="mt-4 flex flex-wrap gap-3">
             <Link
               href="/campagnes"
-              className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-lg bg-[#E71E3D] px-6 text-[13px] font-black text-white transition hover:bg-[#CB1935]"
+              className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-lg bg-[#E71E3D] px-6 text-sm font-black text-white transition hover:bg-[#CB1935]"
             >
               <Heart size={18} fill="currentColor" />
               Découvrir nos campagnes
@@ -256,7 +256,7 @@ function AboutHero() {
 
             <Link
               href="#nos-bureaux"
-              className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-lg border border-white/25 bg-white/10 px-6 text-[13px] font-bold text-white transition hover:bg-white/20"
+              className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-lg border border-white/25 bg-white/10 px-6 text-sm font-bold text-white transition hover:bg-white/20"
             >
               Notre réseau international
               <ArrowRight size={17} />
@@ -277,14 +277,14 @@ function AboutHero() {
               Une mission commune
             </h2>
 
-            <p className="mt-3 text-[13px] leading-6 text-[#D5E3F1]">
+            <p className="mt-3 text-sm leading-6 text-[#D5E3F1]">
               Mobiliser la solidarité, soutenir les
               personnes vulnérables et favoriser
               l&apos;accès à une aide concrète.
             </p>
 
             <div className="mt-4 border-t border-white/15 pt-3">
-              <p className="text-[12px] font-extrabold text-[#7CE3E9]">
+              <p className="text-sm font-extrabold text-[#7CE3E9]">
                 Solidarité • Humanité • Engagement
               </p>
             </div>
@@ -303,7 +303,7 @@ function AboutStory() {
   return (
     <section className="mt-6 grid items-center gap-5 lg:grid-cols-[1.05fr_0.95fr] lg:gap-5">
       <div>
-        <p className="mb-3 text-[11px] font-extrabold uppercase tracking-[0.17em] text-[#008FA7]">
+        <p className="mb-3 text-sm font-extrabold uppercase tracking-[0.17em] text-[#008FA7]">
           Notre histoire
         </p>
 
@@ -311,14 +311,14 @@ function AboutStory() {
           Une initiative née de la volonté d&apos;aider.
         </h2>
 
-        <p className="mt-3 text-[14px] leading-[1.7] text-[#607C98]">
+        <p className="mt-3 text-sm leading-[1.7] text-[#607C98]">
           Notre initiative rassemble des femmes et des
           hommes habitués à apporter leur soutien aux
           personnes hospitalisées et aux familles
           confrontées à des difficultés.
         </p>
 
-        <p className="mt-4 text-[14px] leading-[1.7] text-[#607C98]">
+        <p className="mt-4 text-sm leading-[1.7] text-[#607C98]">
           Pour donner davantage de portée à cet
           engagement, le collectif a choisi de développer
           un réseau international et une plateforme
@@ -328,7 +328,7 @@ function AboutStory() {
 
         <Link
           href="/transparence"
-          className="mt-4 inline-flex items-center gap-2 text-[13px] font-extrabold text-[#087CF3] transition hover:gap-3"
+          className="mt-4 inline-flex items-center gap-2 text-sm font-extrabold text-[#087CF3] transition hover:gap-3"
         >
           Découvrir notre démarche
           <ArrowRight size={18} />
@@ -344,7 +344,7 @@ function AboutStory() {
           Une solidarité sans frontières
         </h3>
 
-        <p className="mt-3 text-[13px] leading-6 text-[#66809A]">
+        <p className="mt-3 text-sm leading-6 text-[#66809A]">
           Des membres et représentants présents dans
           plusieurs pays participent à une ambition
           commune : rendre l&apos;entraide plus accessible.
@@ -365,7 +365,7 @@ function AboutStory() {
                 className="mt-0.5 shrink-0 text-[#079C81]"
               />
 
-              <p className="text-[13px] font-semibold leading-6 text-[#375875]">
+              <p className="text-sm font-semibold leading-6 text-[#375875]">
                 {item}
               </p>
             </div>
@@ -427,11 +427,11 @@ function AboutMission() {
                 <Icon size={25} />
               </div>
 
-              <h3 className="text-[16px] font-black text-[#092B50]">
+              <h3 className="text-base font-black text-[#092B50]">
                 {title}
               </h3>
 
-              <p className="mt-3 text-[13px] leading-6 text-[#69819A]">
+              <p className="mt-3 text-sm leading-6 text-[#69819A]">
                 {description}
               </p>
             </div>
@@ -477,7 +477,7 @@ function AboutOffices() {
                     {region.name}
                   </h3>
 
-                  <p className="text-[11px] text-[#7890A8]">
+                  <p className="text-sm text-[#7890A8]">
                     {region.subtitle}
                   </p>
                 </div>
@@ -494,11 +494,11 @@ function AboutOffices() {
                     </div>
 
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-[14px] font-black text-[#092B50]">
+                      <p className="truncate text-sm font-black text-[#092B50]">
                         {office.country}
                       </p>
 
-                      <p className="mt-1 flex items-center gap-1.5 text-[12px] text-[#6E859C]">
+                      <p className="mt-1 flex items-center gap-1.5 text-sm text-[#6E859C]">
                         <MapPin
                           size={13}
                           className="shrink-0 text-[#0794B3]"
@@ -521,7 +521,7 @@ function AboutOffices() {
         })}
       </div>
 
-      <p className="mt-4 text-center text-[12px] leading-6 text-[#7A8EA2]">
+      <p className="mt-4 text-center text-sm leading-6 text-[#7A8EA2]">
       </p>
     </section>
   );
@@ -555,28 +555,28 @@ function AboutContact() {
             Notre adresse officielle
           </h3>
 
-          <p className="mt-3 text-[13px] leading-6 text-[#C8D9E9]">
+          <p className="mt-3 text-sm leading-6 text-[#C8D9E9]">
             Un point de contact unique pour les demandes
             adressées à la Fondation Sauvons des Vies.
           </p>
 
           <a
             href={`mailto:${CONTACT_EMAIL}`}
-            className="mt-4 inline-flex max-w-full items-center gap-2 break-all text-[15px] font-extrabold text-[#78E4EC] hover:underline sm:text-[19px]"
+            className="mt-4 inline-flex max-w-full items-center gap-2 break-all text-base font-extrabold text-[#78E4EC] hover:underline sm:text-[19px]"
           >
             <Mail size={19} className="shrink-0" />
             {CONTACT_EMAIL}
           </a>
 
           <div className="mt-4 border-t border-white/15 pt-3">
-            <p className="text-[12px] text-[#C3D5E7]">
+            <p className="text-sm text-[#C3D5E7]">
               Pour les demandes liées aux campagnes,
               consultez également notre page d&apos;aide.
             </p>
 
             <Link
               href="/demander-de-laide"
-              className="mt-3 inline-flex items-center gap-2 text-[12px] font-extrabold text-white hover:text-[#7CE3E9]"
+              className="mt-3 inline-flex items-center gap-2 text-sm font-extrabold text-white hover:text-[#7CE3E9]"
             >
               Demander de l&apos;aide
               <ArrowRight size={16} />
@@ -597,7 +597,7 @@ function AboutContact() {
                 Contacts téléphoniques
               </h3>
 
-              <p className="text-[12px] text-[#778CA2]">
+              <p className="text-sm text-[#778CA2]">
                 Coordonnées en cours de préparation
               </p>
             </div>
@@ -615,24 +615,24 @@ function AboutContact() {
                   </span>
 
                   <div>
-                    <p className="text-[13px] font-extrabold text-[#092B50]">
+                    <p className="text-sm font-extrabold text-[#092B50]">
                       {phone.country}
                     </p>
 
-                    <p className="mt-1 text-[11px] text-[#8A9DB0]">
+                    <p className="mt-1 text-sm text-[#8A9DB0]">
                       {phone.note}
                     </p>
                   </div>
                 </div>
 
-                <span className="text-[13px] font-bold text-[#6D8298]">
+                <span className="text-sm font-bold text-[#6D8298]">
                   {phone.number}
                 </span>
               </div>
             ))}
           </div>
 
-          <p className="mt-4 rounded-lg bg-[#F2F7FB] px-4 py-3 text-[11px] leading-6 text-[#758AA0]">
+          <p className="mt-4 rounded-lg bg-[#F2F7FB] px-4 py-3 text-sm leading-6 text-[#758AA0]">
           </p>
         </div>
       </div>
@@ -649,7 +649,7 @@ function AboutFinalBanner() {
     <section className="mt-6 rounded-[22px] bg-[#E7F5FB] px-6 py-6 sm:px-6 sm:py-6">
       <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
         <div className="max-w-2xl">
-          <p className="mb-2 text-[11px] font-extrabold uppercase tracking-[0.15em] text-[#008FA7]">
+          <p className="mb-2 text-sm font-extrabold uppercase tracking-[0.15em] text-[#008FA7]">
             Rejoignez notre élan de solidarité
           </p>
 
@@ -657,7 +657,7 @@ function AboutFinalBanner() {
             Chaque geste peut faire la différence.
           </h2>
 
-          <p className="mt-3 text-[13px] leading-6 text-[#627E98]">
+          <p className="mt-3 text-sm leading-6 text-[#627E98]">
             Découvrez les campagnes et contribuez, à
             votre échelle, à soutenir les personnes
             qui en ont besoin.
@@ -666,7 +666,7 @@ function AboutFinalBanner() {
 
         <Link
           href="/campagnes"
-          className="inline-flex min-h-[48px] shrink-0 items-center justify-center gap-2 rounded-lg bg-[#E71E3D] px-6 text-[13px] font-black text-white transition hover:bg-[#CB1935]"
+          className="inline-flex min-h-[48px] shrink-0 items-center justify-center gap-2 rounded-lg bg-[#E71E3D] px-6 text-sm font-black text-white transition hover:bg-[#CB1935]"
         >
           <Heart size={18} fill="currentColor" />
           Soutenir une campagne

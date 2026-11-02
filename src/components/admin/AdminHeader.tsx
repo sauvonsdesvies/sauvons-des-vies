@@ -112,7 +112,7 @@ export default function AdminHeader({
               <span className="text-xs font-bold text-[#082B52]">
                 Administrateur
               </span>
-              <span className="text-[11px] text-slate-500">
+              <span className="text-xs text-slate-500">
                 Espace sécurisé
               </span>
             </div>

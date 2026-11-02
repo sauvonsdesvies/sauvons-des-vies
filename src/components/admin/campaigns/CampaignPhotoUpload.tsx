@@ -151,7 +151,7 @@ export default function CampaignPhotoUpload({
               </button>
 
               {index === 0 && (
-                <span className="absolute bottom-0 left-0 right-0 bg-slate-950/75 py-1 text-center text-[10px] text-white">
+                <span className="absolute bottom-0 left-0 right-0 bg-slate-950/75 py-1 text-center text-xs text-white">
                   Principale
                 </span>
               )}

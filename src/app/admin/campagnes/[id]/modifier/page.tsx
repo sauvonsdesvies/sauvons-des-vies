@@ -15,6 +15,7 @@ async function Editor({ params }: { params: Promise<{ id: string }> }) {
   return <div className="w-full min-w-0 space-y-4">
     <h1 className="text-2xl font-bold">Modifier la collecte</h1>
     <CampaignForm campaignId={id} initialData={{
+      currency: campaign.currency,
       title: campaign.title, shortDescription: campaign.shortDescription, description: campaign.description,
       categoryId: campaign.categoryId, countryCode: campaign.countryCode ?? "", isUrgent: campaign.isUrgent,
       targetAmount: String(campaign.targetAmount), initialCollectedAmount: String(campaign.initialCollectedAmount), initialDonorCount: String(campaign.initialDonorCount),

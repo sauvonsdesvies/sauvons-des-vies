@@ -39,10 +39,10 @@ export default function RecentDonations({
                   {donation.donorName?.trim() ||
                     "Donateur anonyme"}
                 </p>
-                <p className="mt-1 break-words text-xs text-slate-500">
+                <p className="mt-1 break-words text-sm text-slate-500">
                   <Link href={`/admin/demandes/${donation.campaignId}`} className="hover:text-blue-700 hover:underline">{donation.campaignTitle}</Link>
                 </p>
-                <p className="mt-1 text-xs text-slate-400">
+                <p className="mt-1 text-sm text-slate-400">
                   {new Intl.DateTimeFormat("fr-FR", {
                     dateStyle: "medium",
                     timeZone: "Africa/Porto-Novo",

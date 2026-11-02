@@ -88,13 +88,13 @@ export default function HomeDonationBanner({
           </span>
         </h2>
 
-        <p className="mt-3 max-w-[450px] text-[12px] leading-[1.6] text-white/90 sm:text-[14px]">
+        <p className="mt-3 max-w-[450px] text-sm leading-[1.6] text-white/90 sm:text-sm">
           {labels.description}
         </p>
 
         <Link
           href="/faire-un-don"
-          className="mt-4 inline-flex min-h-[43px] items-center justify-center gap-2 rounded-lg bg-[#E71E3D] px-5 py-2.5 text-[13px] font-extrabold text-white shadow-[0_4px_12px_rgba(231,30,61,0.22)] transition-all hover:bg-[#CB1734] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          className="mt-4 inline-flex min-h-[43px] items-center justify-center gap-2 rounded-lg bg-[#E71E3D] px-5 py-2.5 text-sm font-extrabold text-white shadow-[0_4px_12px_rgba(231,30,61,0.22)] transition-all hover:bg-[#CB1734] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
         >
           <Heart
             size={16}

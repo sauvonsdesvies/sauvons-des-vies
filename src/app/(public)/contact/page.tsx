@@ -211,7 +211,7 @@ function SectionHeading({
 }) {
   return (
     <div className="mb-4 max-w-3xl">
-      <p className="mb-2 text-[11px] font-extrabold uppercase tracking-[0.17em] text-[#008FA7]">
+      <p className="mb-2 text-sm font-extrabold uppercase tracking-[0.17em] text-[#008FA7]">
         {eyebrow}
       </p>
 
@@ -220,7 +220,7 @@ function SectionHeading({
       </h2>
 
       {description && (
-        <p className="mt-3 text-[13px] leading-6 text-[#637D98] sm:text-[15px]">
+        <p className="mt-3 text-sm leading-6 text-[#637D98] sm:text-base">
           {description}
         </p>
       )}
@@ -247,7 +247,7 @@ function ContactHero() {
 
       <div className="relative z-10 grid items-center gap-5 lg:grid-cols-[minmax(0,1fr)_330px]">
         <div className="max-w-3xl">
-          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3.5 py-2 text-[11px] font-extrabold uppercase tracking-[0.14em] text-[#7CE3E9]">
+          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3.5 py-2 text-xs font-extrabold uppercase tracking-[0.14em] text-[#7CE3E9]">
             <MessageCircle size={16} />
             Restons en contact
           </div>
@@ -259,7 +259,7 @@ function ContactHero() {
             </span>
           </h1>
 
-          <p className="mt-4 max-w-2xl text-[14px] leading-[1.9] text-[#D3E2F0] sm:text-[16px]">
+          <p className="mt-4 max-w-2xl text-sm leading-[1.9] text-[#D3E2F0] sm:text-base">
             Notre fondation rassemble des personnes
             engagées dans plusieurs pays. Pour une
             demande d&apos;information, une collaboration
@@ -270,7 +270,7 @@ function ContactHero() {
           <div className="mt-4 flex flex-wrap gap-3">
             <a
               href={`mailto:${CONTACT_EMAIL}`}
-              className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-lg bg-[#E71E3D] px-6 text-[13px] font-black text-white transition hover:bg-[#CB1935]"
+              className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-lg bg-[#E71E3D] px-6 text-sm font-black text-white transition hover:bg-[#CB1935]"
             >
               <Mail size={18} />
               Nous écrire
@@ -279,7 +279,7 @@ function ContactHero() {
 
             <a
               href="#nos-bureaux"
-              className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-lg border border-white/25 bg-white/10 px-6 text-[13px] font-bold text-white transition hover:bg-white/20"
+              className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-lg border border-white/25 bg-white/10 px-6 text-sm font-bold text-white transition hover:bg-white/20"
             >
               <Globe2 size={18} />
               Nos bureaux
@@ -300,14 +300,14 @@ function ContactHero() {
               Une fondation à votre écoute
             </h2>
 
-            <p className="mt-3 text-[13px] leading-6 text-[#D5E3F1]">
+            <p className="mt-3 text-sm leading-6 text-[#D5E3F1]">
               Notre réseau international permet
               d&apos;organiser les échanges et de
               rapprocher les personnes autour de
               notre mission humanitaire.
             </p>
 
-            <div className="mt-4 flex items-center gap-2 border-t border-white/15 pt-3 text-[12px] font-bold text-[#7CE3E9]">
+            <div className="mt-4 flex items-center gap-2 border-t border-white/15 pt-3 text-xs font-bold text-[#7CE3E9]">
               <ShieldCheck size={17} />
               Solidarité • Respect • Engagement
             </div>
@@ -331,7 +331,7 @@ function EmailContact() {
             <Mail size={26} />
           </div>
 
-          <p className="text-[11px] font-extrabold uppercase tracking-[0.13em] text-[#008FA7]">
+          <p className="text-sm font-extrabold uppercase tracking-[0.13em] text-[#008FA7]">
             Adresse e-mail officielle
           </p>
 
@@ -339,7 +339,7 @@ function EmailContact() {
             Écrivez-nous directement
           </h2>
 
-          <p className="mt-3 max-w-xl text-[13px] leading-6 text-[#6C839B]">
+          <p className="mt-3 max-w-xl text-sm leading-6 text-[#6C839B]">
             Pour les demandes générales, les propositions
             de partenariat et les informations concernant
             les activités de la fondation.
@@ -347,7 +347,7 @@ function EmailContact() {
 
           <a
             href={`mailto:${CONTACT_EMAIL}`}
-            className="mt-4 inline-flex max-w-full items-center gap-2 break-all text-[15px] font-black text-[#087CF3] hover:underline sm:text-[19px]"
+            className="mt-4 inline-flex max-w-full items-center gap-2 break-all text-base font-black text-[#087CF3] hover:underline sm:text-[19px]"
           >
             <Mail
               size={19}
@@ -359,7 +359,7 @@ function EmailContact() {
           <div className="mt-4">
             <a
               href={`mailto:${CONTACT_EMAIL}`}
-              className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg bg-[#092B50] px-5 text-[12px] font-extrabold text-white transition hover:bg-[#12436F]"
+              className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg bg-[#092B50] px-5 text-sm font-extrabold text-white transition hover:bg-[#12436F]"
             >
               <Send size={16} />
               Envoyer un e-mail
@@ -377,7 +377,7 @@ function EmailContact() {
             Une communication responsable
           </h2>
 
-          <p className="mt-3 text-[13px] leading-6 text-[#587792]">
+          <p className="mt-3 text-sm leading-6 text-[#587792]">
             Pour faciliter le traitement de votre demande,
             indiquez clairement son objet et les
             informations utiles, sans transmettre
@@ -393,7 +393,7 @@ function EmailContact() {
             ].map((item) => (
               <div
                 key={item}
-                className="flex items-center gap-2 text-[12px] font-bold text-[#315F7D]"
+                className="flex items-center gap-2 text-xs font-bold text-[#315F7D]"
               >
                 <CheckCircle2
                   size={17}
@@ -442,7 +442,7 @@ function PhoneContacts() {
               {contact.label}
             </h3>
 
-            <p className="mt-1 flex items-center gap-1.5 text-[12px] text-[#7C90A5]">
+            <p className="mt-1 flex items-center gap-1.5 text-sm text-[#7C90A5]">
               <MapPin size={14} />
               {contact.location}
             </p>
@@ -452,7 +452,7 @@ function PhoneContacts() {
             </p>
 
             <div className="mt-3 border-t border-[#E8EFF5] pt-4">
-              <span className="inline-flex items-center gap-2 text-[11px] font-semibold text-[#8093A6]">
+              <span className="inline-flex items-center gap-2 text-xs font-semibold text-[#8093A6]">
                 <Clock3 size={15} />
                 Numéro à confirmer
               </span>
@@ -461,7 +461,7 @@ function PhoneContacts() {
         ))}
       </div>
 
-      <p className="mt-4 text-[12px] leading-6 text-[#758AA0]">
+      <p className="mt-4 text-sm leading-6 text-[#758AA0]">
       </p>
     </section>
   );
@@ -502,7 +502,7 @@ function InternationalOffices() {
                     {region.name}
                   </h3>
 
-                  <p className="text-[12px] text-[#7C90A5]">
+                  <p className="text-sm text-[#7C90A5]">
                     {region.subtitle}
                   </p>
                 </div>
@@ -519,11 +519,11 @@ function InternationalOffices() {
                     </div>
 
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-[14px] font-black text-[#092B50]">
+                      <p className="truncate text-sm font-black text-[#092B50]">
                         {office.country}
                       </p>
 
-                      <p className="mt-1 flex items-center gap-1.5 text-[12px] text-[#6E859C]">
+                      <p className="mt-1 flex items-center gap-1.5 text-sm text-[#6E859C]">
                         <MapPin
                           size={13}
                           className="shrink-0 text-[#0794B3]"
@@ -546,7 +546,7 @@ function InternationalOffices() {
         })}
       </div>
 
-      <p className="mt-4 text-[12px] leading-6 text-[#758AA0]">
+      <p className="mt-4 text-sm leading-6 text-[#758AA0]">
       </p>
     </section>
   );
@@ -606,14 +606,14 @@ function ContactGuidance() {
                   {title}
                 </h3>
 
-                <p className="mt-3 text-[13px] leading-6 text-[#6A839B]">
+                <p className="mt-3 text-sm leading-6 text-[#6A839B]">
                   {description}
                 </p>
               </div>
 
               <Link
                 href={href}
-                className="mt-4 inline-flex w-fit items-center gap-2 text-[13px] font-extrabold text-[#087CF3] transition hover:gap-3"
+                className="mt-4 inline-flex w-fit items-center gap-2 text-sm font-extrabold text-[#087CF3] transition hover:gap-3"
               >
                 {label}
                 <ArrowRight size={18} />
@@ -635,7 +635,7 @@ function ContactFooterBanner() {
     <section className="mt-6 rounded-[22px] bg-[#092B50] px-6 py-6 text-white sm:px-6 sm:py-6">
       <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
         <div className="max-w-2xl">
-          <p className="mb-2 text-[11px] font-extrabold uppercase tracking-[0.15em] text-[#67DCE7]">
+          <p className="mb-2 text-sm font-extrabold uppercase tracking-[0.15em] text-[#67DCE7]">
             Fondation Sauvons des Vies
           </p>
 
@@ -643,7 +643,7 @@ function ContactFooterBanner() {
             Ensemble, faisons avancer la solidarité.
           </h2>
 
-          <p className="mt-3 text-[13px] leading-6 text-[#C5D6E7]">
+          <p className="mt-3 text-sm leading-6 text-[#C5D6E7]">
             Pour toute question, notre adresse e-mail
             officielle reste votre point de contact.
           </p>
@@ -651,7 +651,7 @@ function ContactFooterBanner() {
 
         <a
           href={`mailto:${CONTACT_EMAIL}`}
-          className="inline-flex min-h-[48px] shrink-0 items-center justify-center gap-2 rounded-lg bg-[#E71E3D] px-6 text-[13px] font-black text-white transition hover:bg-[#CB1935]"
+          className="inline-flex min-h-[48px] shrink-0 items-center justify-center gap-2 rounded-lg bg-[#E71E3D] px-6 text-sm font-black text-white transition hover:bg-[#CB1935]"
         >
           <Mail size={18} />
           Nous contacter

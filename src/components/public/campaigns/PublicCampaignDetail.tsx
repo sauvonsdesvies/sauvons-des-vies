@@ -146,7 +146,7 @@ export default function PublicCampaignDetail({ campaign }: Props) {
               et la vérification du système de dons sécurisé.
             </div>
 
-            <p className="mt-4 text-center text-xs leading-5 text-slate-500">
+            <p className="mt-4 text-center text-sm leading-5 text-slate-500">
               Les montants affichés proviennent uniquement des dons
               confirmés enregistrés par la fondation.
             </p>

@@ -9,8 +9,7 @@ export default function RecentRequestsPanel({
 }: {
   items: RequestItem[];
 }) {
-  const money = (amount: number) =>
-    new Intl.NumberFormat("fr-FR").format(amount);
+  const money = (value: number, currency: string) => new Intl.NumberFormat("fr-FR", { style: "currency", currency, currencyDisplay: "code", maximumFractionDigits: 0 }).format(value);
 
   return (
     <aside className="rounded-xl border border-slate-200 bg-white p-3">
@@ -20,14 +19,14 @@ export default function RecentRequestsPanel({
         </h2>
         <Link
           href="/admin/demandes"
-          className="text-xs font-semibold text-blue-600"
+          className="text-sm font-semibold text-blue-600"
         >
           Voir tout
         </Link>
       </div>
 
       {items.length === 0 ? (
-        <p className="py-8 text-center text-xs text-slate-500">
+        <p className="py-8 text-center text-sm text-slate-500">
           Aucune demande récente.
         </p>
       ) : (
@@ -51,11 +50,11 @@ export default function RecentRequestsPanel({
                 <div className="min-w-0">
                   <Link
                     href={`/admin/demandes/${item.id}`}
-                    className="line-clamp-3 text-xs font-bold text-[#092d5b]"
+                    className="line-clamp-3 text-sm font-bold text-[#092d5b]"
                   >
                     {item.title}
                   </Link>
-                  <p className="mt-1 text-xs text-blue-600">
+                  <p className="mt-1 text-sm text-blue-600">
                     {item.categoryName}
                   </p>
                 </div>
@@ -65,20 +64,20 @@ export default function RecentRequestsPanel({
                 <RequestProgress percentage={item.percentage} />
               </div>
 
-              <div className="mt-3 grid grid-cols-3 gap-1 text-[10px]">
+              <div className="mt-3 grid grid-cols-3 gap-1 text-xs">
                 <div>
                   <p className="text-slate-500">Objectif</p>
-                  <p className="font-bold">{money(item.targetAmount)}</p>
+                  <p className="font-bold">{money(item.targetAmount, item.currency)}</p>
                 </div>
                 <div>
                   <p className="text-slate-500">Collecté</p>
                   <p className="font-bold text-emerald-700">
-                    {money(item.collectedAmount)}
+                    {money(item.collectedAmount, item.currency)}
                   </p>
                 </div>
                 <div>
                   <p className="text-slate-500">Reste</p>
-                  <p className="font-bold">{money(item.remainingAmount)}</p>
+                  <p className="font-bold">{money(item.remainingAmount, item.currency)}</p>
                 </div>
               </div>
 

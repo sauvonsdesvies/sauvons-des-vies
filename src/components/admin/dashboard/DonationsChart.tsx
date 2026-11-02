@@ -76,12 +76,12 @@ export default function DonationsChart({
         </div>
       ) : (
         <>
-          <div className="w-full min-w-0">
+          <div className="w-full min-w-0 overflow-x-auto">
             <svg
               viewBox={`0 0 ${width} ${height}`}
               role="img"
               aria-label="Graphique des montants enregistrés dans la collecte par date"
-              className="block h-auto w-full max-w-full"
+              className="block h-auto w-full min-w-[640px]"
             >
               <defs>
                 <linearGradient
@@ -123,7 +123,7 @@ export default function DonationsChart({
                         x={left - 9}
                         y={y + 4}
                         textAnchor="end"
-                        fontSize="10"
+                        fontSize="14"
                         fill="#64748b"
                       >
                         {new Intl.NumberFormat("fr-FR", {
@@ -190,7 +190,7 @@ export default function DonationsChart({
                     x={x}
                     y={height - 15}
                     textAnchor="middle"
-                    fontSize="10"
+                    fontSize="14"
                     fill="#64748b"
                   >
                     {item.date.slice(5)}

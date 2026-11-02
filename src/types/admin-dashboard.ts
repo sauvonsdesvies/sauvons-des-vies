@@ -75,6 +75,7 @@ export interface DashboardCategoryPoint {
 }
 
 export interface DashboardCampaign {
+  currency: string;
   donorCount: number;
   id: string;
   title: string;
@@ -121,6 +122,7 @@ export interface DashboardDateRange {
 }
 
 export interface AdminDashboardData {
+  collectionTotalsByCurrency: { currency: string; collectedAmount: number; donorCount: number }[];
   generatedAt: string;
   currency: DashboardCurrency;
   period: DashboardPeriod;

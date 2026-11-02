@@ -41,7 +41,7 @@ export default function RequestStatusBadge({
 
   return (
     <span
-      className={`inline-flex rounded-full px-2.5 py-1 text-[11px] font-semibold ${item.className}`}
+      className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${item.className}`}
     >
       {item.label}
     </span>

@@ -185,7 +185,7 @@ export default function HowItWorks({
               key={index}
               className="flex min-h-[68px] items-center gap-3 rounded-lg border border-white bg-white/90 px-3 py-2.5 shadow-[0_2px_8px_rgba(9,43,80,0.03)] sm:gap-4"
             >
-              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#08B7CD] text-[13px] font-extrabold text-white">
+              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#08B7CD] text-sm font-extrabold text-white">
                 {index + 1}
               </span>
 
@@ -202,11 +202,11 @@ export default function HowItWorks({
               </div>
 
               <div className="min-w-0 flex-1">
-                <h3 className="text-[12px] font-extrabold leading-tight text-[#092B50] sm:text-[13px]">
+                <h3 className="text-xs font-extrabold leading-tight text-[#092B50] sm:text-sm">
                   {step.title}
                 </h3>
 
-                <p className="mt-1 text-[11px] leading-[1.45] text-[#60778D]">
+                <p className="mt-1 text-sm leading-[1.45] text-[#60778D]">
                   {step.description}
                 </p>
               </div>

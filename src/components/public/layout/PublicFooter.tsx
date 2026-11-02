@@ -115,7 +115,7 @@ export default function PublicFooter() {
               </div>
             </Link>
 
-            <p className="max-w-[310px] text-[12px] leading-5 text-[#D0DFEC]">
+            <p className="max-w-[310px] text-sm leading-5 text-[#D0DFEC]">
               {t("footer.description")}
             </p>
 
@@ -133,7 +133,7 @@ export default function PublicFooter() {
                   >
                     <Image src={`/icons/social/${social.icon}.svg`} alt="" width={20} height={20} className="shrink-0 invert" />
 
-                    <span className="text-[10px] font-semibold">
+                    <span className="text-xs font-semibold">
                       {social.name}
                     </span>
                   </a>
@@ -150,7 +150,7 @@ export default function PublicFooter() {
             aria-label={t("footer.quickLinks")}
             className="min-w-0"
           >
-            <h2 className="mb-3 text-[15px] font-extrabold text-white">
+            <h2 className="mb-3 text-base font-extrabold text-white">
               {t("footer.quickLinks")}
             </h2>
 
@@ -159,7 +159,7 @@ export default function PublicFooter() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="inline-flex items-center text-[13px] leading-6 text-[#D0DFEC] transition-colors hover:text-[#22D3E6] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#22D3E6]"
+                    className="inline-flex items-center text-sm leading-6 text-[#D0DFEC] transition-colors hover:text-[#22D3E6] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#22D3E6]"
                   >
                     {t(link.translationKey)}
                   </Link>
@@ -176,7 +176,7 @@ export default function PublicFooter() {
             aria-label={t("footer.information")}
             className="min-w-0"
           >
-            <h2 className="mb-3 text-[15px] font-extrabold text-white">
+            <h2 className="mb-3 text-base font-extrabold text-white">
               {t("footer.information")}
             </h2>
 
@@ -185,7 +185,7 @@ export default function PublicFooter() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="inline-flex items-center text-[13px] leading-6 text-[#D0DFEC] transition-colors hover:text-[#22D3E6] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#22D3E6]"
+                    className="inline-flex items-center text-sm leading-6 text-[#D0DFEC] transition-colors hover:text-[#22D3E6] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#22D3E6]"
                   >
                     {t(link.translationKey)}
                   </Link>
@@ -200,17 +200,17 @@ export default function PublicFooter() {
               ========================================== */}
 
           <section className="min-w-0">
-            <h2 className="mb-3 text-[15px] font-extrabold text-white">
+            <h2 className="mb-3 text-base font-extrabold text-white">
               {t("footer.stayConnected")}
             </h2>
 
-            <p className="mb-3 text-[12px] leading-5 text-[#D0DFEC]">
+            <p className="mb-3 text-sm leading-5 text-[#D0DFEC]">
               {t("footer.stayConnectedDescription")}
             </p>
 
             <Link
               href="/faire-un-don"
-              className="mt-5 inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-[#E71E3D] px-5 py-3 text-[13px] font-bold text-white transition-colors hover:bg-[#C91835] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              className="mt-5 inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-[#E71E3D] px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-[#C91835] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             >
               <Heart
                 size={17}
@@ -227,12 +227,12 @@ export default function PublicFooter() {
             ========================================== */}
 
         <div className="mt-5 flex flex-col gap-2 border-t border-white/15 pt-3 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left">
-          <p className="text-[12px] leading-6 text-[#B6CADB]">
+          <p className="text-sm leading-6 text-[#B6CADB]">
             © {year} {t("common.foundationName")}.{" "}
             {t("footer.allRightsReserved")}
           </p>
 
-          <p className="text-[12px] font-medium text-[#B6CADB]">
+          <p className="text-sm font-medium text-[#B6CADB]">
             {t("footer.motto")}
           </p>
         </div>

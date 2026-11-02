@@ -1,5 +1,6 @@
 
 "use client";
+import { CAMPAIGN_CURRENCIES } from "@/lib/campaigns/currencies";
 import Link from "next/link";
 
 import type {
@@ -8,6 +9,7 @@ import type {
 } from "@/types/campaign";
 
 type Props = {
+  currencyLocked?: boolean;
   form: CampaignFormData;
   categories: CampaignCategoryOption[];
   loadingCategories: boolean;
@@ -22,6 +24,7 @@ const inputClass =
   "mt-2 block w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100";
 
 export default function CampaignGeneralFields({
+  currencyLocked = false,
   form,
   categories,
   loadingCategories,
@@ -66,7 +69,7 @@ export default function CampaignGeneralFields({
           placeholder="Résumé de la situation et de l'objectif"
           className={inputClass}
         />
-        <p className="mt-1 text-right text-xs text-slate-500">
+        <p className="mt-1 text-right text-sm text-slate-500">
           {form.shortDescription.length}/500
         </p>
       </div>
@@ -123,7 +126,7 @@ export default function CampaignGeneralFields({
 
       <div>
         <label htmlFor="campaign-target" className="text-sm font-semibold text-slate-700">
-          Objectif de collecte (FCFA) *
+          Objectif de collecte ({form.currency}) *
         </label>
         <input
           id="campaign-target"
@@ -138,9 +141,16 @@ export default function CampaignGeneralFields({
           className={inputClass}
         />
       </div>
+      <div>
+        <label htmlFor="campaign-currency" className="text-sm font-semibold text-slate-700">Devise *</label>
+        <select id="campaign-currency" required disabled={currencyLocked} value={form.currency} onChange={event => update("currency", event.target.value)} className={inputClass}>
+          {CAMPAIGN_CURRENCIES.map(currency => <option key={currency.code} value={currency.code}>{currency.label}</option>)}
+        </select>
+        {currencyLocked && <p className="mt-1 text-sm text-slate-500">Devise conservée pour protéger les montants de la collecte publiée.</p>}
+      </div>
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label htmlFor="campaign-opening-amount" className="text-sm font-semibold text-slate-700">Montant déjà récolté (FCFA)</label>
+          <label htmlFor="campaign-opening-amount" className="text-sm font-semibold text-slate-700">Montant déjà récolté ({form.currency})</label>
           <input id="campaign-opening-amount" type="number" min="0" max="2147483647" step="1" value={form.initialCollectedAmount} onChange={event => update("initialCollectedAmount", event.target.value)} className={inputClass} />
         </div>
         <div>
@@ -148,7 +158,7 @@ export default function CampaignGeneralFields({
           <input id="campaign-opening-donors" type="number" min="0" max="2147483647" step="1" value={form.initialDonorCount} onChange={event => update("initialDonorCount", event.target.value)} className={inputClass} />
         </div>
       </div>
-      <p className="text-xs text-slate-500">La collecte continue à partir de ces chiffres. Chaque nouveau don confirmé augmente le total.</p>
+      <p className="text-sm text-slate-500">La collecte continue à partir de ces chiffres. Chaque nouveau don confirmé augmente le total.</p>
     </section>
   );
 }

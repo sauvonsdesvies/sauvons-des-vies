@@ -109,7 +109,7 @@ function CauseCard({
       </div>
 
       <div className="flex min-h-[50px] flex-1 items-center justify-center px-2 py-2.5">
-        <h3 className="line-clamp-2 text-center text-[11px] font-extrabold leading-[1.35] text-[#092B50] transition-colors group-hover:text-[#008BA6] sm:text-[12px]">
+        <h3 className="line-clamp-2 text-center text-xs font-extrabold leading-[1.35] text-[#092B50] transition-colors group-hover:text-[#008BA6] sm:text-xs">
           {cause.name}
         </h3>
       </div>
@@ -156,7 +156,7 @@ export default function HomeCauses({
 
         <Link
           href="/causes"
-          className="inline-flex shrink-0 items-center gap-1 text-[11px] font-bold text-[#007D9D] transition-colors hover:text-[#E71E3D] sm:text-xs"
+          className="inline-flex shrink-0 items-center gap-1 text-sm font-bold text-[#007D9D] transition-colors hover:text-[#E71E3D] sm:text-sm"
         >
           <span className="hidden sm:inline">
             {labels.viewAll}

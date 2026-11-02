@@ -67,11 +67,11 @@ export default function JournauxMobileList({
                   {journal.title}
                 </h2>
 
-                <span className="mt-2 inline-block rounded bg-blue-50 px-2 py-1 text-[10px] font-semibold text-blue-700">
+                <span className="mt-2 inline-block rounded bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-700">
                   {categoryLabel(journal.category)}
                 </span>
 
-                <div className="mt-2 flex flex-wrap items-center gap-2 text-[11px] text-slate-500">
+                <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-slate-500">
                   <span className="inline-flex items-center gap-1">
                     <CalendarDays size={12} />
 

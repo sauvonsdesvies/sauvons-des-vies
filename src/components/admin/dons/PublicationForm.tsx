@@ -191,7 +191,7 @@ export default function PublicationForm() {
               placeholder="Résumez l'action réalisée..."
               className={`${inputClass} resize-y`}
             />
-            <p className="mt-1 text-right text-xs text-slate-500">
+            <p className="mt-1 text-right text-sm text-slate-500">
               {remaining} caractères restants
             </p>
           </div>

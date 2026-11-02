@@ -1,5 +1,19 @@
 # Déploiement Hostinger
 
+## Ressources du build
+
+`next.config.ts` limite le build à deux workers (`experimental.cpus: 2`), sans worker threads (`workerThreads: false`). `staticGenerationMaxConcurrency: 1` limite chaque worker à une page en cours. Le journal du build doit donc annoncer deux workers, et non 55. Si ce n’est pas le cas, vérifier que Hostinger compile le commit contenant cette configuration.
+
+Un SIGABRT signale un arrêt natif. Un nombre élevé de workers peut épuiser la mémoire ou les threads disponibles, mais le signal seul ne permet pas d’identifier le module responsable. Si le crash persiste avec deux workers, récupérer le journal brut complet et les limites mémoire du conteneur. Ne pas imposer un heap de 4 Go à un conteneur dont la mémoire disponible est inférieure.
+
+Le projet conserve `cacheComponents: true`. Les lectures Prisma des pages publiques s’exécutent après `connection()` dans une limite `Suspense`, et les pages protégées attendent la session/cookies avant leurs requêtes. Ne pas ajouter `dynamic = "force-dynamic"` : cette configuration est incompatible avec Cache Components dans la version installée. Les pages statiques restent prérendues.
+
+La branche Node.js 22 est compatible à partir de 22.12, minimum indiqué par Prisma 7.10.1. Ne pas copier `node_modules` de Windows vers Hostinger : npm doit installer les variantes Linux de Sharp/Lightning CSS. Ne pas désactiver les dépendances optionnelles natives (`--omit=optional`). Prisma utilise l’adaptateur PostgreSQL existant ; aucune mise à jour de dépendance ni migration de base n’est nécessaire pour limiter les workers.
+
+Validation locale : TypeScript passe ; le build termine les 60 pages avec deux workers, y compris avec `DATABASE_URL` et `DIRECT_URL` temporairement dirigées vers un port PostgreSQL local inaccessible pour le processus de build Next.js. Aucun fichier d’environnement ni donnée Supabase n’est modifié. Les tests natifs Sharp et Lightning CSS passent sous Windows ; les paquets Linux optionnels figurent dans le lockfile. Leur exécution sur le conteneur Hostinger reste à vérifier lors du redéploiement.
+
+## Installation et configuration
+
 - Conserver `.npmrc` dans le dépôt. `include=dev` installe les outils nécessaires au build, même avec `NODE_ENV=production` : Tailwind/PostCSS, TypeScript et Prisma.
 - Installer depuis `package-lock.json`, puis compiler avec `npm run build`. Ce script régénère le client Prisma avant Next.js. Démarrer avec `npm start`.
 - Les variables de `.env.local` ne sont pas transmises automatiquement à Hostinger : les configurer dans l’espace d’hébergement, sans publier le fichier ni les clés.

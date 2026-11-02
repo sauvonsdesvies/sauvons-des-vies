@@ -12,8 +12,7 @@ type Props = {
   onRefresh: () => Promise<void>;
 };
 
-const money = (value: number) =>
-  new Intl.NumberFormat("fr-FR").format(value);
+const money = (value: number, currency: string) => new Intl.NumberFormat("fr-FR", { style: "currency", currency, currencyDisplay: "code", maximumFractionDigits: 0 }).format(value);
 
 function date(value: string | null) {
   if (!value) return "—";
@@ -40,7 +39,7 @@ export default function RequestsTable({ items, onRefresh }: Props) {
           <tr>
             {[
               "#ID", "Photo", "Titre de la demande", "Catégorie",
-              "Objectif (FCFA)", "Collecté (FCFA)", "Reste (FCFA)",
+              "Objectif", "Collecté", "Reste",
               "Progression", "Statut", "Date de lancement",
               "Date de fin", "Actions",
             ].map((heading) => (
@@ -79,9 +78,9 @@ export default function RequestsTable({ items, onRefresh }: Props) {
                 </Link>
               </td>
               <td className="px-3 py-3">{item.categoryName}</td>
-              <td className="px-3 py-3 font-semibold">{money(item.targetAmount)}</td>
-              <td className="px-3 py-3">{money(item.collectedAmount)}</td>
-              <td className="px-3 py-3">{money(item.remainingAmount)}</td>
+              <td className="px-3 py-3 font-semibold">{money(item.targetAmount, item.currency)}</td>
+              <td className="px-3 py-3">{money(item.collectedAmount, item.currency)}</td>
+              <td className="px-3 py-3">{money(item.remainingAmount, item.currency)}</td>
               <td className="min-w-24 px-3 py-3">
                 <RequestProgress percentage={item.percentage} />
               </td>

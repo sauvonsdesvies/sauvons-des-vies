@@ -130,7 +130,7 @@ export default function PublicationPhotos({ photos, onChange, disabled = false, 
             >
               ×
             </button>
-              {index === 0 && <span className="absolute inset-x-0 bottom-0 bg-slate-950/70 py-1 text-center text-[10px] text-white">Principale</span>}
+              {index === 0 && <span className="absolute inset-x-0 bottom-0 bg-slate-950/70 py-1 text-center text-xs text-white">Principale</span>}
           </div>
         ))}
 
@@ -161,12 +161,12 @@ export default function PublicationPhotos({ photos, onChange, disabled = false, 
         onChange={(event) => void upload(event.target.files)}
       />
 
-      <p className="mt-2 text-xs text-slate-500">
+      <p className="mt-2 text-sm text-slate-500">
         JPG, PNG ou WebP — 5 Mo maximum par photo, cinq images maximum.
       </p>
 
       {error && (
-        <p role="alert" className="mt-2 text-xs font-medium text-red-600">
+        <p role="alert" className="mt-2 text-sm font-medium text-red-600">
           {error}
         </p>
       )}

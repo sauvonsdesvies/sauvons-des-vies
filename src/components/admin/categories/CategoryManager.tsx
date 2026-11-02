@@ -50,7 +50,7 @@ export default function CategoryManager({ categories }: { categories: Category[]
           <h2 className="mb-4 font-semibold">Catégories enregistrées ({categories.length})</h2>
           {!categories.length ? <p className="text-sm text-slate-600">Aucune catégorie enregistrée. Ajoutez une catégorie avec le formulaire.</p> :
             <ul className="divide-y divide-slate-100">{categories.map((category) => <li key={category.id} className="flex flex-wrap items-center justify-between gap-3 py-4">
-              <div className="min-w-0 flex-1"><p className="font-medium">{category.name}</p><p className="mt-1 text-xs text-slate-500">{category.slug}</p></div>
+              <div className="min-w-0 flex-1"><p className="font-medium">{category.name}</p><p className="mt-1 text-sm text-slate-500">{category.slug}</p></div>
               <button type="button" disabled={pending} aria-label={`Modifier ${category.name}`} onClick={() => { setId(category.id); setName(category.name); setFeedback(undefined); input.current?.focus(); }} className="rounded-lg border border-slate-300 px-3 py-2 text-sm text-blue-700 disabled:opacity-60">Modifier</button>
             </li>)}</ul>}
         </section>

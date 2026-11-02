@@ -30,7 +30,7 @@ export default function PublicationPreview({ publication }: Props) {
         <h2 className="text-sm font-bold text-[#092d5b]">
           Aperçu public de l&apos;article
         </h2>
-        <p className="mt-1 text-xs text-slate-500">
+        <p className="mt-1 text-sm text-slate-500">
           Prévisualisation avant publication
         </p>
       </header>
@@ -98,7 +98,7 @@ export default function PublicationPreview({ publication }: Props) {
           </div>
         )}
 
-        <p className="mt-5 border-t border-slate-100 pt-3 text-xs text-slate-500">
+        <p className="mt-5 border-t border-slate-100 pt-3 text-sm text-slate-500">
           Fondation Sauvons des Vies
         </p>
       </div>

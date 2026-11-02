@@ -171,7 +171,7 @@ export default function BeneficiairesPage({
   return (
     <div className="w-full min-w-0 space-y-4 [overflow-wrap:anywhere]">
       <div>
-        <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
+        <p className="mb-1 text-sm font-semibold uppercase tracking-wide text-slate-500">
           Administration / Bénéficiaires
         </p>
 
@@ -199,7 +199,7 @@ export default function BeneficiairesPage({
           beneficiariesHelped={statistics.beneficiariesHelped}
           verifiedFiles={statistics.verifiedFiles}
         />
-        {statistics.updatedAt && <p className="mt-2 text-xs text-slate-500">Dernier enregistrement : {new Intl.DateTimeFormat("fr-FR", { dateStyle: "medium", timeStyle: "short" }).format(new Date(statistics.updatedAt))}</p>}
+        {statistics.updatedAt && <p className="mt-2 text-sm text-slate-500">Dernier enregistrement : {new Intl.DateTimeFormat("fr-FR", { dateStyle: "medium", timeStyle: "short" }).format(new Date(statistics.updatedAt))}</p>}
       </section>
 
       <section className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
@@ -232,7 +232,7 @@ export default function BeneficiairesPage({
                   {field.label}
                 </label>
 
-                <p className="mt-1 min-h-10 text-xs leading-5 text-slate-500">
+                <p className="mt-1 min-h-10 text-sm leading-5 text-slate-500">
                   {field.description}
                 </p>
 
@@ -300,7 +300,7 @@ export default function BeneficiairesPage({
         </form>
       </section>
 
-      <p className="text-xs leading-5 text-slate-500">
+      <p className="text-sm leading-5 text-slate-500">
         Les modifications enregistrées sont disponibles
         dans les statistiques publiques de la plateforme.
         Les montants financiers ne sont pas affichés ici.

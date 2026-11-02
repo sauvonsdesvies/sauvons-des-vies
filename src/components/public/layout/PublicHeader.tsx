@@ -13,36 +13,26 @@ import { useTranslation } from "@/lib/i18n/LanguageProvider";
 
 // ==========================================================
 // FONDATION SAUVONS DES VIES
-// HEADER PUBLIC — PC, TABLETTE ET MOBILE
+// HEADER PUBLIC — TYPOGRAPHIE ACCESSIBLE
+// Next.js 16 / TypeScript / Tailwind CSS 4
 // ==========================================================
 //
 // Logo officiel : /logo/logo.png
 //
-// MOBILE / TABLETTE :
-// - Menu hamburger à gauche
-// - Logo officiel au centre
-// - Sélecteur de langues à côté du logo
-// - Bouton Don à droite
+// Mobile / tablette / PC compact :
+// - Menu hamburger
+// - Logo officiel
+// - Sélecteur de langue
+// - Bouton de don
 //
-// ORDINATEUR :
-// - Logo à gauche
-// - Navigation complète
-// - Sélecteur de langues existant
+// Très grand écran :
+// - Logo officiel
+// - Navigation complète et lisible
+// - Sélecteur de langue
 // - Bouton Faire un don
 //
-// Langues : FR / EN / DE / ES
-//
-// Aucun changement dans :
-// - LanguageProvider
-// - PublicMobileMenu
-// - Les routes du site
-// - Les composants de campagnes
-//
+// Langues : FR / EN / ES / DE
 // ==========================================================
-
-// ----------------------------------------------------------
-// TYPES
-// ----------------------------------------------------------
 
 export type PublicNavigationItem = {
   href: string;
@@ -50,10 +40,6 @@ export type PublicNavigationItem = {
 };
 
 type SupportedLanguage = "fr" | "en" | "es" | "de";
-
-// ----------------------------------------------------------
-// ROUTE ACTIVE
-// ----------------------------------------------------------
 
 function isActivePath(
   pathname: string,
@@ -69,20 +55,15 @@ function isActivePath(
   );
 }
 
-// ----------------------------------------------------------
-// COMPOSANT PRINCIPAL
-// ----------------------------------------------------------
-
 export default function PublicHeader() {
   const pathname = usePathname();
-
   const { language } = useTranslation();
 
   const [mobileMenuOpen, setMobileMenuOpen] =
     useState(false);
 
   // --------------------------------------------------------
-  // TRADUCTIONS DE NAVIGATION
+  // TRADUCTIONS
   // --------------------------------------------------------
 
   const translations = {
@@ -165,47 +146,22 @@ export default function PublicHeader() {
   const labels = translations[currentLanguage];
 
   // --------------------------------------------------------
-  // NAVIGATION PUBLIQUE
+  // NAVIGATION
   // --------------------------------------------------------
 
   const navigation: PublicNavigationItem[] = [
-    {
-      href: "/",
-      label: labels.home,
-    },
-    {
-      href: "/campagnes",
-      label: labels.campaigns,
-    },
-    {
-      href: "/causes",
-      label: labels.causes,
-    },
-    {
-      href: "/actualites",
-      label: labels.news,
-    },
-    {
-      href: "/demander-aide",
-      label: labels.help,
-    },
+    { href: "/", label: labels.home },
+    { href: "/campagnes", label: labels.campaigns },
+    { href: "/causes", label: labels.causes },
+    { href: "/actualites", label: labels.news },
+    { href: "/demander-aide", label: labels.help },
     {
       href: "/transparence",
       label: labels.transparency,
     },
-    {
-      href: "/a-propos",
-      label: labels.about,
-    },
-    {
-      href: "/contact",
-      label: labels.contact,
-    },
+    { href: "/a-propos", label: labels.about },
+    { href: "/contact", label: labels.contact },
   ];
-
-  // --------------------------------------------------------
-  // MENU MOBILE
-  // --------------------------------------------------------
 
   function closeMobileMenu() {
     setMobileMenuOpen(false);
@@ -214,10 +170,6 @@ export default function PublicHeader() {
   function toggleMobileMenu() {
     setMobileMenuOpen((previous) => !previous);
   }
-
-  // --------------------------------------------------------
-  // AFFICHAGE
-  // --------------------------------------------------------
 
   return (
     <header
@@ -231,30 +183,29 @@ export default function PublicHeader() {
       <div
         className="
           relative mx-auto flex
-          h-[76px] w-full max-w-none
+          h-[76px] w-full
           items-center justify-between
           px-3
           sm:h-[84px] sm:px-6
           lg:px-8
-          xl:h-[86px] xl:gap-3 xl:px-8
-          2xl:px-8
+          min-[1700px]:h-[90px]
+          min-[1700px]:px-6
+          min-[1800px]:px-10
         "
       >
-        {/* ==================================================
-            VERSION MOBILE ET TABLETTE
-            ================================================== */}
+        {/* ==========================================
+            MOBILE / TABLETTE / PC COMPACT
+            ========================================== */}
 
         <div
           className="
             grid h-full w-full min-w-0
             grid-cols-[44px_minmax(0,1fr)_auto]
             items-center gap-2
-            xl:hidden
+            min-[1700px]:hidden
           "
         >
-          {/* ----------------------------------------------
-              MENU HAMBURGER — GAUCHE
-              ---------------------------------------------- */}
+          {/* MENU HAMBURGER */}
 
           <div className="flex items-center justify-start">
             <button
@@ -285,13 +236,13 @@ export default function PublicHeader() {
             >
               {mobileMenuOpen ? (
                 <X
-                  size={25}
+                  size={26}
                   strokeWidth={2.3}
                   aria-hidden="true"
                 />
               ) : (
                 <Menu
-                  size={25}
+                  size={26}
                   strokeWidth={2.3}
                   aria-hidden="true"
                 />
@@ -299,9 +250,7 @@ export default function PublicHeader() {
             </button>
           </div>
 
-          {/* ----------------------------------------------
-              LOGO + SÉLECTEUR DE LANGUES
-              ---------------------------------------------- */}
+          {/* LOGO ET LANGUE */}
 
           <div
             className="
@@ -310,8 +259,6 @@ export default function PublicHeader() {
               sm:gap-3
             "
           >
-            {/* LOGO OFFICIEL */}
-
             <Link
               href="/"
               aria-label={labels.homeAria}
@@ -343,14 +290,12 @@ export default function PublicHeader() {
                   fill
                   priority
                   sizes="(max-width: 359px) 88px, (max-width: 389px) 104px, (max-width: 429px) 120px, (max-width: 639px) 140px, (max-width: 767px) 205px, (max-width: 1023px) 230px, 245px"
-                  className="
-                    object-contain object-center
-                  "
+                  className="object-contain object-center"
                 />
               </div>
             </Link>
 
-            {/* SÉLECTEUR DE LANGUES MOBILE */}
+            {/* LANGUE */}
 
             <div
               className="
@@ -366,9 +311,7 @@ export default function PublicHeader() {
             </div>
           </div>
 
-          {/* ----------------------------------------------
-              BOUTON DON — DROITE
-              ---------------------------------------------- */}
+          {/* BOUTON DON */}
 
           <div className="flex shrink-0 items-center justify-end">
             <Link
@@ -376,11 +319,11 @@ export default function PublicHeader() {
               onClick={closeMobileMenu}
               aria-label={labels.donate}
               className="
-                inline-flex h-10 shrink-0
+                inline-flex min-h-11 shrink-0
                 items-center justify-center
                 gap-1 rounded-xl
                 bg-[#E71E3D]
-                px-2 text-[11px]
+                px-3 text-base
                 font-bold text-white
                 shadow-[0_3px_9px_rgba(231,30,61,0.18)]
                 transition-colors
@@ -389,12 +332,12 @@ export default function PublicHeader() {
                 focus-visible:outline-2
                 focus-visible:outline-offset-2
                 focus-visible:outline-[#E71E3D]
-                sm:h-11 sm:gap-2
-                sm:px-4 sm:text-[13px]
+                sm:gap-2 sm:px-4
+                sm:text-base
               "
             >
               <Heart
-                size={15}
+                size={17}
                 fill="currentColor"
                 strokeWidth={2}
                 aria-hidden="true"
@@ -405,20 +348,18 @@ export default function PublicHeader() {
           </div>
         </div>
 
-        {/* ==================================================
-            VERSION ORDINATEUR
-            ================================================== */}
+        {/* ==========================================
+            NAVIGATION TRÈS GRAND ÉCRAN
+            ========================================== */}
 
         <div
           className="
             hidden h-full w-full min-w-0
-            items-center gap-3
-            xl:flex
+            items-center gap-4
+            min-[1700px]:flex
           "
         >
-          {/* ----------------------------------------------
-              LOGO OFFICIEL
-              ---------------------------------------------- */}
+          {/* LOGO OFFICIEL */}
 
           <Link
             href="/"
@@ -435,32 +376,30 @@ export default function PublicHeader() {
           >
             <div
               className="
-                relative h-[64px] w-[190px]
-                2xl:w-[225px]
+                relative h-[68px] w-[180px]
+                min-[1800px]:w-[220px]
               "
             >
               <Image
                 src="/logo/logo.png"
                 alt="Fondation Sauvons des Vies"
                 fill
-                sizes="(max-width: 359px) 88px, (max-width: 389px) 104px, (max-width: 429px) 120px, (max-width: 639px) 140px, (max-width: 767px) 205px, (max-width: 1023px) 230px, 245px"
-                className="
-                  object-contain object-left
-                "
+                priority
+                sizes="(min-width: 1800px) 220px, 180px"
+                className="object-contain object-left"
               />
             </div>
           </Link>
 
-          {/* ----------------------------------------------
-              NAVIGATION PRINCIPALE
-              ---------------------------------------------- */}
+          {/* LIENS DE NAVIGATION */}
 
           <nav
             aria-label={labels.mainNavigation}
             className="
               flex min-w-0 flex-1
               items-center justify-center
-              gap-2 2xl:gap-5
+              gap-3
+              min-[1800px]:gap-5
             "
           >
             {navigation.map((item) => {
@@ -477,7 +416,7 @@ export default function PublicHeader() {
                     active ? "page" : undefined
                   }
                   className={[
-                    "relative flex h-[86px] shrink-0 items-center whitespace-nowrap text-[11px] font-bold transition-colors duration-200 2xl:text-[13px]",
+                    "relative flex h-[90px] shrink-0 items-center whitespace-nowrap text-base font-semibold transition-colors duration-200",
                     "hover:text-[#05AFC6]",
                     active
                       ? "text-[#083363]"
@@ -502,32 +441,25 @@ export default function PublicHeader() {
             })}
           </nav>
 
-          {/* ----------------------------------------------
-              LANGUES + BOUTON DON
-              ---------------------------------------------- */}
+          {/* LANGUE ET DON */}
 
           <div
             className="
               flex shrink-0
-              items-center gap-2
-              2xl:gap-3
+              items-center gap-3
             "
           >
-            {/* SÉLECTEUR EXISTANT */}
-
             <LanguageSwitcher />
-
-            {/* BOUTON DON */}
 
             <Link
               href="/faire-un-don"
               className="
-                inline-flex h-[43px]
+                inline-flex min-h-11
                 items-center justify-center
                 gap-2 whitespace-nowrap
                 rounded-lg
                 bg-[#E71E3D]
-                px-3 text-[12px]
+                px-4 text-base
                 font-bold text-white
                 shadow-[0_3px_8px_rgba(231,30,61,0.15)]
                 transition-colors
@@ -536,11 +468,10 @@ export default function PublicHeader() {
                 focus-visible:outline-2
                 focus-visible:outline-offset-2
                 focus-visible:outline-[#E71E3D]
-                2xl:px-5 2xl:text-[13px]
               "
             >
               <Heart
-                size={17}
+                size={18}
                 fill="currentColor"
                 strokeWidth={2}
                 aria-hidden="true"
@@ -552,9 +483,9 @@ export default function PublicHeader() {
         </div>
       </div>
 
-      {/* ==================================================
+      {/* ==========================================
           MENU MOBILE EXISTANT
-          ================================================== */}
+          ========================================== */}
 
       <PublicMobileMenu
         open={mobileMenuOpen}

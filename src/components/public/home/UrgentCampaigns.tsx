@@ -113,7 +113,7 @@ export default function UrgentCampaigns({
 
         <Link
           href="/campagnes"
-          className="inline-flex shrink-0 items-center gap-1 text-[11px] font-bold text-[#007D9D] transition-colors hover:text-[#E71E3D] sm:text-xs"
+          className="inline-flex shrink-0 items-center gap-1 text-sm font-bold text-[#007D9D] transition-colors hover:text-[#E71E3D] sm:text-sm"
         >
           <span className="hidden sm:inline">
             {labels.viewAll}
@@ -152,7 +152,7 @@ export default function UrgentCampaigns({
             />
           </div>
 
-          <p className="max-w-[300px] text-[13px] leading-relaxed text-[#627B91]">
+          <p className="max-w-[300px] text-sm leading-relaxed text-[#627B91]">
             {urgentOnly ? labels.empty : ({ fr: "Aucune collecte publiée pour le moment.", en: "No published campaigns yet.", es: "Todavía no hay campañas publicadas.", de: "Noch keine veröffentlichten Kampagnen." }[language])}
           </p>
         </div>

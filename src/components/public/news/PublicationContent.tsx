@@ -49,5 +49,5 @@ export default function PublicationContent({ content, mobile = false }: { conten
     else paragraph.push(line);
   }
   flushParagraph(); flushList(); flushQuote();
-  return <div className={`break-words text-[#4566A4] ${mobile ? "space-y-3 text-[13px] leading-[1.65] sm:text-[14px]" : "space-y-3 text-[14px] leading-[1.7] xl:text-[15px]"}`}>{blocks}</div>;
+  return <div className={`break-words text-[#4566A4] ${mobile ? "space-y-3 text-sm leading-[1.65] sm:text-sm" : "space-y-3 text-sm leading-[1.7] xl:text-base"}`}>{blocks}</div>;
 }

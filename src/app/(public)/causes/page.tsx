@@ -72,7 +72,7 @@ function CausesHeader() {
       />
 
       <div className="relative z-10 max-w-3xl">
-        <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3.5 py-2 text-[11px] font-extrabold uppercase tracking-[0.14em] text-[#81E4EA]">
+        <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3.5 py-2 text-xs font-extrabold uppercase tracking-[0.14em] text-[#81E4EA]">
           <HandHeart size={17} />
           Notre engagement humanitaire
         </div>
@@ -84,7 +84,7 @@ function CausesHeader() {
           </span>
         </h1>
 
-        <p className="mt-3 max-w-2xl text-[14px] leading-[1.7] text-[#D3E2F0] sm:text-[16px]">
+        <p className="mt-3 max-w-2xl text-sm leading-[1.7] text-[#D3E2F0] sm:text-base">
           Chaque cause représente une occasion d&apos;agir,
           d&apos;apporter du soutien et de redonner de
           l&apos;espoir aux personnes qui en ont le plus
@@ -95,7 +95,7 @@ function CausesHeader() {
         <div className="mt-4 flex flex-wrap gap-3">
           <Link
             href="/campagnes"
-            className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-lg bg-[#E71E3D] px-5 text-[13px] font-extrabold text-white transition hover:bg-[#CC1935]"
+            className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-lg bg-[#E71E3D] px-5 text-sm font-extrabold text-white transition hover:bg-[#CC1935]"
           >
             <Heart size={18} fill="currentColor" />
             Découvrir les campagnes
@@ -104,7 +104,7 @@ function CausesHeader() {
 
           <Link
             href="/actualites"
-            className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-lg border border-white/25 bg-white/10 px-5 text-[13px] font-extrabold text-white transition hover:bg-white/20"
+            className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-lg border border-white/25 bg-white/10 px-5 text-sm font-extrabold text-white transition hover:bg-white/20"
           >
             Voir nos actualités
             <ArrowRight size={17} />
@@ -153,11 +153,11 @@ function CausesValues() {
           </div>
 
           <div className="min-w-0">
-            <h3 className="text-[14px] font-black text-[#092B50]">
+            <h3 className="text-sm font-black text-[#092B50]">
               {title}
             </h3>
 
-            <p className="mt-1 text-[12px] leading-6 text-[#6D839B]">
+            <p className="mt-1 text-sm leading-6 text-[#6D839B]">
               {description}
             </p>
           </div>
@@ -182,7 +182,7 @@ async function CausesContent() {
     >
       <div className="mb-4 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
         <div className="max-w-2xl">
-          <p className="mb-2 text-[11px] font-extrabold uppercase tracking-[0.16em] text-[#008BA3]">
+          <p className="mb-2 text-sm font-extrabold uppercase tracking-[0.16em] text-[#008BA3]">
             Domaines d&apos;intervention
           </p>
 
@@ -193,7 +193,7 @@ async function CausesContent() {
             Découvrez nos causes
           </h2>
 
-          <p className="mt-2 text-[13px] leading-6 text-[#667E98] sm:text-[14px]">
+          <p className="mt-2 text-sm leading-6 text-[#667E98] sm:text-sm">
             Retrouvez les différents domaines dans
             lesquels la Fondation Sauvons des Vies
             concentre son engagement.
@@ -202,7 +202,7 @@ async function CausesContent() {
 
         <Link
           href="/campagnes"
-          className="inline-flex w-fit items-center gap-2 text-[12px] font-extrabold text-[#087CF3] hover:underline"
+          className="inline-flex w-fit items-center gap-2 text-sm font-extrabold text-[#087CF3] hover:underline"
         >
           Voir les campagnes
           <ArrowRight size={17} />
@@ -263,7 +263,7 @@ function CausesDonationBanner() {
           Ensemble, nous pouvons agir.
         </h2>
 
-        <p className="mt-2 text-[13px] leading-6 text-[#587895]">
+        <p className="mt-2 text-sm leading-6 text-[#587895]">
           Votre solidarité peut contribuer à soutenir
           des personnes confrontées à des situations
           difficiles.
@@ -272,7 +272,7 @@ function CausesDonationBanner() {
 
       <Link
         href="/faire-un-don"
-        className="inline-flex min-h-[46px] shrink-0 items-center justify-center gap-2 rounded-lg bg-[#E71E3D] px-6 text-[13px] font-black text-white transition hover:bg-[#CC1935]"
+        className="inline-flex min-h-[46px] shrink-0 items-center justify-center gap-2 rounded-lg bg-[#E71E3D] px-6 text-sm font-black text-white transition hover:bg-[#CC1935]"
       >
         <Heart size={18} fill="currentColor" />
         Faire un don

@@ -15,7 +15,7 @@ async function Checkout({ searchParams }: Props) {
   const query = await searchParams;
   if (!query.campagne || !/^[0-9a-f-]{36}$/i.test(query.campagne)) redirect("/campagnes");
   const campaign = await prisma.campaign.findUnique({ where: { id: query.campagne }, select: { id: true, title: true, slug: true, status: true, publishedAt: true, currency: true } });
-  if (!campaign || campaign.status !== "PUBLISHED" || !campaign.publishedAt || campaign.currency !== "XOF") redirect("/campagnes");
+  if (!campaign || campaign.status !== "PUBLISHED" || !campaign.publishedAt) redirect("/campagnes");
   const amount = Number(query.montant);
   return <DonationCheckout campaign={campaign} defaultAmount={Number.isSafeInteger(amount) && amount >= 100 && amount <= 10000000 ? amount : 5000} />;
 }

@@ -1,8 +1,8 @@
 /* Typographie commune aux écrans de gestion, sans modifier le site public. */
 .administration {
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
-  font-size: 0.875rem;
-  line-height: 1.5;
+  font-size: 1rem;
+  line-height: 1.6;
   font-synthesis: none;
   font-variant-numeric: lining-nums tabular-nums;
 }
@@ -15,7 +15,7 @@
 }
 
 .administration :where(h2) {
-  font-size: 1rem;
+  font-size: 1.125rem;
   font-weight: 700;
   line-height: 1.4;
   letter-spacing: -0.015em;
@@ -54,6 +54,6 @@
 
 @media (min-width: 1024px) {
   .administration :where(input, select, textarea) {
-    font-size: 0.875rem;
+    font-size: 1rem;
   }
 }

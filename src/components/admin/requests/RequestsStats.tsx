@@ -21,7 +21,7 @@ export default function RequestsStats({ stats }: { stats: RequestStatistics }) {
             </span>
             <div className="min-w-0">
               <p className={"break-words text-xl font-bold leading-tight " + card.color}>{stats[card.key].toLocaleString("fr-FR")}</p>
-              <p className="mt-1 text-xs leading-5 text-slate-600">{card.title}</p>
+              <p className="mt-1 text-sm leading-5 text-slate-600">{card.title}</p>
             </div>
           </div>
         );

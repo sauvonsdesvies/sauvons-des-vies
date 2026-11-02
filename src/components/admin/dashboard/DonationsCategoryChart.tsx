@@ -124,7 +124,7 @@ export default function DonationsCategoryChart({
                       {segment.categoryName}
                     </p>
 
-                    <p className="text-xs text-slate-500">
+                    <p className="text-sm text-slate-500">
                       {formatAmount(segment.amount)} FCFA
                     </p>
                   </div>

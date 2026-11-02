@@ -96,7 +96,7 @@ export default function CampaignProgress({
   return (
     <div className={`w-full min-w-0 ${className}`}>
       <div className="mb-2 flex flex-wrap items-baseline justify-between gap-x-2 gap-y-1">
-        <p className="text-[12px] font-extrabold text-[#092B50] sm:text-[13px]">
+        <p className="text-sm font-extrabold text-[#092B50] sm:text-sm">
           {formatMoney(collected, currency, language)}{" "}
           <span className="font-semibold text-[#4F6C85]">
             {labels.collected}
@@ -104,7 +104,7 @@ export default function CampaignProgress({
         </p>
 
         {target > 0 && (
-          <p className="text-[11px] font-medium text-[#61788E]">
+          <p className="text-sm font-medium text-[#61788E]">
             {labels.goal}{" "}
             {formatMoney(target, currency, language)}
           </p>
@@ -129,12 +129,12 @@ export default function CampaignProgress({
           />
         </div>
 
-        <span className="w-[40px] shrink-0 text-right text-[11px] font-extrabold tabular-nums text-[#007E9C] sm:text-[12px]">
+        <span className="w-[40px] shrink-0 text-right text-xs font-extrabold tabular-nums text-[#007E9C] sm:text-xs">
           {percentage}%
         </span>
       </div>
 
-      <div className="mt-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-1 text-[10px] text-[#5B748A] sm:text-[11px]">
+      <div className="mt-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-1 text-xs text-[#5B748A] sm:text-xs">
         <span>
           <strong className="font-bold text-[#092B50]">
             {formatMoney(remaining, currency, language)}

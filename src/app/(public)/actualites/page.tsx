@@ -351,7 +351,7 @@ function PublicationCard({
 
         <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
           <span
-            className={`inline-flex max-w-full items-center rounded-full px-3 py-1 text-[10px] font-extrabold ${categoryStyle(
+            className={`inline-flex max-w-full items-center rounded-full px-3 py-1 text-xs font-extrabold ${categoryStyle(
               publication.category
             )}`}
           >
@@ -360,7 +360,7 @@ function PublicationCard({
             </span>
           </span>
 
-          <span className="inline-flex items-center gap-1.5 text-[11px] text-[#8293A8]">
+          <span className="inline-flex items-center gap-1.5 text-xs text-[#8293A8]">
             <CalendarDays size={13} />
             {formatDate(date)}
           </span>
@@ -380,14 +380,14 @@ function PublicationCard({
 
         {/* DESCRIPTION */}
 
-        <p className="mt-3 line-clamp-3  text-[13px] leading-[1.8] text-[#667E99]">
+        <p className="mt-3 line-clamp-3  text-sm leading-[1.8] text-[#667E99]">
           {publication.shortDescription}
         </p>
 
         {/* BAS DE CARTE */}
 
         <div className="mt-auto flex items-center justify-between gap-2 border-t border-[#EAF0F6] pt-4">
-          <span className="inline-flex items-center gap-1.5 text-[11px] text-[#8295AA]">
+          <span className="inline-flex items-center gap-1.5 text-xs text-[#8295AA]">
             <Clock3 size={14} />
 
             {readingTime(
@@ -400,7 +400,7 @@ function PublicationCard({
             href={articleUrl(
               publication.slug
             )}
-            className="inline-flex items-center gap-1 text-[12px] font-extrabold text-[#087CF3] transition hover:gap-2"
+            className="inline-flex items-center gap-1 text-sm font-extrabold text-[#087CF3] transition hover:gap-2"
           >
             Lire la suite
             <ArrowRight size={16} />
@@ -447,7 +447,7 @@ function PublicationFilters({
             placeholder="Rechercher une actualité..."
             aria-label="Rechercher une actualité"
             maxLength={100}
-            className="w-full min-w-0 bg-transparent text-[13px] text-[#092B50] outline-none placeholder:text-[#93A3B5]"
+            className="w-full min-w-0 bg-transparent text-sm text-[#092B50] outline-none placeholder:text-[#93A3B5]"
           />
         </div>
 
@@ -461,7 +461,7 @@ function PublicationFilters({
 
         <button
           type="submit"
-          className="inline-flex min-h-[45px] items-center justify-center gap-2 rounded-lg bg-[#087CF3] px-6 text-[13px] font-bold text-white transition hover:bg-[#0766C9]"
+          className="inline-flex min-h-[45px] items-center justify-center gap-2 rounded-lg bg-[#087CF3] px-6 text-sm font-bold text-white transition hover:bg-[#0766C9]"
         >
           <Search size={17} />
           Rechercher
@@ -476,7 +476,7 @@ function PublicationFilters({
             category: "",
             page: 1,
           })}
-          className={`inline-flex min-h-[36px] items-center rounded-full border px-4 text-[12px] font-bold transition ${
+          className={`inline-flex min-h-[36px] items-center rounded-full border px-4 text-xs font-bold transition ${
             !state.category
               ? "border-[#092B50] bg-[#092B50] text-white"
               : "border-[#DFE8F1] bg-white text-[#526D8B] hover:border-[#0BC2D4]"
@@ -499,7 +499,7 @@ function PublicationFilters({
                     category.name,
                   page: 1,
                 })}
-                className={`inline-flex min-h-[36px] items-center gap-2 rounded-full border px-4 text-[12px] font-bold transition ${
+                className={`inline-flex min-h-[36px] items-center gap-2 rounded-full border px-4 text-xs font-bold transition ${
                   active
                     ? "border-[#092B50] bg-[#092B50] text-white"
                     : "border-[#DFE8F1] bg-white text-[#526D8B] hover:border-[#0BC2D4]"
@@ -508,7 +508,7 @@ function PublicationFilters({
                 {category.name}
 
                 <span
-                  className={`rounded-full px-1.5 py-0.5 text-[10px] ${
+                  className={`rounded-full px-1.5 py-0.5 text-xs ${
                     active
                       ? "bg-white/20 text-white"
                       : "bg-[#EDF4FA] text-[#68829C]"
@@ -593,7 +593,7 @@ function Pagination({
               ? "page"
               : undefined
           }
-          className={`flex h-10 min-w-10 items-center justify-center rounded-lg border px-3 text-[13px] font-extrabold ${
+          className={`flex h-10 min-w-10 items-center justify-center rounded-lg border px-3 text-sm font-extrabold ${
             page === currentPage
               ? "border-[#087CF3] bg-[#087CF3] text-white"
               : "border-[#DDE8F2] bg-white text-[#526D8B] hover:border-[#087CF3]"
@@ -642,7 +642,7 @@ function EmptyState({
           : "Aucune publication pour le moment"}
       </h2>
 
-      <p className="mx-auto mt-3 max-w-md text-[13px] leading-6 text-[#70859C]">
+      <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-[#70859C]">
         {filtered
           ? "Aucune publication ne correspond à votre recherche."
           : "Les actualités de la fondation apparaîtront ici après leur publication."}
@@ -651,7 +651,7 @@ function EmptyState({
       {filtered && (
         <Link
           href="/actualites"
-          className="mt-4 inline-flex min-h-[43px] items-center justify-center rounded-lg bg-[#092B50] px-5 text-[12px] font-bold text-white"
+          className="mt-4 inline-flex min-h-[43px] items-center justify-center rounded-lg bg-[#092B50] px-5 text-sm font-bold text-white"
         >
           Voir toutes les actualités
         </Link>
@@ -669,7 +669,7 @@ function DonationBanner() {
     <section className="mt-6 rounded-2xl bg-[#092B50] px-6 py-6 text-white sm:px-6 sm:py-6">
       <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
         <div className="max-w-2xl">
-          <p className="mb-2 text-[11px] font-extrabold uppercase tracking-[0.15em] text-[#63D8E7]">
+          <p className="mb-2 text-sm font-extrabold uppercase tracking-[0.15em] text-[#63D8E7]">
             Ensemble, sauvons des vies
           </p>
 
@@ -677,7 +677,7 @@ function DonationBanner() {
             Chaque geste de solidarité compte.
           </h2>
 
-          <p className="mt-3 text-[13px] leading-6 text-[#C3D5E8]">
+          <p className="mt-3 text-sm leading-6 text-[#C3D5E8]">
             Soutenez les actions de la Fondation Sauvons
             des Vies et contribuez à aider les personnes
             qui en ont besoin.
@@ -686,7 +686,7 @@ function DonationBanner() {
 
         <Link
           href="/faire-un-don"
-          className="inline-flex min-h-[49px] items-center justify-center gap-2 rounded-lg bg-[#E71E3D] px-6 text-[13px] font-black text-white transition hover:bg-[#CB1734]"
+          className="inline-flex min-h-[49px] items-center justify-center gap-2 rounded-lg bg-[#E71E3D] px-6 text-sm font-black text-white transition hover:bg-[#CB1734]"
         >
           <Heart
             size={19}
@@ -876,7 +876,7 @@ async function NewsContent({
       {/* EN-TÊTE */}
 
       <div className="mb-4">
-        <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#D6ECF5] bg-[#EAF8FC] px-3 py-1.5 text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#087A96]">
+        <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#D6ECF5] bg-[#EAF8FC] px-3 py-1.5 text-xs font-extrabold uppercase tracking-[0.12em] text-[#087A96]">
           <Newspaper size={15} />
           Nos publications
         </div>
@@ -889,14 +889,14 @@ async function NewsContent({
           Actualités
         </h1>
 
-        <p className="mt-4 max-w-3xl text-[14px] leading-6 text-[#607C98] sm:text-[16px]">
+        <p className="mt-4 max-w-3xl text-sm leading-6 text-[#607C98] sm:text-base">
           Découvrez les actions réalisées, les nouvelles
           de nos campagnes et les initiatives solidaires
           de la Fondation Sauvons des Vies.
         </p>
 
         <div className="mt-3 flex flex-wrap items-center gap-3">
-          <span className="inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-2 text-[12px] font-bold text-[#53708F] shadow-sm">
+          <span className="inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-2 text-xs font-bold text-[#53708F] shadow-sm">
             <FileText
               size={16}
               className="text-[#087CF3]"
@@ -906,7 +906,7 @@ async function NewsContent({
             {total > 1 ? "s" : ""}
           </span>
 
-          <span className="inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-2 text-[12px] font-bold text-[#53708F] shadow-sm">
+          <span className="inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-2 text-xs font-bold text-[#53708F] shadow-sm">
             <Heart
               size={16}
               className="text-[#E71E3D]"
@@ -928,7 +928,7 @@ async function NewsContent({
 
       <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
         <div>
-          <p className="mb-1 text-[11px] font-extrabold uppercase tracking-[0.15em] text-[#087A96]">
+          <p className="mb-1 text-sm font-extrabold uppercase tracking-[0.15em] text-[#087A96]">
             Restez informés
           </p>
 
@@ -940,7 +940,7 @@ async function NewsContent({
           </h2>
         </div>
 
-        <p className="text-[12px] font-semibold text-[#7890A9]">
+        <p className="text-sm font-semibold text-[#7890A9]">
           {total} résultat
           {total > 1 ? "s" : ""}
         </p>

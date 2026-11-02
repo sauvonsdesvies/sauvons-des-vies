@@ -147,7 +147,7 @@ function StatisticCard({
           </p>
         )}
 
-        <p className="mt-1.5 text-[11px] font-semibold leading-snug text-[#5A738A] sm:text-[13px]">
+        <p className="mt-1.5 text-sm font-semibold leading-snug text-[#5A738A] sm:text-sm">
           {label}
         </p>
       </div>
@@ -205,7 +205,7 @@ export default function HomeStats({
       {isError && statistics === null && (
         <p
           role="status"
-          className="mt-3 text-center text-xs text-[#667E91]"
+          className="mt-3 text-center text-sm text-[#667E91]"
         >
           {labels.unavailable}
         </p>

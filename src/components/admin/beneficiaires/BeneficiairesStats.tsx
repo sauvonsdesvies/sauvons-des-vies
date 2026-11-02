@@ -63,7 +63,7 @@ export default function BeneficiairesStats({
                 {statistic.title}
               </p>
 
-              <p className="mt-1 flex items-center gap-1 text-xs text-slate-500">
+              <p className="mt-1 flex items-center gap-1 text-sm text-slate-500">
                 <span className="h-2 w-2 rounded-full bg-green-500" />
                 {statistic.description}
               </p>

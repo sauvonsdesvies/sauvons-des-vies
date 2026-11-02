@@ -30,7 +30,7 @@ export default function JournauxTable({
   return (
     <div className="min-w-0 overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
       <table className="w-full min-w-[790px] border-collapse text-left">
-        <thead className="bg-slate-50 text-[11px] font-bold text-[#092d5b]">
+        <thead className="bg-slate-50 text-xs font-bold text-[#092d5b]">
           <tr>
             <th className="px-3 py-4">Article</th>
             <th className="px-3 py-4">Catégorie</th>
@@ -73,11 +73,11 @@ export default function JournauxTable({
                     </div>
 
                     <div className="min-w-0">
-                      <p className="line-clamp-2 max-w-48 text-xs font-bold text-[#092d5b]">
+                      <p className="line-clamp-2 max-w-48 text-sm font-bold text-[#092d5b]">
                         {journal.title}
                       </p>
 
-                      <p className="mt-1 line-clamp-2 max-w-48 text-[11px] text-slate-500">
+                      <p className="mt-1 line-clamp-2 max-w-48 text-sm text-slate-500">
                         {journal.shortDescription}
                       </p>
                     </div>
@@ -85,25 +85,25 @@ export default function JournauxTable({
                 </td>
 
                 <td className="px-3 py-3">
-                  <span className="inline-block rounded-md bg-blue-50 px-2 py-1 text-[10px] font-semibold text-blue-700">
+                  <span className="inline-block rounded-md bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-700">
                     {categoryLabel(journal.category)}
                   </span>
                 </td>
 
-                <td className="px-3 py-3 text-[11px] text-slate-600">
+                <td className="px-3 py-3 text-xs text-slate-600">
                   {formatJournalDate(
                     journal.publicationDate ??
                       journal.createdAt
                   )}
                 </td>
 
-                <td className="px-3 py-3 text-[11px] text-slate-600">
+                <td className="px-3 py-3 text-xs text-slate-600">
                   {journal.authorName}
                 </td>
 
                 <td className="px-3 py-3">
                   <span
-                    className={`rounded-md px-2 py-1 text-[10px] font-semibold ${
+                    className={`rounded-md px-2 py-1 text-xs font-semibold ${
                       published
                         ? "bg-green-100 text-green-700"
                         : journal.archivedAt
@@ -115,7 +115,7 @@ export default function JournauxTable({
                   </span>
                 </td>
 
-                <td className="px-3 py-3 text-[11px] text-slate-600">
+                <td className="px-3 py-3 text-xs text-slate-600">
                   {published ? "Public" : "Non public"}
                 </td>
 

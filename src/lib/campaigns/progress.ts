@@ -7,16 +7,17 @@ export async function getConfirmedCampaignProgress(
   campaignId: string,
   targetAmount: number
 ): Promise<CampaignProgressData> {
+  const campaign = await prisma.campaign.findUnique({ where: { id: campaignId }, select: { currency: true, initialCollectedAmount: true, initialDonorCount: true } });
   const donations = await prisma.donation.findMany({
     where: {
       campaignId,
       status: "CONFIRMED",
       confirmedAt: { not: null },
-      currency: "XOF",
+      currency: campaign?.currency ?? "XOF",
     },
     select: { id: true, amount: true, donorEmail: true },
   });
-  const campaign = await prisma.campaign.findUnique({ where: { id: campaignId }, select: { initialCollectedAmount: true, initialDonorCount: true } });
+
 
   const collectedAmount = donations.reduce((sum, donation) => sum + donation.amount, 0) + (campaign?.initialCollectedAmount ?? 0);
   const target = Math.max(0, targetAmount);

@@ -143,10 +143,12 @@ export async function getAdminDashboardData(
     monthlyDonationsAggregate,
     openingCampaigns,
     allConfirmedDonations,
+    currencyCampaigns,
   ] = await Promise.all([
     prisma.donation.findMany({
       where: {
         status: DONATION_CONFIRMED,
+        campaign: { currency: "XOF" },
         confirmedAt: {
           not: null,
           ...(dateFilter ?? {}),
@@ -187,18 +189,19 @@ export async function getAdminDashboardData(
         targetAmount: true,
         initialCollectedAmount: true,
         initialDonorCount: true,
+        currency: true,
         imageUrl: true,
         createdAt: true,
         donations: {
           where: {
             status: DONATION_CONFIRMED,
-            currency: "XOF",
             confirmedAt: {
               not: null,
             },
           },
           select: {
             amount: true,
+            currency: true,
             id: true, donorEmail: true,
           },
         },
@@ -293,6 +296,7 @@ export async function getAdminDashboardData(
     prisma.donation.aggregate({
       where: {
         status: DONATION_CONFIRMED,
+        campaign: { currency: "XOF" },
         currency: "XOF",
         confirmedAt: {
           gte: currentMonthStart,
@@ -309,8 +313,13 @@ export async function getAdminDashboardData(
         categoryId: true, category: { select: { name: true } } },
     }),
     prisma.donation.findMany({
-      where: { status: DONATION_CONFIRMED, currency: "XOF", confirmedAt: { not: null } },
+      where: { status: DONATION_CONFIRMED, currency: "XOF", campaign: { currency: "XOF" }, confirmedAt: { not: null } },
       select: { id: true, campaignId: true, donorEmail: true, amount: true },
+    }),
+    prisma.campaign.findMany({
+      where: { publishedAt: { not: null } },
+      select: { currency: true, initialCollectedAmount: true, initialDonorCount: true,
+        donations: { where: { status: DONATION_CONFIRMED, confirmedAt: { not: null } }, select: { id: true, amount: true, currency: true, donorEmail: true } } },
     }),
   ]);
 
@@ -329,7 +338,15 @@ export async function getAdminDashboardData(
     confirmedDonations,
   );
   const totalDonations = sumAmounts(allConfirmedDonations) + openingCampaigns.reduce((sum, campaign) => sum + campaign.initialCollectedAmount, 0);
-  const totalParticipants = countParticipants(allConfirmedDonations) + openingCampaigns.reduce((sum, campaign) => sum + campaign.initialDonorCount, 0);
+  const currencyTotals = new Map<string, { currency: string; collectedAmount: number; donorCount: number }>();
+  for (const campaign of currencyCampaigns) {
+    const donations = campaign.donations.filter(donation => donation.currency === campaign.currency);
+    const totals = currencyTotals.get(campaign.currency) ?? { currency: campaign.currency, collectedAmount: 0, donorCount: 0 };
+    totals.collectedAmount += campaign.initialCollectedAmount + sumAmounts(donations);
+    totals.donorCount += campaign.initialDonorCount + countParticipants(donations);
+    currencyTotals.set(campaign.currency, totals);
+  }
+  const totalParticipants = Array.from(currencyTotals.values()).reduce((sum, totals) => sum + totals.donorCount, 0);
 
   // ========================================
   // ÉVOLUTION DES DONS
@@ -471,8 +488,9 @@ export async function getAdminDashboardData(
 
   const campaignItems = recentCampaigns.map(
     (campaign) => {
+      const donations = campaign.donations.filter(donation => donation.currency === campaign.currency);
       const collectedAmount = campaign.initialCollectedAmount + sumAmounts(
-        campaign.donations,
+        donations,
       );
 
       const progressPercentage =
@@ -494,7 +512,8 @@ export async function getAdminDashboardData(
         status: campaign.status,
         targetAmount: campaign.targetAmount,
         collectedAmount,
-        donorCount: campaign.initialDonorCount + countParticipants(campaign.donations),
+        donorCount: campaign.initialDonorCount + countParticipants(donations),
+        currency: campaign.currency,
         progressPercentage,
         imageUrl: campaign.imageUrl,
         createdAt: campaign.createdAt.toISOString(),
@@ -555,6 +574,7 @@ export async function getAdminDashboardData(
   // ========================================
 
   return {
+    collectionTotalsByCurrency: Array.from(currencyTotals.values()),
     generatedAt: new Date().toISOString(),
 
     currency: "XOF",

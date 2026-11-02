@@ -413,8 +413,7 @@ function formatMoney(
     return new Intl.NumberFormat(
       localeForLanguage(language),
       {
-        style: "currency",
-        currency,
+        style: "currency", currencyDisplay: "code", currency,
         maximumFractionDigits: 0,
       }
     ).format(amount);
@@ -713,11 +712,11 @@ function CampaignProgress({
           },
         ].map((item) => (
           <div key={item.label} className="min-w-0">
-            <p className="text-[11px] font-semibold text-slate-500">
+            <p className="text-sm font-semibold text-slate-500">
               {item.label}
             </p>
 
-            <p className="mt-1 break-words text-[13px] font-extrabold text-[#092B50] sm:text-[15px]">
+            <p className="mt-1 break-words text-sm font-extrabold text-[#092B50] sm:text-base">
               {formatMoney(
                 item.value,
                 campaign.currency,
@@ -853,7 +852,7 @@ function CampaignSharing({
         rel="noopener noreferrer"
         className={buttonClass}
       >
-        <span className="flex h-4 w-4 items-center justify-center rounded-full bg-[#1877F2] text-[12px] font-black text-white">
+        <span className="flex h-4 w-4 items-center justify-center rounded-full bg-[#1877F2] text-xs font-black text-white">
           f
         </span>
         Facebook
@@ -907,12 +906,12 @@ function SimilarCampaignCard({
 
       <div className="min-w-0 flex-1">
         {campaign.category && (
-          <p className="truncate text-[10px] font-bold text-[#0B9BAE]">
+          <p className="truncate text-sm font-bold text-[#0B9BAE]">
             {campaign.category.name}
           </p>
         )}
 
-        <h3 className="mt-1 line-clamp-2 text-[12px] font-extrabold leading-4 text-[#092B50] group-hover:text-[#0B9BAE]">
+        <h3 className="mt-1 line-clamp-2 text-xs font-extrabold leading-4 text-[#092B50] group-hover:text-[#0B9BAE]">
           {campaign.title}
         </h3>
 
@@ -931,7 +930,7 @@ function SimilarCampaignCard({
           />
         </div>
 
-        <p className="mt-1 text-[10px] font-semibold text-slate-500">
+        <p className="mt-1 text-sm font-semibold text-slate-500">
           {formatMoney(
             campaign.collectedAmount,
             campaign.currency,
@@ -945,7 +944,7 @@ function SimilarCampaignCard({
           )}
         </p>
 
-        <span className="mt-1 inline-flex items-center gap-1 text-[10px] font-bold text-[#0B9BAE]">
+        <span className="mt-1 inline-flex items-center gap-1 text-xs font-bold text-[#0B9BAE]">
           {t.seeCampaign}
           <ArrowRight className="h-3 w-3" />
         </span>
@@ -1037,7 +1036,7 @@ function CampaignTabs({
       >
         {activeTab === "story" && (
           <div className="space-y-6">
-            <div className="whitespace-pre-line break-words text-[14px] leading-7 text-slate-700">
+            <div className="whitespace-pre-line break-words text-sm leading-7 text-slate-700">
               {campaign.description ||
                 t.noDescription}
             </div>
@@ -1046,7 +1045,7 @@ function CampaignTabs({
               <div className="flex items-center gap-2">
                 <Info className="h-5 w-5 text-[#0B9BAE]" />
 
-                <h3 className="text-[16px] font-extrabold text-[#092B50]">
+                <h3 className="text-base font-extrabold text-[#092B50]">
                   {t.keyInfo}
                 </h3>
               </div>
@@ -1089,11 +1088,11 @@ function CampaignTabs({
                   },
                 ].map((item) => (
                   <div key={item.label}>
-                    <dt className="text-[11px] font-semibold text-slate-500">
+                    <dt className="text-xs font-semibold text-slate-500">
                       {item.label}
                     </dt>
 
-                    <dd className="mt-1 text-[13px] font-extrabold text-[#092B50]">
+                    <dd className="mt-1 text-sm font-extrabold text-[#092B50]">
                       {item.value}
                     </dd>
                   </div>
@@ -1105,7 +1104,7 @@ function CampaignTabs({
               <div className="flex items-start gap-3 rounded-xl border border-slate-200 p-4">
                 <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-[#0B9BAE]" />
 
-                <p className="text-xs leading-5 text-slate-600">
+                <p className="text-sm leading-5 text-slate-600">
                   {t.confirmed}
                 </p>
               </div>
@@ -1113,7 +1112,7 @@ function CampaignTabs({
               <div className="flex items-start gap-3 rounded-xl border border-slate-200 p-4">
                 <Heart className="mt-0.5 h-5 w-5 shrink-0 text-[#0B9BAE]" />
 
-                <p className="text-xs leading-5 text-slate-600">
+                <p className="text-sm leading-5 text-slate-600">
                   {t.directPayment}
                 </p>
               </div>
@@ -1153,7 +1152,7 @@ function CampaignTabs({
                       )}
 
                       <div className="min-w-0 flex-1">
-                        <p className="text-[11px] font-semibold text-slate-500">
+                        <p className="text-sm font-semibold text-slate-500">
                           {formatDate(
                             update.publishedAt,
                             language,
@@ -1173,7 +1172,7 @@ function CampaignTabs({
                           href={`/actualites/${encodeURIComponent(
                             update.slug
                           )}`}
-                          className="mt-3 inline-flex items-center gap-1 text-xs font-extrabold text-[#0B9BAE] hover:underline"
+                          className="mt-3 inline-flex items-center gap-1 text-sm font-extrabold text-[#0B9BAE] hover:underline"
                         >
                           {t.viewPublication}
                           <ExternalLink className="h-3.5 w-3.5" />
@@ -1340,7 +1339,7 @@ export default function CampaignDetailPage({
 
         <nav
           aria-label="Breadcrumb"
-          className="mb-6 flex flex-wrap items-center gap-2 text-[12px] text-slate-500"
+          className="mb-6 flex flex-wrap items-center gap-2 text-xs text-slate-500"
         >
           <Link href="/" className="hover:text-[#0B9BAE]">
             {t.home}
@@ -1406,7 +1405,7 @@ export default function CampaignDetailPage({
 
           <div className="min-w-0">
             {campaign.category && (
-              <span className="inline-flex rounded-full bg-[#E7F7FA] px-3 py-1.5 text-[11px] font-extrabold text-[#087E8E]">
+              <span className="inline-flex rounded-full bg-[#E7F7FA] px-3 py-1.5 text-xs font-extrabold text-[#087E8E]">
                 {campaign.category.name}
               </span>
             )}
@@ -1418,7 +1417,7 @@ export default function CampaignDetailPage({
             <div className="mt-4">
               <p
                 className={[
-                  "text-[14px] leading-7 text-slate-600",
+                  "text-sm leading-7 text-slate-600",
                   !descriptionExpanded &&
                     "line-clamp-4",
                 ]
@@ -1460,7 +1459,7 @@ export default function CampaignDetailPage({
             {/* LOCALISATION ET DATES */}
 
             <div className="mt-5 space-y-3 border-y border-slate-200 py-5">
-              <div className="flex items-start gap-2 text-[12px] text-slate-600">
+              <div className="flex items-start gap-2 text-xs text-slate-600">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#0B9BAE]" />
 
                 <span>
@@ -1468,7 +1467,7 @@ export default function CampaignDetailPage({
                 </span>
               </div>
 
-              <div className="flex items-start gap-2 text-[12px] text-slate-600">
+              <div className="flex items-start gap-2 text-xs text-slate-600">
                 <CalendarDays className="mt-0.5 h-4 w-4 shrink-0 text-[#0B9BAE]" />
 
                 <span>
@@ -1485,7 +1484,7 @@ export default function CampaignDetailPage({
               </div>
 
               <div
-                className={`flex items-start gap-2 text-[12px] ${
+                className={`flex items-start gap-2 text-xs ${
                   isDeadlineExpired(
                     campaign.endDate
                   )
@@ -1516,7 +1515,7 @@ export default function CampaignDetailPage({
             </div>
 
             <div className="mt-4 flex items-center justify-between gap-3">
-              <span className="text-[12px] font-semibold text-slate-500">
+              <span className="text-xs font-semibold text-slate-500">
                 {statusLabel}
               </span>
 
@@ -1525,7 +1524,7 @@ export default function CampaignDetailPage({
                 onClick={() => void refresh()}
                 disabled={isRefreshing || isLoading}
                 aria-label={t.refresh}
-                className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#0B9BAE] disabled:opacity-50"
+                className="inline-flex items-center gap-1 text-xs font-semibold text-[#0B9BAE] disabled:opacity-50"
               >
                 <RefreshCw
                   className={`h-3.5 w-3.5 ${
@@ -1588,13 +1587,13 @@ export default function CampaignDetailPage({
 
             <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-4 sm:p-5">
               <div className="mb-4 flex items-center justify-between gap-3">
-                <h2 className="text-[16px] font-extrabold text-[#092B50]">
+                <h2 className="text-base font-extrabold text-[#092B50]">
                   {t.similar}
                 </h2>
 
                 <Link
                   href="/campagnes"
-                  className="text-[11px] font-bold text-[#0B9BAE] hover:underline"
+                  className="text-sm font-bold text-[#0B9BAE] hover:underline"
                 >
                   {t.seeAll}
                 </Link>
@@ -1613,7 +1612,7 @@ export default function CampaignDetailPage({
                   )}
                 </div>
               ) : (
-                <p className="text-xs leading-6 text-slate-500">
+                <p className="text-sm leading-6 text-slate-500">
                   {t.noSimilar}
                 </p>
               )}

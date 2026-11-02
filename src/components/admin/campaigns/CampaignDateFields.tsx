@@ -56,7 +56,7 @@ export default function CampaignDateFields({ form, update }: Props) {
         </div>
       </div>
 
-      <p className="mt-2 text-xs text-slate-500">
+      <p className="mt-2 text-sm text-slate-500">
         La date de fin ne peut pas précéder la date de lancement.
       </p>
     </section>

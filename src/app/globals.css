@@ -3,8 +3,8 @@
 
 /* ==========================================
    FONDATION SAUVONS DES VIES
-   Styles globaux — Site public et administration
-   Next.js 16 / Tailwind CSS 4
+   Styles globaux — Next.js 16 / Tailwind CSS 4
+   Typographie accessible et responsive
    ========================================== */
 
 :root {
@@ -14,7 +14,7 @@
   --background: #ffffff;
   --foreground: #171717;
 
-  /* Identité visuelle de la fondation */
+  /* Identité visuelle officielle */
   --foundation-navy: #092b50;
   --foundation-blue: #087da8;
   --foundation-cyan: #0bc2d4;
@@ -24,21 +24,35 @@
   --foundation-surface: #f3f8fc;
   --foundation-border: #dce8f1;
   --foundation-muted: #58718d;
+
+  /* Typographie du site public */
+  --public-text-size: 17px;
+  --public-line-height: 1.65;
 }
 
 /* ==========================================
    THÈME TAILWIND CSS 4
    ========================================== */
 
+@theme {
+  /* Échelle lisible, commune aux composants Tailwind du site. */
+  --text-xs: 0.875rem;
+  --text-xs--line-height: 1.5;
+  --text-sm: 1rem;
+  --text-sm--line-height: 1.5;
+  --text-base: 1.0625rem;
+  --text-base--line-height: 1.6;
+  --text-lg: 1.1875rem;
+  --text-lg--line-height: 1.5;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
-  /* Variables de typographie existantes */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 
-  /* Couleurs utilisables dans Tailwind */
   --color-foundation-navy: var(--foundation-navy);
   --color-foundation-blue: var(--foundation-blue);
   --color-foundation-cyan: var(--foundation-cyan);
@@ -49,12 +63,14 @@
 }
 
 /* ==========================================
-   STYLES GLOBAUX
+   BASE GLOBALE
    ========================================== */
 
 html {
   min-height: 100%;
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
@@ -63,6 +79,9 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  font-size: var(--public-text-size);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* Conserver les dimensions des éléments */
@@ -72,13 +91,89 @@ body {
   box-sizing: border-box;
 }
 
-/* Accessibilité */
+/* ==========================================
+   TYPOGRAPHIE DU SITE PUBLIC
+   ========================================== */
+
+/*
+  Le layout public possède une balise main.
+  Les règles ciblent uniquement le site public
+  afin de préserver les tableaux de bord admin.
+
+  Les composants qui définissent explicitement
+  une taille Tailwind pourront nécessiter
+  des ajustements supplémentaires.
+*/
+
+#contenu-principal {
+  font-size: var(--public-text-size);
+  line-height: var(--public-line-height);
+  overflow-wrap: break-word;
+}
+
+/* Texte ordinaire sans taille explicite */
+#contenu-principal p,
+#contenu-principal li,
+#contenu-principal blockquote {
+  line-height: 1.65;
+}
+
+/* Titres : hauteur de ligne confortable */
+#contenu-principal h1,
+#contenu-principal h2,
+#contenu-principal h3,
+#contenu-principal h4,
+#contenu-principal h5,
+#contenu-principal h6 {
+  line-height: 1.2;
+  overflow-wrap: break-word;
+}
+
+/* ==========================================
+   FORMULAIRES ET BOUTONS PUBLICS
+   ========================================== */
+
+body:has(#contenu-principal) input,
+body:has(#contenu-principal) textarea,
+body:has(#contenu-principal) select {
+  font-family: inherit;
+  font-size: max(16px, 1em);
+}
+
+body:has(#contenu-principal) button {
+  font-family: inherit;
+}
+
+/* ==========================================
+   LIENS ET ACCESSIBILITÉ
+   ========================================== */
+
 :focus-visible {
   outline: 2px solid var(--foundation-cyan);
   outline-offset: 3px;
 }
 
-/* Respect des préférences d'accessibilité */
+#contenu-principal a {
+  text-underline-offset: 3px;
+}
+
+/* ==========================================
+   TABLETTES ET ORDINATEURS
+   ========================================== */
+
+@media (min-width: 768px) {
+  :root {
+    --public-text-size: 18px;
+    --public-line-height: 1.7;
+    --text-base: 1.125rem;
+    --text-lg: 1.25rem;
+  }
+}
+
+/* ==========================================
+   ACCESSIBILITÉ : MOUVEMENTS RÉDUITS
+   ========================================== */
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

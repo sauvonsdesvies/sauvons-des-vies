@@ -5,7 +5,7 @@ import { useTranslation } from "@/lib/i18n/LanguageProvider";
 import PaymentForm from "./PaymentForm";
 import { ArrowLeft, LockKeyhole } from "lucide-react";
 
-export default function DonationCheckout({ campaign, defaultAmount }: { campaign: { id: string; title: string; slug: string }; defaultAmount: number }) {
+export default function DonationCheckout({ campaign, defaultAmount }: { campaign: { id: string; title: string; slug: string; currency: string }; defaultAmount: number }) {
   const { language } = useTranslation();
   const lang = language === "en" || language === "de" || language === "es" ? language : "fr";
   const title = { fr: "Faire un don", en: "Make a donation", de: "Spenden", es: "Hacer una donación" }[lang];
@@ -15,6 +15,10 @@ export default function DonationCheckout({ campaign, defaultAmount }: { campaign
       <h1 className="text-xl font-extrabold sm:text-2xl">{title}</h1>
       <LockKeyhole className="h-8 w-8 text-cyan-300" aria-hidden="true" />
     </div>
-    <PaymentForm key={campaign.id} campaignId={campaign.id} language={lang} defaultAmount={defaultAmount} />
+    {campaign.currency === "XOF" ? <PaymentForm key={campaign.id} campaignId={campaign.id} language={lang} defaultAmount={defaultAmount} /> :
+      <div className="rounded-2xl border border-slate-200 bg-white p-5">
+        <p>{({ fr: "Paiement en ligne indisponible pour cette devise.", en: "Online payment is unavailable for this currency.", de: "Online-Zahlungen sind für diese Währung nicht verfügbar.", es: "El pago en línea no está disponible para esta moneda." })[lang]} ({campaign.currency})</p>
+        <Link href="/contact" className="mt-3 inline-block font-bold text-[#00869B]">{({ fr: "Contacter la fondation", en: "Contact the foundation", de: "Stiftung kontaktieren", es: "Contactar con la fundación" })[lang]}</Link>
+      </div>}
   </div>;
 }

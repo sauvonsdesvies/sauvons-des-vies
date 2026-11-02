@@ -195,7 +195,7 @@ export default function LanguageSwitcher() {
         aria-expanded={isOpen}
         className={[
           "inline-flex h-11 items-center justify-center gap-2 rounded-lg border px-3",
-          "text-[13px] font-bold transition-colors duration-200",
+          "text-sm font-bold transition-colors duration-200",
           "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0BC2D4]",
           isOpen
             ? "border-[#0BC2D4] bg-[#EFFBFD] text-[#083363]"
@@ -210,7 +210,7 @@ export default function LanguageSwitcher() {
 
         <span
           aria-hidden="true"
-          className="text-[16px] leading-none"
+          className="text-base leading-none"
         >
           {selectedLanguage.flag}
         </span>
@@ -245,7 +245,7 @@ export default function LanguageSwitcher() {
           className="absolute right-0 top-[calc(100%+8px)] z-[80] w-[205px] overflow-hidden rounded-xl border border-[#E3EBF2] bg-white p-1.5 shadow-[0_12px_35px_rgba(7,38,75,0.16)]"
         >
           <div className="border-b border-[#EDF1F5] px-3 py-2">
-            <p className="text-[11px] font-bold uppercase tracking-[0.08em] text-[#748BA0]">
+            <p className="text-sm font-bold uppercase tracking-[0.08em] text-[#748BA0]">
               Langue du site
             </p>
           </div>
@@ -276,7 +276,7 @@ export default function LanguageSwitcher() {
                     {item.flag}
                   </span>
 
-                  <span className="min-w-0 flex-1 text-[13px] font-semibold">
+                  <span className="min-w-0 flex-1 text-sm font-semibold">
                     {item.label}
                   </span>
 

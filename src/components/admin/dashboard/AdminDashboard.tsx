@@ -31,6 +31,15 @@ export default function AdminDashboard({
           stats={data.stats}
           trends={data.trends}
         />
+        {data.collectionTotalsByCurrency.some(total => total.currency !== "XOF") && (
+          <section aria-label="Collectes par devise" className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            {data.collectionTotalsByCurrency.map(total => <div key={total.currency} className="rounded-2xl border border-slate-200 bg-white p-4">
+              <h2 className="font-semibold">Total récolté — {total.currency}</h2>
+              <p className="mt-2 text-xl font-bold">{new Intl.NumberFormat("fr-FR", { style: "currency", currency: total.currency, currencyDisplay: "code", maximumFractionDigits: 0 }).format(total.collectedAmount)}</p>
+              <p className="mt-1 text-sm text-slate-500">{new Intl.NumberFormat("fr-FR").format(total.donorCount)} participants</p>
+            </div>)}
+          </section>
+        )}
 
         <div className="grid min-w-0 grid-cols-1 gap-4 xl:grid-cols-3">
           <div className="min-w-0 xl:col-span-2">

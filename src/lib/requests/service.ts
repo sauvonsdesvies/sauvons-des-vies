@@ -57,6 +57,7 @@ function toRequestItem(
   const collected = Math.max(0, collectedAmount) + campaign.initialCollectedAmount;
 
   return {
+    currency: campaign.currency,
     countryCode: campaign.countryCode,
     isUrgent: campaign.isUrgent,
     id: campaign.id,
@@ -89,19 +90,18 @@ async function confirmedTotals(campaignIds: string[]) {
   if (campaignIds.length === 0) return new Map<string, number>();
 
   const totals = await prisma.donation.groupBy({
-    by: ["campaignId"],
+    by: ["campaignId", "currency"],
     where: {
       campaignId: { in: campaignIds },
       status: "CONFIRMED",
       confirmedAt: { not: null },
-      currency: "XOF",
     },
     _sum: { amount: true },
   });
 
   return new Map(
     totals.map((item) => [
-      item.campaignId,
+      `${item.campaignId}:${item.currency}`,
       item._sum.amount ?? 0,
     ])
   );
@@ -144,7 +144,7 @@ export async function listRequests(
 
   return {
     items: campaigns.map((campaign) =>
-      toRequestItem(campaign, totals.get(campaign.id) ?? 0)
+      toRequestItem(campaign, totals.get(`${campaign.id}:${campaign.currency}`) ?? 0)
     ),
     total,
     page: options.page,
@@ -168,7 +168,7 @@ export async function getRequestById(
 
   return toRequestItem(
     campaign,
-    totals.get(campaign.id) ?? 0
+    totals.get(`${campaign.id}:${campaign.currency}`) ?? 0
   );
 }
 

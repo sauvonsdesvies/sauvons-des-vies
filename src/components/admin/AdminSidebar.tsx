@@ -54,7 +54,7 @@ export default function AdminSidebar({
           );
 
           const commonClass =
-            "flex min-h-10 w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-[13px] font-medium transition-colors";
+            "flex min-h-10 w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm font-medium transition-colors";
 
           if (item.enabled && item.children?.length) {
             return (

@@ -59,10 +59,11 @@ export async function getPublicCampaignCards(options: { urgent?: boolean; catego
       initialCollectedAmount: true, initialDonorCount: true, countryCode: true, targetAmount: true, currency: true, isUrgent: true, startDate: true, endDate: true, completedAt: true,
       category: { select: { id: true, name: true, slug: true } },
       photos: { take: 1, orderBy: { position: "asc" }, select: { imageUrl: true } },
-      donations: { where: { status: "CONFIRMED", currency: "XOF", confirmedAt: { not: null } }, select: { id: true, amount: true, donorEmail: true } },
+      donations: { where: { status: "CONFIRMED", confirmedAt: { not: null } }, select: { id: true, amount: true, currency: true, donorEmail: true } },
     },
   });
-  return rows.map(({ donations, photos, completedAt, ...row }) => {
+  return rows.map(({ donations: allDonations, photos, completedAt, ...row }) => {
+    const donations = allDonations.filter(donation => donation.currency === row.currency);
     const collectedAmount = (row.initialCollectedAmount ?? 0) + donations.reduce((sum, donation) => sum + donation.amount, 0);
     return {
       ...row, imageUrl: row.imageUrl ?? photos[0]?.imageUrl ?? null,

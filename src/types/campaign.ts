@@ -13,6 +13,7 @@ export type CampaignPhotoInput = {
 };
 
 export type CampaignFormData = {
+  currency: string;
   countryCode: string;
   isUrgent: boolean;
   title: string;
@@ -29,6 +30,7 @@ export type CampaignFormData = {
 };
 
 export type CampaignCreateInput = {
+  currency: string;
   countryCode?: string;
   isUrgent?: boolean;
   title: string;

@@ -357,7 +357,7 @@ export default function PublicMobileMenu({
 
         <div className="flex items-center justify-between gap-4 border-b border-[#E8EFF5] px-5 py-4">
           <div className="min-w-0">
-            <p className="text-[10px] font-extrabold uppercase tracking-[0.13em] text-[#08AFC3] sm:text-[11px]">
+            <p className="text-sm font-extrabold uppercase tracking-[0.13em] text-[#08AFC3] sm:text-sm">
               {labels.foundation}
             </p>
 
@@ -368,7 +368,7 @@ export default function PublicMobileMenu({
               {labels.menu}
             </h2>
 
-            <p className="mt-1 text-xs font-medium text-[#6A8196]">
+            <p className="mt-1 text-sm font-medium text-[#6A8196]">
               {labels.slogan}
             </p>
           </div>
@@ -429,7 +429,7 @@ export default function PublicMobileMenu({
                       active ? "page" : undefined
                     }
                     className={[
-                      "group flex min-h-[49px] items-center gap-3 rounded-xl px-4 py-3 text-[14px] font-semibold transition-colors duration-150",
+                      "group flex min-h-[49px] items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition-colors duration-150",
                       "focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0BC2D4]",
                       active
                         ? "bg-[#EAF8FC] text-[#006D91]"
@@ -495,7 +495,7 @@ export default function PublicMobileMenu({
               className="text-[#08AFC3]"
             />
 
-            <p className="text-xs font-bold uppercase tracking-wide text-[#617B94]">
+            <p className="text-sm font-bold uppercase tracking-wide text-[#617B94]">
               {labels.language}
             </p>
           </div>
@@ -510,7 +510,7 @@ export default function PublicMobileMenu({
               px-3 py-2 sm:px-4
             "
           >
-            <span className="min-w-0 text-[13px] font-semibold text-[#092B50]">
+            <span className="min-w-0 text-sm font-semibold text-[#092B50]">
               {labels.chooseLanguage}
             </span>
 
@@ -534,7 +534,7 @@ export default function PublicMobileMenu({
               gap-3 rounded-xl
               bg-[#E71E3D]
               px-5 py-3
-              text-[14px] font-extrabold
+              text-sm font-extrabold
               text-white
               shadow-[0_4px_12px_rgba(231,30,61,0.18)]
               transition-colors

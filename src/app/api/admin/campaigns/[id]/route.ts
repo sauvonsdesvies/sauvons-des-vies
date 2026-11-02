@@ -19,6 +19,9 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     const existing = await prisma.campaign.findUnique({ where: { id }, include: { photos: true } });
     if (!existing) return NextResponse.json({ error: "Collecte introuvable." }, { status: 404 });
     const input = validation.data;
+    if (input.currency !== existing.currency && (existing.status !== "DRAFT" || await prisma.donation.count({ where: { campaignId: id } }) > 0)) {
+      return NextResponse.json({ error: "La devise ne peut changer que sur un brouillon sans don enregistré, pour préserver les montants existants." }, { status: 400 });
+    }
     if (!input.photos.every(photo => photo.storagePath.startsWith(`campaign-uploads/${session.id}/`) || existing.photos.some(saved => saved.storagePath === photo.storagePath))) {
       return NextResponse.json({ error: "Photo non autorisée." }, { status: 403 });
     }
@@ -26,6 +29,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     const campaign = await prisma.campaign.update({ where: { id }, data: {
       title: input.title, shortDescription: input.shortDescription, description: input.description,
       categoryId: input.categoryId, targetAmount: input.targetAmount,
+      currency: input.currency,
       initialCollectedAmount: input.initialCollectedAmount, initialDonorCount: input.initialDonorCount,
       countryCode: input.countryCode, isUrgent: input.isUrgent,
       startDate: input.startDate ? new Date(`${input.startDate}T00:00:00.000Z`) : null,
