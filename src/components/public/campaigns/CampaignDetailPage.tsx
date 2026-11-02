@@ -989,22 +989,6 @@ function CampaignTabs({
     { id: "comments", label: t.comments },
   ];
 
-  const beneficiaryName = campaign.beneficiary
-    ? [
-        campaign.beneficiary.firstName,
-        campaign.beneficiary.lastName,
-      ]
-        .filter(Boolean)
-        .join(" ")
-    : null;
-
-  const location = [
-    campaign.beneficiary?.city,
-    campaign.country,
-  ]
-    .filter(Boolean)
-    .join(", ");
-
   return (
     <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
       <div
@@ -1035,7 +1019,7 @@ function CampaignTabs({
 
       <div
         role="tabpanel"
-        className="p-5 sm:p-7"
+        className="p-4 sm:p-5"
       >
         {activeTab === "story" && (
           <div className="space-y-6">
@@ -1044,82 +1028,6 @@ function CampaignTabs({
                 t.noDescription}
             </div>
 
-            <div className="rounded-2xl border border-[#CDECF2] bg-[#F0FAFC] p-5">
-              <div className="flex items-center gap-2">
-                <Info className="h-5 w-5 text-[#0B9BAE]" />
-
-                <h3 className="text-base font-extrabold text-[#092B50]">
-                  {t.keyInfo}
-                </h3>
-              </div>
-
-              <dl className="mt-5 grid gap-4 sm:grid-cols-2">
-                {[
-                  {
-                    label: t.beneficiary,
-                    value:
-                      beneficiaryName ||
-                      t.noLocation,
-                  },
-                  {
-                    label: t.location,
-                    value:
-                      location ||
-                      t.noLocation,
-                  },
-                  {
-                    label: t.category,
-                    value:
-                      campaign.category?.name ||
-                      t.noLocation,
-                  },
-                  {
-                    label: t.support,
-                    value: formatMoney(
-                      campaign.targetAmount,
-                      campaign.currency,
-                      language
-                    ),
-                  },
-                  {
-                    label: t.deadlineInfo,
-                    value: formatDate(
-                      campaign.endDate,
-                      language,
-                      t.noDeadline
-                    ),
-                  },
-                ].map((item) => (
-                  <div key={item.label}>
-                    <dt className="text-xs font-semibold text-slate-500">
-                      {item.label}
-                    </dt>
-
-                    <dd className="mt-1 text-sm font-extrabold text-[#092B50]">
-                      {item.value}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-
-            <div className="grid gap-3 sm:grid-cols-2">
-              <div className="flex items-start gap-3 rounded-xl border border-slate-200 p-4">
-                <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-[#0B9BAE]" />
-
-                <p className="text-sm leading-5 text-slate-600">
-                  {t.confirmed}
-                </p>
-              </div>
-
-              <div className="flex items-start gap-3 rounded-xl border border-slate-200 p-4">
-                <Heart className="mt-0.5 h-5 w-5 shrink-0 text-[#0B9BAE]" />
-
-                <p className="text-sm leading-5 text-slate-600">
-                  {t.directPayment}
-                </p>
-              </div>
-            </div>
           </div>
         )}
 
@@ -1393,7 +1301,7 @@ export default function CampaignDetailPage({
 
         {/* GRILLE PRINCIPALE */}
 
-        <div className="grid grid-cols-1 gap-7 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_340px] lg:items-start">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_340px] lg:items-start">
           {/* GALERIE */}
 
           <div className="min-w-0">
@@ -1575,6 +1483,7 @@ export default function CampaignDetailPage({
             <CampaignDonationPanel
               campaign={campaign}
               onDonate={handleDonate}
+              simplified
             />
 
             {donationNotice && (
@@ -1588,7 +1497,7 @@ export default function CampaignDetailPage({
 
             {/* CAMPAGNES SIMILAIRES */}
 
-            <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-4 sm:p-5">
+            <div className="mt-4 rounded-2xl border border-slate-200 bg-white p-4 sm:p-5">
               <div className="mb-4 flex items-center justify-between gap-3">
                 <h2 className="text-base font-extrabold text-[#092B50]">
                   {t.similar}

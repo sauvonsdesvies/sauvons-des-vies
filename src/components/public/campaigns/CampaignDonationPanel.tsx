@@ -77,6 +77,7 @@ export type CampaignDonationPanelProps = {
   className?: string;
 
   compact?: boolean;
+  simplified?: boolean;
 };
 
 // ----------------------------------------------------------
@@ -447,6 +448,7 @@ export default function CampaignDonationPanel({
   onDonate,
   className = "",
   compact = false,
+  simplified = false,
 }: CampaignDonationPanelProps) {
   const translationContext =
     useTranslation();
@@ -733,6 +735,7 @@ export default function CampaignDonationPanel({
         className,
       ].join(" ")}
     >
+      {!simplified && <>
       {/* EN-TÊTE */}
 
       <div
@@ -764,6 +767,7 @@ export default function CampaignDonationPanel({
         )}
       </div>
 
+      </>}
       {/* CONTENU */}
 
       <div
@@ -771,6 +775,7 @@ export default function CampaignDonationPanel({
           compact ? "p-5" : "p-5 sm:p-6"
         }
       >
+        {!simplified && <>
         {/* MONTANT COLLECTÉ */}
 
         <div className="flex items-end justify-between gap-3">
@@ -847,9 +852,10 @@ export default function CampaignDonationPanel({
           </div>
         </div>
 
+        </>}
         {/* DONATEURS ET DÉLAI */}
 
-        <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-5">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
           <div className="flex items-center gap-2 text-xs font-semibold text-slate-600">
             <UsersRound className="h-4 w-4 text-[#0B9BAE]" />
 
@@ -1061,7 +1067,7 @@ export default function CampaignDonationPanel({
 
         {/* ENGAGEMENTS */}
 
-        {!compact && (
+        {!compact && !simplified && (
           <div className="mt-5 space-y-3 rounded-xl bg-[#F5F9FC] p-4">
             <div className="flex items-start gap-2.5">
               <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[#0B9BAE]" />

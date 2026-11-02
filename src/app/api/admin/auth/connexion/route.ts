@@ -112,13 +112,17 @@ export async function POST(request: NextRequest) {
     // A malformed deployment configuration must not look like a bad password.
     const passwordHash = process.env.ADMIN_PASSWORD_HASH?.trim();
     const configuredEmail = process.env.ADMIN_EMAIL?.trim().toLowerCase();
-    const configurationValid =
-      Boolean(passwordHash && /^\$2[aby]\$(0[4-9]|[12]\d|3[01])\$[./A-Za-z0-9]{53}$/.test(passwordHash)) &&
-      Boolean(configuredEmail && z.email().safeParse(configuredEmail).success) &&
-      (process.env.AUTH_SECRET?.length ?? 0) >= 32;
+    const configurationChecks = {
+      ADMIN_PASSWORD_HASH: Boolean(passwordHash && /^\$2[aby]\$(0[4-9]|[12]\d|3[01])\$[./A-Za-z0-9]{53}$/.test(passwordHash)),
+      ADMIN_EMAIL: Boolean(configuredEmail && z.email().safeParse(configuredEmail).success),
+      AUTH_SECRET: (process.env.AUTH_SECRET?.length ?? 0) >= 32,
+    };
+    const invalidVariables = Object.entries(configurationChecks)
+      .filter(([, valid]) => !valid)
+      .map(([name]) => name);
 
-    if (!configurationValid) {
-      console.error("ADMIN_AUTH_CONFIGURATION_INVALID: vérifier ADMIN_EMAIL, ADMIN_PASSWORD_HASH et AUTH_SECRET.");
+    if (invalidVariables.length > 0) {
+      console.error("ADMIN_AUTH_CONFIGURATION_INVALID", { invalidVariables });
       return NextResponse.json(
         { success: false, message: "Connexion temporairement indisponible. Réessayez plus tard." },
         { status: 503 }

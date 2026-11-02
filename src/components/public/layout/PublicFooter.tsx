@@ -87,7 +87,7 @@ export default function PublicFooter() {
     (social) => social.url.trim().length > 0
   );
 
-  if (pathname === "/faire-un-don") return null;
+  if (pathname === "/faire-un-don" || /^\/(campagnes|collectes)\/[^/]+\/?$/.test(pathname)) return null;
 
   return (
     <footer className="w-full bg-[#082B50] text-white">
