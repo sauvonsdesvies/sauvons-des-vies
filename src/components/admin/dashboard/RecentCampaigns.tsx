@@ -1,9 +1,10 @@
+import { formatCfaAmount } from "@/lib/campaigns/currencies";
 
 import type { DashboardCampaign } from "@/types/admin-dashboard";
 import Link from "next/link";
 
 const money = (amount: number, currency: string) =>
-  new Intl.NumberFormat("fr-FR", { style: "currency", currency, currencyDisplay: "code", maximumFractionDigits: 0 }).format(amount);
+  (formatCfaAmount(amount, currency, "fr-FR") ?? new Intl.NumberFormat("fr-FR", { style: "currency", currency, currencyDisplay: "code", maximumFractionDigits: 0 }).format(amount));
 
 function statusLabel(status: string) {
   const labels: Record<string, string> = {

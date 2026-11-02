@@ -1,5 +1,6 @@
-
 "use client";
+
+import { formatCfaAmount } from "@/lib/campaigns/currencies";
 
 import { useMemo, useState } from "react";
 import Image from "next/image";
@@ -225,6 +226,8 @@ function formatMoney(
   currency: string,
   language: Language
 ): string {
+  const cfa = formatCfaAmount(amount, currency, localeMap[language]);
+  if (cfa !== null) return cfa;
   const formatted = new Intl.NumberFormat(
     localeMap[language],
     { maximumFractionDigits: 0 }

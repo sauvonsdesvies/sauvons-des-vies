@@ -1,3 +1,4 @@
+import { formatCfaAmount } from "@/lib/campaigns/currencies";
 
 import type { PublicLanguage } from "./home-types";
 import { COUNTRIES } from "@/lib/countries";
@@ -58,6 +59,8 @@ export function formatMoney(
   currency = "XOF",
   language: PublicLanguage = "fr"
 ): string {
+  const cfa = formatCfaAmount(amount, currency, getPublicLocale(language));
+  if (cfa !== null) return cfa;
   if (!Number.isFinite(amount)) {
     return "—";
   }

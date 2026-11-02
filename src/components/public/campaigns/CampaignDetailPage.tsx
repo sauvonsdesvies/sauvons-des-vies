@@ -1,6 +1,7 @@
-﻿
 "use client";
 
+import { formatCfaAmount } from "@/lib/campaigns/currencies";
+﻿
 import {
   useCallback,
   useMemo,
@@ -409,6 +410,8 @@ function formatMoney(
   currency: string,
   language: Language
 ): string {
+  const cfa = formatCfaAmount(amount, currency, localeForLanguage(language));
+  if (cfa !== null) return cfa;
   try {
     return new Intl.NumberFormat(
       localeForLanguage(language),

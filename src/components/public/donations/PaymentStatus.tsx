@@ -1,5 +1,6 @@
-
 "use client";
+
+import { formatCfaAmount } from "@/lib/campaigns/currencies";
 
 /**
  * FONDATION SAUVONS DES VIES
@@ -464,6 +465,8 @@ function formatMoney(
   currency: string,
   language: PaymentLanguage
 ): string {
+  const cfa = formatCfaAmount(amount, currency, getLocale(language));
+  if (cfa !== null) return cfa;
   try {
     return new Intl.NumberFormat(
       getLocale(language),

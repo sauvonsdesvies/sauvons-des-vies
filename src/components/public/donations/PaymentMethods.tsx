@@ -1,5 +1,6 @@
-
 "use client";
+
+import { currencyUnit } from "@/lib/campaigns/currencies";
 
 /**
  * FONDATION SAUVONS DES VIES
@@ -763,7 +764,7 @@ export default function PaymentMethods({
             </div>
 
             <span className="text-xs font-medium text-slate-500">
-              {t.currency} : {currency}
+              {t.currency} : {currencyUnit(currency)}
             </span>
           </div>
         )}

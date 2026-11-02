@@ -1,3 +1,4 @@
+import { formatCfaAmount } from "@/lib/campaigns/currencies";
 
 import Link from "next/link";
 import { countryName } from "@/lib/countries";
@@ -6,7 +7,7 @@ import RequestProgress from "./RequestProgress";
 import type { RequestItem } from "@/types/request";
 
 export default function RequestDetail({ item }: { item: RequestItem }) {
-  const money = (value: number, currency: string) => new Intl.NumberFormat("fr-FR", { style: "currency", currency, currencyDisplay: "code", maximumFractionDigits: 0 }).format(value);
+  const money = (value: number, currency: string) => (formatCfaAmount(value, currency, "fr-FR") ?? new Intl.NumberFormat("fr-FR", { style: "currency", currency, currencyDisplay: "code", maximumFractionDigits: 0 }).format(value));
 
   return (
     <div className="w-full min-w-0">

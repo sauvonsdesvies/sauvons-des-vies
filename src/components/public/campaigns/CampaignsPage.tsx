@@ -1,5 +1,6 @@
-
 "use client";
+
+import { formatCfaAmount } from "@/lib/campaigns/currencies";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -392,6 +393,8 @@ function formatAmount(
   currency: string,
   language: Language
 ): string {
+  const cfa = formatCfaAmount(amount, currency, getLocale(language));
+  if (cfa !== null) return cfa;
   try {
     return new Intl.NumberFormat(getLocale(language), {
       style: "currency", currencyDisplay: "code", currency,

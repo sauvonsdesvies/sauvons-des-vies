@@ -1,3 +1,4 @@
+import { formatCfaAmount } from "@/lib/campaigns/currencies";
 
 import Link from "next/link";
 import RequestStatusBadge from "./RequestStatusBadge";
@@ -10,7 +11,7 @@ type Props = {
   onRefresh: () => Promise<void>;
 };
 
-const money = (value: number, currency: string) => new Intl.NumberFormat("fr-FR", { style: "currency", currency, currencyDisplay: "code", maximumFractionDigits: 0 }).format(value);
+const money = (value: number, currency: string) => (formatCfaAmount(value, currency, "fr-FR") ?? new Intl.NumberFormat("fr-FR", { style: "currency", currency, currencyDisplay: "code", maximumFractionDigits: 0 }).format(value));
 
 export default function RequestMobileCard({
   item,

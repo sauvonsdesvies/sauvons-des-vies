@@ -1,5 +1,6 @@
-
 "use client";
+
+import { currencyUnit } from "@/lib/campaigns/currencies";
 
 import { useState } from "react";
 import { notifyCampaignUpdate } from "@/lib/campaigns/live-updates";
@@ -140,7 +141,7 @@ export default function RequestForm({ item }: { item: RequestItem }) {
 
         <div>
           <label htmlFor="request-target" className="text-sm font-semibold">
-            Objectif ({item.currency})
+            Objectif ({currencyUnit(item.currency)})
           </label>
           <input
             id="request-target"

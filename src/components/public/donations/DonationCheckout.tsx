@@ -1,5 +1,8 @@
 "use client";
 
+import { currencyUnit } from "@/lib/campaigns/currencies";
+
+
 import Link from "next/link";
 import { useTranslation } from "@/lib/i18n/LanguageProvider";
 import PaymentForm from "./PaymentForm";
@@ -17,7 +20,7 @@ export default function DonationCheckout({ campaign, defaultAmount }: { campaign
     </div>
     {campaign.currency === "XOF" ? <PaymentForm key={campaign.id} campaignId={campaign.id} language={lang} defaultAmount={defaultAmount} /> :
       <div className="rounded-2xl border border-slate-200 bg-white p-5">
-        <p>{({ fr: "Paiement en ligne indisponible pour cette devise.", en: "Online payment is unavailable for this currency.", de: "Online-Zahlungen sind für diese Währung nicht verfügbar.", es: "El pago en línea no está disponible para esta moneda." })[lang]} ({campaign.currency})</p>
+        <p>{({ fr: "Paiement en ligne indisponible pour cette devise.", en: "Online payment is unavailable for this currency.", de: "Online-Zahlungen sind für diese Währung nicht verfügbar.", es: "El pago en línea no está disponible para esta moneda." })[lang]} ({currencyUnit(campaign.currency)})</p>
         <Link href="/contact" className="mt-3 inline-block font-bold text-[#00869B]">{({ fr: "Contacter la fondation", en: "Contact the foundation", de: "Stiftung kontaktieren", es: "Contactar con la fundación" })[lang]}</Link>
       </div>}
   </div>;

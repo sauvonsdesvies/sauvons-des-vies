@@ -107,7 +107,7 @@ async function main() {
         assert.ok(adminCurrency);
         assert.equal(adminCurrency.collectedAmount - (currencyBaseline.get(currency) ?? 0), 225);
         const format = load('src/lib/public/formatters.ts').formatMoney;
-        for (const language of ['fr', 'en', 'de', 'es']) assert.ok(format(225, currency, language).includes(currency));
+        for (const language of ['fr', 'en', 'de', 'es']) assert.ok(format(225, currency, language).includes(["XOF", "XAF"].includes(currency) ? "F CFA" : currency));
         const edit = new NextRequest(`https://example.org/api/admin/campaigns/${other.id}`, { method: 'PUT', headers: { origin: 'https://example.org', host: 'example.org', 'content-type': 'application/json' }, body: JSON.stringify({ ...input, currency: currency === 'XOF' ? 'EUR' : 'XOF' }) });
         assert.equal((await route.PUT(edit, { params: Promise.resolve({ id: other.id }) })).status, 400);
       }

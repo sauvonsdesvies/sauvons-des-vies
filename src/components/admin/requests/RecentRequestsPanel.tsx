@@ -1,3 +1,4 @@
+import { formatCfaAmount } from "@/lib/campaigns/currencies";
 
 import Link from "next/link";
 import RequestStatusBadge from "./RequestStatusBadge";
@@ -9,7 +10,7 @@ export default function RecentRequestsPanel({
 }: {
   items: RequestItem[];
 }) {
-  const money = (value: number, currency: string) => new Intl.NumberFormat("fr-FR", { style: "currency", currency, currencyDisplay: "code", maximumFractionDigits: 0 }).format(value);
+  const money = (value: number, currency: string) => (formatCfaAmount(value, currency, "fr-FR") ?? new Intl.NumberFormat("fr-FR", { style: "currency", currency, currencyDisplay: "code", maximumFractionDigits: 0 }).format(value));
 
   return (
     <aside className="rounded-xl border border-slate-200 bg-white p-3">

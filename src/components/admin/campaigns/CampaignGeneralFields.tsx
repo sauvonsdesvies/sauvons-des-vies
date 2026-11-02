@@ -1,5 +1,7 @@
-
 "use client";
+
+import { currencyUnit } from "@/lib/campaigns/currencies";
+
 import { CAMPAIGN_CURRENCIES } from "@/lib/campaigns/currencies";
 import Link from "next/link";
 
@@ -126,7 +128,7 @@ export default function CampaignGeneralFields({
 
       <div>
         <label htmlFor="campaign-target" className="text-sm font-semibold text-slate-700">
-          Objectif de collecte ({form.currency}) *
+          Objectif de collecte ({currencyUnit(form.currency)}) *
         </label>
         <input
           id="campaign-target"
@@ -150,7 +152,7 @@ export default function CampaignGeneralFields({
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label htmlFor="campaign-opening-amount" className="text-sm font-semibold text-slate-700">Montant déjà récolté ({form.currency})</label>
+          <label htmlFor="campaign-opening-amount" className="text-sm font-semibold text-slate-700">Montant déjà récolté ({currencyUnit(form.currency)})</label>
           <input id="campaign-opening-amount" type="number" min="0" max="2147483647" step="1" value={form.initialCollectedAmount} onChange={event => update("initialCollectedAmount", event.target.value)} className={inputClass} />
         </div>
         <div>

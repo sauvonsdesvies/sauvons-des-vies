@@ -1,5 +1,7 @@
-
 "use client";
+
+import { currencyUnit } from "@/lib/campaigns/currencies";
+import { formatCfaAmount } from "@/lib/campaigns/currencies";
 
 import {
   useCallback,
@@ -329,6 +331,8 @@ function formatMoney(
   currency: string,
   language: Language
 ): string {
+  const cfa = formatCfaAmount(amount, currency, localeForLanguage(language));
+  if (cfa !== null) return cfa;
   try {
     return new Intl.NumberFormat(
       localeForLanguage(language),
@@ -955,7 +959,7 @@ export default function CampaignDonationPanel({
                 htmlFor={`custom-donation-${campaign.id}`}
                 className="mb-2 block text-sm font-bold text-slate-600"
               >
-                {t.customAmount} ({campaign.currency})
+                {t.customAmount} ({currencyUnit(campaign.currency)})
               </label>
 
               <div className="relative">

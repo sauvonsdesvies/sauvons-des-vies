@@ -1,3 +1,4 @@
+import { currencyUnit } from "@/lib/campaigns/currencies";
 
 type Props = {
   collectedAmount: number;
@@ -24,7 +25,7 @@ export default function CampaignProgress({
       maximumFractionDigits: 0,
     }).format(amount);
 
-  const unit = currency === "XOF" ? "FCFA" : currency;
+  const unit = currencyUnit(currency);
 
   return (
     <div className="space-y-4">
