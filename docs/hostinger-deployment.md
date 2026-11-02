@@ -2,6 +2,8 @@
 
 ## Connexion administrateur
 
+Les trois routes de connexion, vérification OTP et déconnexion partagent la même validation d'origine. Derrière le proxy Hostinger, l'origine HTTPS du navigateur est acceptée lorsqu'elle correspond au `Host` public, ou aux en-têtes de proxy avec `Sec-Fetch-Site: same-origin`. Les requêtes provenant d'un autre site sont refusées. `ADMIN_ALLOWED_ORIGIN` est facultative quand le domaine public est transmis correctement ; si renseignée, utiliser l'origine HTTPS actuelle, sans chemin. Une ancienne valeur locale ne bloque plus une requête correspondant au domaine public. Les cookies sécurisés, le mot de passe, le code OTP et les limites d'essais restent obligatoires.
+
 Un retour 401 de `/api/admin/auth/connexion` signifie que l'adresse email ou le mot de passe ne correspond pas aux variables du serveur. Les comptes administrateurs de cette route sont configurés par `ADMIN_EMAIL` et `ADMIN_PASSWORD_HASH`, pas par un compte Supabase Auth. Un retour 503 indique une configuration invalide ou un envoi d'email indisponible ; les journaux serveur distinguent ces cas sans afficher les secrets.
 
 - Vérifier dans Hostinger que `ADMIN_EMAIL` correspond exactement à l'adresse utilisée pour se connecter.

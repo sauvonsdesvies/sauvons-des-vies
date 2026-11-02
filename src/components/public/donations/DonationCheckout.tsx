@@ -19,6 +19,8 @@ export default function DonationCheckout({ campaign, defaultAmount }: { campaign
   const lang = language === "en" || language === "de" || language === "es" ? language : "fr";
   const title = { fr: "Faire un don", en: "Make a donation", de: "Spenden", es: "Hacer una donación" }[lang];
   const [current, setCurrent] = useState(campaign);
+  const [failedImage, setFailedImage] = useState<string | null>(null);
+  const image = current.imageUrl && current.imageUrl !== failedImage ? current.imageUrl : "/logo/logo.png";
   useEffect(() => {
     const controller = new AbortController();
     async function refresh() {
@@ -45,7 +47,7 @@ export default function DonationCheckout({ campaign, defaultAmount }: { campaign
     </div>
     <section className="mb-4 grid overflow-hidden rounded-2xl border border-[#DCE8F1] bg-white sm:grid-cols-[240px_minmax(0,1fr)]" aria-label={current.title}>
       <div className="relative min-h-48 bg-[#EAF6FA] sm:min-h-56">
-        <Image src={current.imageUrl || "/logo/logo.png"} alt={current.title} fill sizes="(max-width: 639px) 100vw, 240px" className={current.imageUrl ? "object-cover" : "object-contain p-6"} />
+        <Image src={image} alt={current.title} fill unoptimized={image.startsWith("https://")} onError={() => { if (current.imageUrl) setFailedImage(current.imageUrl); }} sizes="(max-width: 639px) 100vw, 240px" className={image === "/logo/logo.png" ? "object-contain p-6" : "object-cover"} />
       </div>
       <div className="min-w-0 p-4 sm:p-5">
         <h2 className="text-lg font-extrabold">{current.title}</h2>

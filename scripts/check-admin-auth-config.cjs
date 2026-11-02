@@ -8,11 +8,13 @@ const checks = {
   AUTH_SECRET: (process.env.AUTH_SECRET || '').length >= 32,
   RESEND_API_KEY: Boolean(process.env.RESEND_API_KEY?.trim()),
   MAIL_FROM: Boolean(process.env.MAIL_FROM?.trim()),
-  ADMIN_ALLOWED_ORIGIN: false,
+  ADMIN_ALLOWED_ORIGIN: !process.env.ADMIN_ALLOWED_ORIGIN?.trim(),
 };
 try {
-  const url = new URL(process.env.ADMIN_ALLOWED_ORIGIN || '');
-  checks.ADMIN_ALLOWED_ORIGIN = url.protocol === 'https:' && !url.username && !url.password && url.pathname === '/' && !url.search && !url.hash;
+  if (process.env.ADMIN_ALLOWED_ORIGIN?.trim()) {
+    const url = new URL(process.env.ADMIN_ALLOWED_ORIGIN.trim());
+    checks.ADMIN_ALLOWED_ORIGIN = url.protocol === 'https:' && !url.username && !url.password && url.pathname === '/' && !url.search && !url.hash;
+  }
 } catch {}
 for (const [name, valid] of Object.entries(checks)) console.log(`${name}: ${valid ? 'OK' : 'INVALIDE OU MANQUANT'}`);
 process.exitCode = Object.values(checks).every(Boolean) ? 0 : 1;

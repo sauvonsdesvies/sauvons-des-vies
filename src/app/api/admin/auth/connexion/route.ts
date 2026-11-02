@@ -1,3 +1,4 @@
+import { isAdminRequestOriginAllowed } from "@/lib/admin-request-origin";
 
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
@@ -36,70 +37,6 @@ const emailError =
 // VÉRIFICATION SÉCURISÉE DE L'ORIGINE
 // ----------------------------------------------------------
 
-function isAllowedOrigin(request: NextRequest): boolean {
-  const origin = request.headers.get("origin");
-
-  if (!origin) {
-    return false;
-  }
-
-  let parsedOrigin: URL;
-
-  try {
-    parsedOrigin = new URL(origin);
-  } catch {
-    return false;
-  }
-
-  // Refuser toute origine contenant des identifiants,
-  // un chemin ou des paramètres.
-  if (
-    parsedOrigin.username ||
-    parsedOrigin.password ||
-    parsedOrigin.pathname !== "/" ||
-    parsedOrigin.search ||
-    parsedOrigin.hash
-  ) {
-    return false;
-  }
-
-  // En production, HTTPS est obligatoire.
-  if (
-    process.env.NODE_ENV === "production" &&
-    parsedOrigin.protocol !== "https:"
-  ) {
-    return false;
-  }
-
-  // Origines explicitement autorisées.
-  // ADMIN_ALLOWED_ORIGIN doit être une URL publique exacte.
-  const configuredOrigin =
-    process.env.ADMIN_ALLOWED_ORIGIN?.trim();
-
-  if (configuredOrigin) {
-    try {
-      const allowed = new URL(configuredOrigin);
-
-      return parsedOrigin.origin === allowed.origin;
-    } catch {
-      console.error(
-        "ADMIN_ALLOWED_ORIGIN est mal configurée."
-      );
-
-      return false;
-    }
-  }
-
-  // En développement uniquement, utiliser l'origine
-  // fournie par Next.js.
-  if (process.env.NODE_ENV !== "production") {
-    return parsedOrigin.origin === request.nextUrl.origin;
-  }
-
-  // Refuser en production si aucune origine
-  // publique autorisée n'est configurée.
-  return false;
-}
 
 // ----------------------------------------------------------
 // NETTOYAGE DES CODES OTP
@@ -125,7 +62,7 @@ async function deleteChallenge(challengeId: string) {
 export async function POST(request: NextRequest) {
   try {
     // Vérification de l'origine avant toute opération.
-    if (!isAllowedOrigin(request)) {
+    if (!isAdminRequestOriginAllowed(request)) {
       console.warn("ADMIN_ORIGIN_REJECTED", {
         origin: request.headers.get("origin"),
         requestOrigin: request.nextUrl.origin,

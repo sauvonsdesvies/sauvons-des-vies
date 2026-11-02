@@ -1,3 +1,4 @@
+import { isAdminRequestOriginAllowed } from "@/lib/admin-request-origin";
 
 import { NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
@@ -9,7 +10,7 @@ import {
 
 
 export async function POST(request: NextRequest) {
-  if (request.headers.get("origin") !== request.nextUrl.origin) {
+  if (!isAdminRequestOriginAllowed(request)) {
     return NextResponse.json(
       { success: false, message: "Requête non autorisée." },
       { status: 403 }

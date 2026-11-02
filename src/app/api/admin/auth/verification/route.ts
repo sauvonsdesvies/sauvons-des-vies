@@ -1,3 +1,4 @@
+import { isAdminRequestOriginAllowed } from "@/lib/admin-request-origin";
 
 import { NextRequest, NextResponse } from "next/server";
 import { timingSafeEqual } from "node:crypto";
@@ -19,7 +20,7 @@ const schema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
-    if (request.headers.get("origin") !== request.nextUrl.origin) {
+    if (!isAdminRequestOriginAllowed(request)) {
       return NextResponse.json(
         { success: false, message: "Requête non autorisée." },
         { status: 403 }
