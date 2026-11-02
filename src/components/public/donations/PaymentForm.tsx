@@ -84,9 +84,8 @@ const TEXT = {
   fr: {
     title: "Faire un don",
     amount: "1. Montant",
-    other: "Autre montant (FCFA)",
+    other: "Autre montant (F CFA)",
     contact: "2. Vos coordonnées",
-    email: "Adresse e-mail",
     phone: "Numéro de téléphone",
     country: "Indicatif téléphonique",
     phonePlaceholder: "Votre numéro",
@@ -98,7 +97,7 @@ const TEXT = {
     error:
       "Paiement indisponible. Réessayez avec les mêmes informations.",
     invalid:
-      "Vérifiez le montant, l’e-mail et le téléphone.",
+      "Vérifiez le montant et le téléphone.",
     subtotal: "Montant du don",
     total: "Total",
     duplicate:
@@ -111,9 +110,8 @@ const TEXT = {
   en: {
     title: "Make a donation",
     amount: "1. Amount",
-    other: "Other amount (FCFA)",
+    other: "Other amount (F CFA)",
     contact: "2. Contact details",
-    email: "Email address",
     phone: "Phone number",
     country: "Calling code",
     phonePlaceholder: "Your number",
@@ -125,7 +123,7 @@ const TEXT = {
     error:
       "Payment unavailable. Retry with the same details.",
     invalid:
-      "Check the amount, email and phone.",
+      "Check the amount and phone.",
     subtotal: "Donation amount",
     total: "Total",
     duplicate:
@@ -138,9 +136,8 @@ const TEXT = {
   de: {
     title: "Spenden",
     amount: "1. Betrag",
-    other: "Anderer Betrag (FCFA)",
+    other: "Anderer Betrag (F CFA)",
     contact: "2. Kontaktdaten",
-    email: "E-Mail-Adresse",
     phone: "Telefonnummer",
     country: "Ländervorwahl",
     phonePlaceholder: "Ihre Nummer",
@@ -152,7 +149,7 @@ const TEXT = {
     error:
       "Zahlung nicht verfügbar. Mit denselben Angaben erneut versuchen.",
     invalid:
-      "Betrag, E-Mail und Telefonnummer prüfen.",
+      "Betrag und Telefonnummer prüfen.",
     subtotal: "Spendenbetrag",
     total: "Gesamt",
     duplicate:
@@ -165,9 +162,8 @@ const TEXT = {
   es: {
     title: "Hacer una donación",
     amount: "1. Importe",
-    other: "Otro importe (FCFA)",
+    other: "Otro importe (F CFA)",
     contact: "2. Datos de contacto",
-    email: "Correo electrónico",
     phone: "Número de teléfono",
     country: "Prefijo telefónico",
     phonePlaceholder: "Su número",
@@ -179,7 +175,7 @@ const TEXT = {
     error:
       "Pago no disponible. Reintente con los mismos datos.",
     invalid:
-      "Revise el importe, correo y teléfono.",
+      "Revise el importe y el teléfono.",
     subtotal: "Importe de la donación",
     total: "Total",
     duplicate:
@@ -272,7 +268,6 @@ export default function PaymentForm({
   const [amount, setAmount] = useState(
     String(defaultAmount)
   );
-  const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [countryCode, setCountryCode] =
     useState<CountryCode>("BJ");
@@ -421,8 +416,7 @@ export default function PaymentForm({
     if (lock.current || checkout) return;
 
     const value = Number(amount);
-    const normalizedEmail =
-      email.trim().toLowerCase();
+
     const normalizedPhone =
       makeInternationalPhone(
         selectedCountry.dial,
@@ -439,10 +433,6 @@ export default function PaymentForm({
       !Number.isSafeInteger(value) ||
       value < 100 ||
       value > 10000000 ||
-      normalizedEmail.length > 254 ||
-      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
-        normalizedEmail
-      ) ||
       !/^\+[1-9]\d{6,14}$/.test(
         normalizedPhone
       ) ||
@@ -462,7 +452,7 @@ export default function PaymentForm({
       currency: "XOF",
       paymentMethod: method,
       donor: {
-        email: normalizedEmail,
+
         phone: normalizedPhone,
       },
       language,
@@ -748,7 +738,7 @@ export default function PaymentForm({
                       {new Intl.NumberFormat(
                         language
                       ).format(suggested)}{" "}
-                      FCFA
+                      F CFA
                     </button>
                   )
                 )}
@@ -787,27 +777,7 @@ export default function PaymentForm({
                 {t.contact}
               </legend>
 
-              <label
-                className="block text-sm font-semibold"
-                htmlFor={`email-${campaignId}`}
-              >
-                {t.email} *
-              </label>
 
-              <input
-                id={`email-${campaignId}`}
-                type="email"
-                autoComplete="email"
-                required
-                maxLength={254}
-                value={email}
-                onChange={(event) =>
-                  setEmail(
-                    event.target.value
-                  )
-                }
-                className={input}
-              />
 
               <label
                 className="block text-sm font-semibold"
@@ -885,7 +855,7 @@ export default function PaymentForm({
                   {t.total}
                 </dt>
                 <dd className="text-lg font-extrabold text-[#092B50]">
-                  {displayAmount} FCFA
+                  {displayAmount} F CFA
                 </dd>
               </div>
             </dl>

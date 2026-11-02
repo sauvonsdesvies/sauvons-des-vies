@@ -45,7 +45,7 @@ const CONTENT: Record<
     title: "Ensemble,",
     titleAccent: "sauvons des vies",
     description:
-      "Chaque geste de solidarité peut changer une vie. Soutenez les personnes malades, les enfants et les familles qui ont besoin de notre aide.",
+      "Aidez les personnes malades et les familles en difficulté.",
     donate: "Faire un don",
     submit: "Soumettre un dossier",
   },
@@ -54,7 +54,7 @@ const CONTENT: Record<
     title: "Together,",
     titleAccent: "let's save lives",
     description:
-      "Every act of solidarity can change a life. Support patients, children and families who need our help.",
+      "Support patients and families in need.",
     donate: "Donate",
     submit: "Submit a case",
   },
@@ -63,7 +63,7 @@ const CONTENT: Record<
     title: "Juntos,",
     titleAccent: "salvemos vidas",
     description:
-      "Cada gesto de solidaridad puede cambiar una vida. Ayuda a pacientes, niños y familias que necesitan nuestro apoyo.",
+      "Ayuda a personas enfermas y familias que lo necesitan.",
     donate: "Donar",
     submit: "Presentar una solicitud",
   },
@@ -72,7 +72,7 @@ const CONTENT: Record<
     title: "Gemeinsam",
     titleAccent: "Leben retten",
     description:
-      "Jede solidarische Geste kann ein Leben verändern. Unterstützen Sie kranke Menschen, Kinder und Familien, die unsere Hilfe brauchen.",
+      "Helfen Sie kranken Menschen und Familien in Not.",
     donate: "Jetzt spenden",
     submit: "Antrag einreichen",
   },

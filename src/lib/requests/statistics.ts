@@ -5,6 +5,7 @@ import type { RequestStatistics } from "@/types/request";
 export async function getRequestStatistics(): Promise<RequestStatistics> {
   const grouped = await prisma.campaign.groupBy({
     by: ["status"],
+    where: { status: { not: "DELETED" } },
     _count: {
       _all: true,
     },

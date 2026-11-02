@@ -32,6 +32,19 @@ function loader(stubs = {}) {
 }
 
 async function main() {
+  // Removing even a funded campaign hides it, preserving all financial rows.
+  const retainedCampaign = { id: 'retained', status: 'PUBLISHED', _count: { donations: 3, payments: 2 } };
+  const deletionDb = {
+    campaign: {
+      findUnique: async () => retainedCampaign,
+      update: async ({ data }) => Object.assign(retainedCampaign, data),
+      delete: async () => { throw new Error('Financial history must not be deleted'); },
+    },
+  };
+  const requests = loader({ '@/lib/prisma': { prisma: { $transaction: async callback => callback(deletionDb) } } })('src/lib/requests/service.ts');
+  assert.equal(await requests.deleteRequest('retained'), 'deleted');
+  assert.equal(retainedCampaign.status, 'DELETED');
+  assert.deepEqual(retainedCampaign._count, { donations: 3, payments: 2 });
   const campaignId = randomUUID();
   const input = { campaignId, amount: 2500, currency: 'XOF', paymentMethod: 'CARD', donor: { email: 'test@example.com', phone: '+2290100000000' }, language: 'fr', idempotencyKey: randomUUID() };
   const donations = new Map(), transactions = new Map();
@@ -80,13 +93,14 @@ async function main() {
   const stubs = { '@/lib/prisma': { prisma: db }, './fedapay': { fedaPayAdapter: adapter, validateFedaPayReturnUrl: () => {}, resumeFedaPayPayment: async () => ({ provider: 'FEDAPAY', status: 'PENDING', nextAction: { type: 'REDIRECT', url: 'https://checkout.fedapay.com/test-only' } }) }, './kkiapay': { kkiapayAdapter: adapter }, './methods': { getPaymentProviderCandidates: async () => [{ provider: 'FEDAPAY', priority: 1 }] } };
   const load = loader(stubs);
   const service = load('src/lib/payments/service.ts');
-  for (const bad of [{ donor: { email: '', phone: input.donor.phone } }, { donor: { email: input.donor.email, phone: '' } }, { amount: 0 }, { amount: 1.5 }]) {
+  for (const bad of [{ donor: { email: 'invalid', phone: input.donor.phone } }, { donor: { email: input.donor.email, phone: '' } }, { amount: 0 }, { amount: 1.5 }]) {
     assert.equal((await service.createPayment({ ...input, ...bad })).success, false);
   }
   campaignStatus = 'DRAFT';
   assert.equal((await service.createPayment(input)).success, false);
   campaignStatus = 'PUBLISHED';
   const checkoutPage = loader({
+    '@/lib/public/campaign-detail-data': { getPublicCampaignDetail: async () => ({ id: campaignId, slug: 'test', currency: 'XOF', title: 'Test', collectedAmount: 0, remainingAmount: 1000, targetAmount: 1000, imageUrl: null, shortDescription: '' }) },
     '@/lib/prisma': { prisma: db },
     'next/server': { connection: async () => {} },
     'next/navigation': { redirect: destination => { throw new Error(`Unexpected redirect: ${destination}`); } },
@@ -132,7 +146,8 @@ async function main() {
   const route = routeLoad('src/app/api/payments/create/route.ts');
   const request = body => new NextRequest('https://example.org/api/payments/create', { method: 'POST', headers: { origin: 'https://example.org', 'content-type': 'application/json' }, body: JSON.stringify(body) });
   assert.equal((await route.POST(request({ ...input, donor: { email: input.donor.email } }))).status, 400);
-  assert.equal((await route.POST(request({ ...input, donor: { phone: input.donor.phone } }))).status, 400);
+  assert.equal((await route.POST(request({ ...input, donor: { phone: input.donor.phone } }))).status, 200);
+  assert.equal(posted.donor.email, null);
   const validResponse = await route.POST(request({ ...input, donor: { ...input.donor, name: 'Ignored', country: 'BJ', isAnonymous: true }, message: 'Ignored' }));
   assert.equal(validResponse.status, 200, JSON.stringify(await validResponse.json()));
   assert.deepEqual(Object.keys(posted.donor).sort(), ['email', 'phone']); assert.equal(posted.message, undefined);
@@ -156,8 +171,9 @@ async function main() {
   const form = loader({ './PaymentMethods': { __esModule: true, default: () => null }, './PaymentStatus': { __esModule: true, default: () => null } })('src/components/public/donations/PaymentForm.tsx').default;
   for (const language of ['fr', 'en', 'de', 'es']) {
     const html = renderToStaticMarkup(React.createElement(form, { campaignId, language }));
-    assert.equal((html.match(/<input/g) || []).length, 3);
-    for (const type of ['email', 'tel', 'number']) assert.match(html, new RegExp(`type="${type}"[^>]*required`));
+    assert.equal((html.match(/<input/g) || []).length, 2);
+    assert.doesNotMatch(html, /type="email"/);
+    for (const type of ['tel', 'number']) assert.match(html, new RegExp(`type="${type}"[^>]*required`));
     assert.doesNotMatch(html, /autoComplete="(?:name|country)"|type="checkbox"|<textarea|FedaPay|Kkiapay/);
     assert.match(html, /2500|2.500|2,500|2 500/);
   }
@@ -225,6 +241,8 @@ async function main() {
     assert.equal(providerBody.customer?.firstname, undefined);
     assert.equal(providerBody.customer?.lastname, undefined);
     assert.equal(providerBody.customer?.email, input.donor.email);
+    await feda.createFedaPayPayment({ ...input, transactionId: created.transactionId, donationId: created.donationId, description: 'Test only', returnUrl: 'https://example.org/paiement/retour', donor: { phone: input.donor.phone } });
+    assert.equal(providerBody.customer, undefined);
     assert.equal(providerBody.custom_metadata.transactionId, created.transactionId);
     process.env.NEXT_PUBLIC_FEDAPAY_PUBLIC_KEY = 'pk_live_isolated-test';
     delete process.env.FEDAPAY_PUBLIC_KEY;
@@ -289,7 +307,7 @@ async function main() {
     const invalid = await webhook.POST(new NextRequest(`https://example.org/api/payments/webhooks/${provider}`, { method: 'POST', headers: { 'content-type': 'application/json', 'x-fedapay-signature': 'invalid', 'x-kkiapay-secret': 'invalid' }, body: '{}' }));
     assert.ok([400, 401].includes(invalid.status));
   }
-  console.log('PASS: required contacts, amount/campaign validation, concurrent idempotency, token authorization, unconfirmed exclusion, single confirmation, four-language form.');
+  console.log('PASS: funded campaign removal preserves transactions; phone-only checkout; amount/campaign validation; concurrent idempotency; token authorization; single confirmation; four languages.');
   console.log('Isolated test doubles only: no provider payment or production database mutation.');
 }
 main().catch(error => { console.error(error); process.exitCode = 1; });

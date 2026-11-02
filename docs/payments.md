@@ -3,7 +3,7 @@
 Le bouton de campagne ouvre `/faire-un-don?campagne=<UUID>&montant=<montant facultatif>`.
 Sans campagne, `/faire-un-don` renvoie vers les campagnes. Le serveur refuse les campagnes non actives, non publiées, hors période ou avec une devise différente de XOF.
 
-Le formulaire propose 1 000, 2 500, 5 000, 10 000, 25 000 et 50 000 FCFA et un montant libre entier entre 100 et 10 000 000 FCFA. Seuls l'e-mail et le téléphone international sont demandés. Les textes du parcours existent en français, anglais, allemand et espagnol.
+Le formulaire propose 1 000, 2 500, 5 000, 10 000, 25 000 et 50 000 F CFA et un montant libre entier entre 100 et 10 000 000 F CFA. Seul le téléphone international est demandé. L'e-mail est facultatif dans l'API pour préserver les appels existants et n'apparaît plus dans le formulaire public. Sans e-mail, FedaPay reçoit une transaction sans objet customer ; son checkout officiel peut demander les renseignements nécessaires. Aucune identité n'est inventée. Les textes du parcours existent en français, anglais, allemand et espagnol.
 
 ## Configuration à effectuer par le propriétaire
 

@@ -288,13 +288,6 @@ function validatePaymentRequest(
     input.donor.phone
   );
 
-  if (!email) {
-    throw new PaymentServiceError(
-      "INVALID_EMAIL",
-      "L'adresse e-mail est obligatoire."
-    );
-  }
-
   if (
     !phone
   ) {

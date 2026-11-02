@@ -293,10 +293,10 @@ function validateRequestBody(
     body.donor.email
   );
 
-  if (!email) {
+  if (body.donor.email != null && body.donor.email !== "" && !email) {
     return {
       valid: false,
-      message: "Une adresse e-mail valide est obligatoire.",
+      message: "Adresse e-mail invalide.",
     };
   }
 

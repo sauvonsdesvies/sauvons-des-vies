@@ -113,6 +113,7 @@ export async function listRequests(
   const from = getPeriodStart(options.period);
 
   const where = {
+    NOT: { status: "DELETED" },
     ...(options.category
       ? { categoryId: options.category }
       : {}),
@@ -162,7 +163,7 @@ export async function getRequestById(
     include: { category: true },
   });
 
-  if (!campaign) return null;
+  if (!campaign || campaign.status === "DELETED") return null;
 
   const totals = await confirmedTotals([campaign.id]);
 
@@ -206,8 +207,7 @@ export async function deleteRequest(id: string) {
       select: { id: true, _count: { select: { donations: true, payments: true } } },
     });
     if (!linked) return "missing" as const;
-    if (linked._count.donations || linked._count.payments) return "linked" as const;
-    await tx.campaign.delete({ where: { id }, select: { id: true } });
+    await tx.campaign.update({ where: { id }, data: { status: "DELETED", isUrgent: false }, select: { id: true } });
     return "deleted" as const;
   }, { isolationLevel: Prisma.TransactionIsolationLevel.Serializable });
 }

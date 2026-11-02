@@ -3,6 +3,7 @@
 
 import Link from "next/link";
 import { useRef, useState } from "react";
+import { notifyCampaignUpdate } from "@/lib/campaigns/live-updates";
 import type { RequestItem } from "@/types/request";
 
 type Props = {
@@ -15,7 +16,7 @@ export default function RequestActions({ item, onRefresh }: Props) {
   const [error, setError] = useState("");
   const locked = useRef(false);
   async function remove() {
-    if (locked.current || !window.confirm(`Supprimer définitivement « ${item.title} » ?`)) return;
+    if (locked.current || !window.confirm(`Retirer « ${item.title} » du site et des listes ? L'historique financier sera conservé.`)) return;
     locked.current = true;
     setBusy(true);
     setError("");
@@ -23,6 +24,7 @@ export default function RequestActions({ item, onRefresh }: Props) {
       const response = await fetch(`/api/admin/requests/${encodeURIComponent(item.id)}`, { method: "DELETE", credentials: "same-origin" });
       const result = await response.json();
       if (!response.ok) throw new Error(result.error || "Suppression impossible.");
+      notifyCampaignUpdate();
       await onRefresh();
     } catch (cause) { setError(cause instanceof Error ? cause.message : "Suppression impossible."); }
     finally { locked.current = false; setBusy(false); }

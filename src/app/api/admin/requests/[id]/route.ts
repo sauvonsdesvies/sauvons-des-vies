@@ -20,7 +20,6 @@ export async function DELETE(request: NextRequest, context: Context) {
     if (!z.uuid().safeParse(id).success) return NextResponse.json({ error: "Identifiant invalide." }, { status: 400 });
     const result = await deleteRequest(id);
     if (result === "missing") return NextResponse.json({ error: "Demande introuvable." }, { status: 404 });
-    if (result === "linked") return NextResponse.json({ error: "Cette collecte possède des dons ou paiements. Sa suppression est bloquée pour préserver les transactions." }, { status: 409 });
     return NextResponse.json({ success: true });
   } catch (error) {
     unstable_rethrow(error);

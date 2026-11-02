@@ -77,9 +77,9 @@ async function main() {
       assert.equal(modified.countryCode, "TG");
       assert.equal(modified.isUrgent, false);
       assert.equal(await requests.deleteRequest(draft.id), "deleted");
-      assert.equal(await tx.campaign.findUnique({ where: { id: draft.id } }), null);
-      assert.equal(await tx.campaignPhoto.count({ where: { campaignId: draft.id } }), 0);
-      console.log("PASS : pays, urgence, modification et suppression des demandes avec cascade des photos.");
+      assert.equal((await tx.campaign.findUnique({ where: { id: draft.id } })).status, "DELETED");
+      assert.equal(await tx.campaignPhoto.count({ where: { campaignId: draft.id } }), objects.length);
+      console.log("PASS : pays, urgence, modification et retrait des demandes avec conservation des photos.");
       console.log("PASS : statut publié et lecture publique avec photos, catégorie et progression.");
       throw rollback;
     }, { timeout: 30000 });

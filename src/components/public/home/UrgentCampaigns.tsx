@@ -107,7 +107,7 @@ export default function UrgentCampaigns({
             id={urgentOnly ? "home-urgent-campaigns-heading" : "home-campaigns-heading"}
             className="text-[17px] font-extrabold leading-tight text-[#092B50] sm:text-[19px]"
           >
-            {urgentOnly ? labels.title : ({ fr: "Nos causes — Collectes publiées", en: "Our causes — Published campaigns", es: "Nuestras causas — Campañas publicadas", de: "Unsere Anliegen — Veröffentlichte Kampagnen" }[language])}
+            {urgentOnly ? labels.title : ({ fr: "Collectes à soutenir", en: "Support a campaign", es: "Apoya una campaña", de: "Kampagnen unterstützen" }[language])}
           </h2>
         </div>
 

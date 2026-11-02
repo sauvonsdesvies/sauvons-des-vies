@@ -11,7 +11,7 @@ async function Campaigns({ searchParams }: { searchParams: Promise<{ page?: stri
   if (!(await getAdminSession())) redirect("/admin/connexion");
   const query = await searchParams;
   const page = Math.max(1, Math.min(100000, Number(query.page) || 1));
-  const campaigns = await prisma.campaign.findMany({ take: 21, skip: (Math.floor(page) - 1) * 20, orderBy: [{ createdAt: "desc" }, { id: "desc" }], select: { id: true, title: true, status: true } });
+  const campaigns = await prisma.campaign.findMany({ where: { status: { not: "DELETED" } }, take: 21, skip: (Math.floor(page) - 1) * 20, orderBy: [{ createdAt: "desc" }, { id: "desc" }], select: { id: true, title: true, status: true } });
   return <div className="w-full min-w-0 space-y-4">
     <LiveRefresh />
     <div className="flex flex-wrap items-center justify-between gap-3"><h1 className="text-2xl font-bold">Collectes</h1><Link href="/admin/campagnes/nouvelle" className="rounded-xl bg-blue-700 px-4 py-3 font-semibold text-white">Nouvelle collecte</Link></div>

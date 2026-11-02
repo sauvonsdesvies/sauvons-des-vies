@@ -36,18 +36,19 @@ export default function HomePage({
   return (
     <div className="w-full min-w-0 overflow-x-clip bg-[#F5F9FD]">
       <HomeHero />
-      <div className="relative mx-auto w-full max-w-none space-y-4 px-4 pb-5 sm:px-6 lg:px-8">
+      <div className="relative mx-auto w-full max-w-none space-y-7 px-4 pb-7 sm:px-6 lg:px-8">
         <div className="relative z-10 -mt-4"><HomeStats controlledStatistics={updates.statistics ?? data.statistics} /></div>
-        <div className="grid min-w-0 items-start gap-4 lg:grid-cols-[minmax(0,1fr)_300px] xl:grid-cols-[minmax(0,1fr)_340px]">
+        <div className="grid min-w-0 items-start gap-4 ">
           <div className="min-w-0 space-y-4">
-            <UrgentCampaigns campaigns={data.urgentCampaigns} limit={6} />
+            {data.urgentCampaigns.length > 0 && <UrgentCampaigns campaigns={data.urgentCampaigns} limit={3} />}
           </div>
-          <HowItWorks />
+
         </div>
         <div className="min-w-0 space-y-4">
-          <UrgentCampaigns campaigns={data.campaigns} urgentOnly={false} limit={6} />
+          <UrgentCampaigns campaigns={data.campaigns.filter(campaign => !data.urgentCampaigns.some(urgent => urgent.id === campaign.id))} urgentOnly={false} limit={6} />
           <HomeNews news={data.news} localized carousel limit={6} />
         </div>
+        <HowItWorks />
         <div className="grid min-w-0 items-stretch gap-4 xl:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
           <HomeTrust />
           <HomeDonationBanner />

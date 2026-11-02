@@ -216,7 +216,7 @@ export interface CreatePaymentRequest {
   currency: PaymentCurrency;
   paymentMethod: PaymentMethod;
 
-  donor: { email: string; phone: string };
+  donor: { email?: string | null; phone: string };
 
   language?: PaymentLanguage;
 

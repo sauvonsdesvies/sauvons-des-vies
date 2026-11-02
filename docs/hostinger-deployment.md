@@ -1,5 +1,16 @@
 # Déploiement Hostinger
 
+## Connexion administrateur
+
+Un retour 401 de `/api/admin/auth/connexion` signifie que l'adresse email ou le mot de passe ne correspond pas aux variables du serveur. Les comptes administrateurs de cette route sont configurés par `ADMIN_EMAIL` et `ADMIN_PASSWORD_HASH`, pas par un compte Supabase Auth. Un retour 503 indique une configuration invalide ou un envoi d'email indisponible ; les journaux serveur distinguent ces cas sans afficher les secrets.
+
+- Vérifier dans Hostinger que `ADMIN_EMAIL` correspond exactement à l'adresse utilisée pour se connecter.
+- `ADMIN_PASSWORD_HASH` doit contenir le hash bcrypt complet du mot de passe voulu (60 caractères, commençant par `$2a$`, `$2b$` ou `$2y$`), jamais le mot de passe en clair. Ne pas ajouter de guillemets dans le champ de valeur de l'interface Hostinger et conserver tous les caractères `$`.
+- Dans un fichier `.env.local` lu par Next.js, échapper chaque dollar du hash avec un antislash (`\$`) : Next.js développe les références aux variables, ce qui peut autrement altérer le hash. Ne pas appliquer cet échappement aux valeurs saisies directement dans Hostinger.
+- Vérifier `AUTH_SECRET` (au moins 32 caractères), `ADMIN_ALLOWED_ORIGIN` (origine HTTPS exacte du site), `RESEND_API_KEY` et `MAIL_FROM` (expéditeur autorisé chez Resend).
+- Exécuter `node scripts/check-admin-auth-config.cjs` dans l'environnement concerné : seuls les noms et résultats de validation sont affichés. Un résultat OK valide le format, pas la correspondance avec le mot de passe saisi ni la délivrabilité des emails.
+- Redémarrer/redéployer l'application après modification des variables Hostinger. Après cinq tentatives, attendre 15 minutes avant de réessayer. Ne pas publier les identifiants ni le hash dans les journaux ou le chat.
+
 ## Ressources du build
 
 `next.config.ts` limite le build à deux workers (`experimental.cpus: 2`), sans worker threads (`workerThreads: false`). `staticGenerationMaxConcurrency: 1` limite chaque worker à une page en cours. Le journal du build doit donc annoncer deux workers, et non 55. Si ce n’est pas le cas, vérifier que Hostinger compile le commit contenant cette configuration.

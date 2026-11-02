@@ -38,7 +38,7 @@ const CONTENT: Record<
       {
         title: "Faire un don",
         description:
-          "Choisissez une campagne ou faites un don libre.",
+          "Choisissez une collecte à soutenir.",
       },
       {
         title: "Nous vérifions",
@@ -63,7 +63,7 @@ const CONTENT: Record<
       {
         title: "Make a donation",
         description:
-          "Choose a campaign or make a general donation.",
+          "Choose a campaign to support.",
       },
       {
         title: "We verify",
@@ -88,7 +88,7 @@ const CONTENT: Record<
       {
         title: "Haz una donación",
         description:
-          "Elige una campaña o realiza una donación libre.",
+          "Elige una campaña para apoyar.",
       },
       {
         title: "Verificamos",
@@ -113,7 +113,7 @@ const CONTENT: Record<
       {
         title: "Spenden",
         description:
-          "Wählen Sie eine Kampagne oder spenden Sie frei.",
+          "Wählen Sie eine Kampagne aus.",
       },
       {
         title: "Wir prüfen",
@@ -176,7 +176,7 @@ export default function HowItWorks({
         </h2>
       </div>
 
-      <ol className="space-y-2">
+      <ol className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         {content.steps.map((step, index) => {
           const Icon = STEP_ICONS[index];
 

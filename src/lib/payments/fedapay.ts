@@ -393,29 +393,16 @@ async function createFedaPayTransaction(
 
   const email = request.donor.email?.trim();
 
-  if (
-    !email ||
-    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-  ) {
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     throw new Error("FEDAPAY_INVALID_CUSTOMER_EMAIL");
   }
 
-  /**
-   * Le formulaire public ne demande que
-   * l'e-mail et le téléphone.
-   *
-   * FedaPay documente customer.email pour
-   * les clients existants.
-   *
-   * Pour un nouveau client, le prestataire
-   * peut exiger d'autres informations.
-   * Ne jamais inventer un prénom ou un nom.
-   */
+  // Without an email, let the official checkout collect any required details.
   const body: UnknownRecord = {
     description: request.description,
     amount: request.amount,
     currency: { iso: currency },
-    customer: { email },
+    ...(email ? { customer: { email } } : {}),
     custom_metadata: {
       transactionId: request.transactionId,
       donationId: request.donationId,
