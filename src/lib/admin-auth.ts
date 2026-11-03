@@ -5,6 +5,7 @@ import { randomInt, createHash, randomUUID } from "node:crypto";
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
+import type { Prisma } from "@prisma/client";
 
 export const SESSION_COOKIE = "sdv_admin_session";
 export const PENDING_COOKIE = "sdv_admin_pending";
@@ -64,16 +65,9 @@ export async function readPendingToken(token: string) {
   }
 }
 
-export async function createAdminSession() {
+export async function createAdminSession(database: Pick<Prisma.TransactionClient, "adminSession"> = prisma) {
   const sessionId = randomUUID();
   const expiresAt = new Date(Date.now() + 8 * 60 * 60 * 1000);
-
-  await prisma.adminSession.create({
-    data: {
-      id: sessionId,
-      expiresAt,
-    },
-  });
 
   const token = await new SignJWT({
     sessionId,
@@ -83,6 +77,8 @@ export async function createAdminSession() {
     .setIssuedAt()
     .setExpirationTime("8h")
     .sign(getSecret());
+
+  await database.adminSession.create({ data: { id: sessionId, expiresAt } });
 
   return { token, expiresAt };
 }

@@ -1,7 +1,7 @@
 
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/public/PublicImage";
 import CardRail from "./CardRail";
 import { useLocalizedPublicContent } from "@/hooks/useLocalizedPublicContent";
 import type { ReactNode } from "react";

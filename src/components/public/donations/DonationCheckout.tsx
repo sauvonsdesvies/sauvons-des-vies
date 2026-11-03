@@ -1,7 +1,7 @@
 "use client";
 
 import { currencyUnit } from "@/lib/campaigns/currencies";
-import Image from "next/image";
+import Image from "@/components/public/PublicImage";
 import { useEffect, useState } from "react";
 import { formatMoney } from "@/lib/public/formatters";
 import type { PublicCampaignDetail } from "@/lib/public/campaign-detail-data";

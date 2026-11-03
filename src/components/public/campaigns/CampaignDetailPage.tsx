@@ -8,7 +8,7 @@ import {
   useState,
 } from "react";
 
-import Image from "next/image";
+import Image from "@/components/public/PublicImage";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 

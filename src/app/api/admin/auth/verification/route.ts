@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const parsed = schema.safeParse(await request.json());
+    const parsed = schema.safeParse(await request.json().catch(() => null));
 
     if (!parsed.success) {
       return NextResponse.json(
@@ -84,26 +84,29 @@ export async function POST(request: NextRequest) {
       timingSafeEqual(receivedHash, expectedHash);
 
     // Mise à jour conditionnelle pour empêcher la réutilisation du code.
-    const updated = await prisma.adminOtpChallenge.updateMany({
-      where: {
-        id: challengeId,
-        consumedAt: null,
-        expiresAt: { gt: new Date() },
-        attempts: { lt: 5 },
-      },
-      data: valid
-        ? { consumedAt: new Date() }
-        : { attempts: { increment: 1 } },
+    const session = await prisma.$transaction(async (tx) => {
+      const updated = await tx.adminOtpChallenge.updateMany({
+        where: {
+          id: challengeId,
+          consumedAt: null,
+          expiresAt: { gt: new Date() },
+          attempts: { lt: 5 },
+        },
+        data: valid
+          ? { consumedAt: new Date() }
+          : { attempts: { increment: 1 } },
+      });
+      if (updated.count !== 1 || !valid) return null;
+      // A session failure must not consume a valid code and block the retry.
+      return createAdminSession(tx);
     });
 
-    if (updated.count !== 1 || !valid) {
+    if (!session) {
       return NextResponse.json(
         { success: false, message: "Code incorrect ou expiré." },
         { status: 401 }
       );
     }
-
-    const session = await createAdminSession();
 
     const response = NextResponse.json({
       success: true,
