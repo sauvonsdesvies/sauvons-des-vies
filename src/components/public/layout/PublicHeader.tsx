@@ -173,6 +173,7 @@ export default function PublicHeader() {
 
   return (
     <header
+      data-home-header={pathname === "/" ? "true" : undefined}
       className="
         sticky top-0 z-50 w-full
         border-b border-[#E6EDF5]
@@ -199,7 +200,7 @@ export default function PublicHeader() {
 
         <div
           className="
-            grid h-full w-full min-w-0
+            home-header-mobile grid h-full w-full min-w-0
             grid-cols-[44px_minmax(0,1fr)_auto]
             items-center gap-2
             min-[1700px]:hidden
@@ -207,7 +208,7 @@ export default function PublicHeader() {
         >
           {/* MENU HAMBURGER */}
 
-          <div className="flex items-center justify-start">
+          <div className="home-header-menu flex items-center justify-start">
             <button
               type="button"
               aria-label={
@@ -254,7 +255,7 @@ export default function PublicHeader() {
 
           <div
             className="
-              flex min-w-0 items-center
+              home-header-brand flex min-w-0 items-center
               justify-center gap-1
               sm:gap-3
             "
@@ -313,7 +314,7 @@ export default function PublicHeader() {
 
           {/* BOUTON DON */}
 
-          <div className="flex shrink-0 items-center justify-end">
+          <div className="home-header-donate flex shrink-0 items-center justify-end">
             <Link
               href="/faire-un-don"
               onClick={closeMobileMenu}

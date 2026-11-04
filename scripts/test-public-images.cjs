@@ -2,9 +2,10 @@
 const fs = require('node:fs');
 const ts = require('typescript');
 const assert = require('node:assert/strict');
+const sharp = require('sharp');
 function load(file) {
   const exports = {};
-  new Function('exports', ts.transpileModule(fs.readFileSync(file, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS } }).outputText)(exports);
+  new Function('exports', 'require', ts.transpileModule(fs.readFileSync(file, 'utf8'), { compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.CommonJS, esModuleInterop: true } }).outputText)(exports, require);
   return exports;
 }
 async function main() {
@@ -17,7 +18,8 @@ async function main() {
   const originalFetch = global.fetch;
   process.env.SUPABASE_URL = 'https://test.supabase.co';
   let calls = 0;
-  global.fetch = async () => { calls++; return new Response(new Uint8Array([1, 2, 3]), { headers: { 'Content-Type': 'image/png' } }); };
+  const original = await sharp({ create: { width: 1800, height: 1200, channels: 3, background: '#00aabb' } }).png().toBuffer();
+  global.fetch = async () => { calls++; return new Response(original, { headers: { 'Content-Type': 'image/png' } }); };
   try {
     const { GET } = load('src/app/api/public/image/route.ts');
     const request = url => ({ nextUrl: new URL(`https://example.org/api/public/image?url=${encodeURIComponent(url)}`) });
@@ -27,14 +29,20 @@ async function main() {
     assert.equal(calls, 0);
     const response = await GET(request(image));
     assert.equal(response.status, 200);
-    assert.equal(response.headers.get('content-type'), 'image/png');
+    assert.equal(response.headers.get('content-type'), 'image/webp');
     assert.match(response.headers.get('cache-control'), /max-age=3600/);
-    assert.equal((await response.arrayBuffer()).byteLength, 3);
+    const optimized = Buffer.from(await response.arrayBuffer());
+    const metadata = await sharp(optimized).metadata();
+    assert.equal(metadata.width, 1280);
+    assert.equal(metadata.height, 853);
+    assert.ok(optimized.length < original.length);
+    assert.equal((await GET(request(image))).status, 200);
+    assert.equal(calls, 1);
     global.fetch = async () => new Response('<html>', { headers: { 'Content-Type': 'text/html' } });
-    assert.equal((await GET(request(image))).status, 415);
+    assert.equal((await GET(request(image + '?invalid=1'))).status, 415);
     global.fetch = async () => new Response(null, { status: 404 });
-    assert.equal((await GET(request(image))).status, 404);
-    console.log('PASS: same-domain image URLs, original bytes, cache, host/private-path restrictions, content types and missing files.');
+    assert.equal((await GET(request(image + '?missing=1'))).status, 404);
+    console.log('PASS: same-domain image URLs, WebP resizing, aspect ratio, cache reuse, host/private-path restrictions, content types and missing files.');
   } finally {
     global.fetch = originalFetch;
     if (previous === undefined) delete process.env.SUPABASE_URL; else process.env.SUPABASE_URL = previous;

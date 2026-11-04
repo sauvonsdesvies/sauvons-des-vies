@@ -1,0 +1,198 @@
+{
+  "checkedAt": "2026-11-04T10:21:17.040Z",
+  "pages": [
+    {
+      "path": "/",
+      "status": 200
+    },
+    {
+      "path": "/campagnes",
+      "status": 200
+    },
+    {
+      "path": "/causes",
+      "status": 200
+    },
+    {
+      "path": "/actualites",
+      "status": 200
+    },
+    {
+      "path": "/contact",
+      "status": 200
+    },
+    {
+      "path": "/admin/connexion",
+      "status": 200
+    },
+    {
+      "path": "/campagnes/offrons-une-belle-fete-aux-orphelins-du-senegal-d5c38308",
+      "status": 200
+    },
+    {
+      "path": "/campagnes/un-nouvel-an-de-joie-pour-les-orphelins-de-cote-d-ivoire-8bf9f767",
+      "status": 200
+    },
+    {
+      "path": "/campagnes/tous-ensemble-pour-maryse-dominique-ketty-karene-et-keyron-130f33a2",
+      "status": 200
+    },
+    {
+      "path": "/campagnes/casse-et-pillage-de-la-boutique-reve-de-jade-17-octobre-2026-f3ce621c",
+      "status": 200
+    },
+    {
+      "path": "/faire-un-don?campagne=71704721-41c9-4d07-bc1f-daff39f72bde",
+      "status": 200
+    },
+    {
+      "path": "/faire-un-don?campagne=fcd9fd86-e245-4369-a498-8008deaf83a9",
+      "status": 200
+    }
+  ],
+  "images": [
+    {
+      "url": "https://prguhlyofvjdueqxdwfa.supabase.co/storage/v1/object/public/campaign-photos/campaign-uploads/b82190ce-8568-40a0-862a-f952d4b86922/9300166c-133e-42a0-8c63-3ffedb9ebade.png",
+      "status": "FAILED",
+      "reason": "TimeoutError"
+    },
+    {
+      "url": "https://prguhlyofvjdueqxdwfa.supabase.co/storage/v1/object/public/campaign-photos/campaign-uploads/0f6442b8-f563-4667-98d5-0f340d8c85d7/4852dc14-76d2-4dc5-aac5-63e2f5489aaa.png",
+      "status": "FAILED",
+      "reason": "TimeoutError"
+    },
+    {
+      "url": "https://prguhlyofvjdueqxdwfa.supabase.co/storage/v1/object/public/campaign-photos/campaign-uploads/0f6442b8-f563-4667-98d5-0f340d8c85d7/0b315aaa-7a07-4560-90a7-a2f2791d68e1.png",
+      "status": "FAILED",
+      "reason": "TimeoutError"
+    },
+    {
+      "url": "https://sauvonsdesvies.com/_next/image?url=%2Flogo%2Flogo.png&w=3840&q=75",
+      "status": 200,
+      "type": "image/png",
+      "bytes": 124479,
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "url": "https://sauvonsdesvies.com/icons/social/facebook.svg",
+      "status": 200,
+      "type": "image/svg+xml",
+      "bytes": 542,
+      "width": 24,
+      "height": 24
+    },
+    {
+      "url": "https://sauvonsdesvies.com/icons/social/instagram.svg",
+      "status": 200,
+      "type": "image/svg+xml",
+      "bytes": 2101,
+      "width": 24,
+      "height": 24
+    },
+    {
+      "url": "https://sauvonsdesvies.com/icons/social/tiktok.svg",
+      "status": 200,
+      "type": "image/svg+xml",
+      "bytes": 707,
+      "width": 24,
+      "height": 24
+    },
+    {
+      "url": "https://sauvonsdesvies.com/icons/social/youtube.svg",
+      "status": 200,
+      "type": "image/svg+xml",
+      "bytes": 459,
+      "width": 24,
+      "height": 24
+    },
+    {
+      "url": "https://sauvonsdesvies.com/_next/image?url=%2Fimages%2Fhome%2Fhero.webp&w=3840&q=75",
+      "status": 200,
+      "type": "image/jpeg",
+      "bytes": 61531,
+      "width": 1983,
+      "height": 492
+    },
+    {
+      "url": "https://prguhlyofvjdueqxdwfa.supabase.co/storage/v1/object/public/campaign-photos/publications/d890801d-11bd-4502-a7c7-342f01b82e88.png",
+      "status": 200,
+      "type": "image/png",
+      "bytes": 857359,
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "url": "https://prguhlyofvjdueqxdwfa.supabase.co/storage/v1/object/public/campaign-photos/campaign-uploads/0f6442b8-f563-4667-98d5-0f340d8c85d7/6a358ded-5e6e-4bf8-ac52-0a87c775e63a.png",
+      "status": "FAILED",
+      "reason": "TimeoutError"
+    },
+    {
+      "url": "https://sauvonsdesvies.com/api/public/image?url=https%3A%2F%2Fprguhlyofvjdueqxdwfa.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcampaign-photos%2Fcampaign-uploads%2Fb82190ce-8568-40a0-862a-f952d4b86922%2F9300166c-133e-42a0-8c63-3ffedb9ebade.png",
+      "status": "FAILED",
+      "reason": "TimeoutError"
+    },
+    {
+      "url": "https://sauvonsdesvies.com/api/public/image?url=https%3A%2F%2Fprguhlyofvjdueqxdwfa.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcampaign-photos%2Fcampaign-uploads%2F0f6442b8-f563-4667-98d5-0f340d8c85d7%2F0b315aaa-7a07-4560-90a7-a2f2791d68e1.png",
+      "status": 200,
+      "type": "image/png",
+      "bytes": 1122781,
+      "width": 1600,
+      "height": 1201
+    },
+    {
+      "url": "https://sauvonsdesvies.com/api/public/image?url=https%3A%2F%2Fprguhlyofvjdueqxdwfa.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcampaign-photos%2Fcampaign-uploads%2F0f6442b8-f563-4667-98d5-0f340d8c85d7%2F4852dc14-76d2-4dc5-aac5-63e2f5489aaa.png",
+      "status": "FAILED",
+      "reason": "TimeoutError"
+    },
+    {
+      "url": "https://sauvonsdesvies.com/_next/image?url=%2Fimages%2Fhome%2Fdonation-banner.png&w=3840&q=75",
+      "status": 200,
+      "type": "image/png",
+      "bytes": 362455,
+      "width": 2172,
+      "height": 724
+    },
+    {
+      "url": "https://sauvonsdesvies.com/api/public/image?url=https%3A%2F%2Fprguhlyofvjdueqxdwfa.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcampaign-photos%2Fpublications%2Fd890801d-11bd-4502-a7c7-342f01b82e88.png",
+      "status": 200,
+      "type": "image/png",
+      "bytes": 857359,
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "url": "https://sauvonsdesvies.com/api/public/image?url=https%3A%2F%2Fprguhlyofvjdueqxdwfa.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcampaign-photos%2Fcampaign-uploads%2F0f6442b8-f563-4667-98d5-0f340d8c85d7%2F6a358ded-5e6e-4bf8-ac52-0a87c775e63a.png",
+      "status": "FAILED",
+      "reason": "TimeoutError"
+    }
+  ],
+  "paymentMethods": {
+    "status": 200,
+    "data": {
+      "success": true,
+      "methods": [
+        {
+          "id": "MOBILE_MONEY",
+          "label": "Mobile Money",
+          "description": "Effectuez votre don avec votre portefeuille mobile.",
+          "enabled": true,
+          "requiresPhone": true,
+          "requiresEmail": true
+        },
+        {
+          "id": "CARD",
+          "label": "Carte bancaire",
+          "description": "Effectuez votre don par carte bancaire sécurisée.",
+          "enabled": true,
+          "requiresPhone": true,
+          "requiresEmail": true
+        }
+      ],
+      "currency": "XOF"
+    }
+  },
+  "notes": [
+    "A technical test publication is still publicly listed."
+  ]
+}

@@ -115,28 +115,15 @@ export default function HomeHero({
           CONTENU HERO
       =================================================== */}
 
-      <div className="relative z-10 flex min-h-[340px] w-full items-center px-4 pb-8 pt-6 sm:min-h-[360px] sm:px-6 lg:min-h-[350px] lg:px-8 lg:py-8">
+      <div className="relative z-10 flex min-h-[340px] w-full items-center px-4 pb-8 pt-6 sm:min-h-[360px] sm:px-6 lg:min-h-[330px] lg:px-8 lg:py-8">
         <div className="flex min-h-[284px] w-full max-w-[650px] flex-col lg:block lg:min-h-0">
           {/* PETIT TITRE */}
-
-          <div className="mb-3 hidden items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3 py-1.5 backdrop-blur-sm lg:inline-flex">
-            <Heart
-              size={14}
-              fill="#E71E3D"
-              color="#E71E3D"
-              aria-hidden="true"
-            />
-
-            <span className="text-xs font-extrabold tracking-[0.13em] text-white sm:text-xs">
-              {content.eyebrow}
-            </span>
-          </div>
 
           {/* TITRE PRINCIPAL */}
 
           <h1
             id="home-hero-heading"
-            className="max-w-[65%] text-[28px] font-black leading-[1.12] tracking-tight text-white sm:text-[38px] md:text-[46px] lg:max-w-[620px] lg:text-[60px]"
+            className="max-w-[65%] text-[28px] font-black leading-[1.12] tracking-tight text-white sm:text-[38px] md:text-[46px] lg:max-w-[620px] lg:text-[52px]"
           >
             <span className="block">
               {content.title}
@@ -158,7 +145,7 @@ export default function HomeHero({
           <div className="mt-auto grid grid-cols-2 items-stretch gap-2 pt-5 sm:flex sm:flex-wrap sm:items-center sm:gap-3 lg:mt-5 lg:pt-0">
             <Link
               href="/faire-un-don"
-              className="inline-flex min-h-[46px] items-center justify-center gap-1.5 rounded-lg bg-[#E71E3D] px-2 py-3 text-center text-sm font-extrabold text-white shadow-[0_5px_18px_rgba(231,30,61,0.22)] transition-all hover:-translate-y-0.5 hover:bg-[#CB1734] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:gap-2 sm:px-6 sm:text-sm"
+              className="inline-flex min-h-[46px] items-center justify-center gap-1.5 rounded-md bg-[#E71E3D] px-2 py-3 text-center text-sm font-extrabold text-white shadow-[0_5px_18px_rgba(231,30,61,0.22)] transition-all hover:-translate-y-0.5 hover:bg-[#CB1734] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:gap-2 sm:px-6 sm:text-sm"
             >
               <Heart
                 size={17}
@@ -176,8 +163,8 @@ export default function HomeHero({
             </Link>
 
             <Link
-              href="/soumettre-un-dossier"
-              className="inline-flex min-h-[46px] items-center justify-center gap-1.5 rounded-lg border border-white/80 bg-white px-2 py-3 text-center text-sm font-extrabold text-[#092B50] shadow-sm transition-all hover:-translate-y-0.5 hover:bg-[#E9F8FC] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:gap-2 sm:px-6 sm:text-sm"
+              href="/demander-aide"
+              className="inline-flex min-h-[46px] items-center justify-center gap-1.5 rounded-md border border-white/80 bg-white px-2 py-3 text-center text-sm font-extrabold text-[#092B50] shadow-sm transition-all hover:-translate-y-0.5 hover:bg-[#E9F8FC] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:gap-2 sm:px-6 sm:text-sm"
             >
               <FileText
                 size={17}

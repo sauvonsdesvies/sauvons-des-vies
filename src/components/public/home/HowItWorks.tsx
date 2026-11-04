@@ -176,7 +176,7 @@ export default function HowItWorks({
         </h2>
       </div>
 
-      <ol className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+      <ol className="grid gap-2 sm:grid-cols-2 xl:grid-cols-1">
         {content.steps.map((step, index) => {
           const Icon = STEP_ICONS[index];
 

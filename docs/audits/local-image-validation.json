@@ -1,0 +1,37 @@
+{
+  "checkedAt": "2026-11-04T10:38:22.305Z",
+  "results": [
+    {
+      "status": 200,
+      "bytes": 213720,
+      "type": "image/webp",
+      "durationMs": 25191,
+      "cachedDurationMs": 1
+    },
+    {
+      "status": 200,
+      "bytes": 251506,
+      "type": "image/webp",
+      "durationMs": 24459,
+      "cachedDurationMs": 1
+    },
+    {
+      "status": 200,
+      "bytes": 54206,
+      "type": "image/webp",
+      "durationMs": 19381
+    },
+    {
+      "status": 502,
+      "bytes": 0,
+      "type": null,
+      "durationMs": 30026
+    }
+  ],
+  "retest": {
+    "status": 200,
+    "bytes": 253696,
+    "type": "image/webp",
+    "durationMs": 25557
+  }
+}

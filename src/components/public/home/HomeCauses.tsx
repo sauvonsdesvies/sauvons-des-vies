@@ -84,7 +84,7 @@ function CauseCard({
     <Link
       href={`/campagnes?categorie=${encodeURIComponent(cause.slug)}`}
       aria-label={`${label} : ${cause.name}`}
-      className="group flex min-w-0 flex-col overflow-hidden rounded-xl border border-[#E1EAF1] bg-white shadow-[0_3px_10px_rgba(9,43,80,0.06)] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#B5E5ED] hover:shadow-[0_8px_20px_rgba(9,43,80,0.10)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0BC2D4]"
+      className="group flex min-w-0 flex-col overflow-hidden rounded-lg border border-[#E1EAF1] bg-white shadow-[0_3px_10px_rgba(9,43,80,0.06)] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#B5E5ED] hover:shadow-[0_8px_20px_rgba(9,43,80,0.10)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0BC2D4]"
     >
       <div className="relative aspect-[1.6/1] w-full overflow-hidden bg-[#E9F6FA]">
         {cause.imageUrl ? (
@@ -94,7 +94,7 @@ function CauseCard({
             alt={cause.name}
             fill
             sizes="(max-width: 640px) 145px, (max-width: 1024px) 190px, 220px"
-            className="object-contain transition-transform duration-300"
+            className="object-cover transition-transform duration-300"
           />
         ) : (
           <div className="flex h-full items-center justify-center bg-gradient-to-br from-[#DFF6FA] to-[#F0F9FD]">
@@ -170,7 +170,7 @@ export default function HomeCauses({
 
       {causes.length > 0 ? (
         <div className="-mx-1 overflow-x-auto px-1 pb-3 [scrollbar-width:thin] [scrollbar-color:#B7DDE7_transparent]">
-          <div className="grid min-w-max auto-cols-[145px] grid-flow-col gap-3 sm:auto-cols-[180px] lg:min-w-0 lg:grid-flow-row lg:grid-cols-5">
+          <div className="grid min-w-max auto-cols-[120px] grid-flow-col gap-3 sm:auto-cols-[145px] lg:min-w-0 lg:grid-flow-row lg:grid-cols-5">
             {causes.slice(0, limit).map((cause) => (
               <CauseCard
                 key={cause.id}

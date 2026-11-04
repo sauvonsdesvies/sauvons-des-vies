@@ -182,4 +182,5 @@ export async function getPublicHomeData(): Promise<HomeData> {
   };
 }
 
+
 export default getPublicHomeData;

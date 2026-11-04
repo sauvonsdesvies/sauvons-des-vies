@@ -488,7 +488,7 @@ export async function getAvailablePaymentMethods(
 
           requiresPhone: true,
 
-          requiresEmail: true,
+          requiresEmail: false,
         };
       }
     );

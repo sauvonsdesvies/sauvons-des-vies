@@ -1,0 +1,98 @@
+.page :global(.home-campaign-card) {
+  border-radius: 8px;
+}
+
+.page :global(.home-campaign-image) {
+  aspect-ratio: 16 / 9;
+}
+
+.page :global(.home-campaign-photo) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.page :global(.home-campaign-info) > div:first-child {
+  display: none;
+}
+
+.page :global(.home-campaign-info) h3,
+.page :global(.home-campaign-info) p {
+  min-height: 0;
+}
+
+.page :global(.home-campaign-actions) > a:first-child {
+  border-radius: 6px;
+}
+
+.page :global(.home-campaign-actions) > a:last-child {
+  display: none;
+}
+
+.mobileDonate {
+  display: none;
+}
+
+@media (max-width: 639px) {
+  .page :global(.home-campaign-overview) {
+    display: grid;
+    grid-template-columns: 112px minmax(0, 1fr);
+    align-items: start;
+    gap: 10px;
+    padding: 10px 10px 0;
+  }
+
+  .page :global(.home-campaign-image) {
+    aspect-ratio: 1;
+    border-radius: 6px;
+  }
+
+  .page :global(.home-campaign-info) {
+    padding: 0;
+  }
+
+  .page :global(.home-campaign-info) h3 {
+    font-size: 16px;
+    line-height: 1.35;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+  }
+
+  .page :global(.home-campaign-info) p {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .mobileDonate {
+    display: block;
+    position: fixed;
+    z-index: 40;
+    inset: auto 0 0;
+    padding: 8px 12px calc(8px + env(safe-area-inset-bottom));
+    background: white;
+    box-shadow: 0 -3px 15px rgb(9 43 80 / 8%);
+  }
+
+  .mobileDonate a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 46px;
+    border-radius: 6px;
+    background: #e71e3d;
+    color: white;
+    font-weight: 800;
+  }
+
+  :global(body):has(.page) :global(footer) {
+    padding-bottom: 76px;
+  }
+}
+
+@media (max-width: 639px) {
+ :global(body):has(.page) :global([data-home-header="true"] .home-header-mobile) { grid-template-columns: minmax(0,1fr) 44px; }
+ :global(body):has(.page) :global([data-home-header="true"] .home-header-menu) { order: 2; }
+ :global(body):has(.page) :global([data-home-header="true"] .home-header-brand) { order: 1; justify-content: flex-start; gap: 12px; }
+ :global(body):has(.page) :global([data-home-header="true"] .home-header-donate) { display: none; }
+}

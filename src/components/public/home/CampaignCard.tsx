@@ -91,7 +91,7 @@ export default function CampaignCard({
   // Les dons sont dirigés vers le parcours existant.
   // La campagne est transmise dans l'URL pour
   // permettre au formulaire de l'identifier.
-  const donationHref = `${detailHref}#campaign-donation-panel`;
+  const donationHref = `/faire-un-don?campagne=${encodeURIComponent(campaign.id)}`;
 
   const canDonate =
     campaign.status === "ACTIVE" &&
@@ -99,14 +99,14 @@ export default function CampaignCard({
 
   return (
     <article
-      className={`group flex h-full min-w-0 flex-col overflow-hidden rounded-xl border border-[#E0EAF2] bg-white shadow-[0_4px_14px_rgba(9,43,80,0.06)] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#B9E7EE] hover:shadow-[0_10px_25px_rgba(9,43,80,0.12)] ${className}`}
+      className={`home-campaign-card group flex h-full min-w-0 flex-col overflow-hidden rounded-xl border border-[#E0EAF2] bg-white shadow-[0_4px_14px_rgba(9,43,80,0.06)] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#B9E7EE] hover:shadow-[0_10px_25px_rgba(9,43,80,0.12)] ${className}`}
     >
-      <div className="block">
+      <div className="home-campaign-overview block">
 
       <Link
         href={detailHref}
         aria-label={`${labels.details} : ${campaign.title}`}
-        className="relative block w-full self-start overflow-hidden bg-[#E6F4F8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0BC2D4]"
+        className="home-campaign-image relative block w-full self-start overflow-hidden bg-[#E6F4F8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0BC2D4]"
       >
         {campaign.imageUrl ? (
           <Image
@@ -116,7 +116,7 @@ export default function CampaignCard({
             width={768}
             height={512}
             sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
-            className="block h-auto w-full"
+            className="home-campaign-photo block h-auto w-full"
           />
         ) : (
           <div className="flex aspect-[3/2] items-center justify-center bg-gradient-to-br from-[#DDF3F8] to-[#EFF9FC]">
@@ -152,7 +152,7 @@ export default function CampaignCard({
 
       {/* CONTENU */}
 
-      <div className="min-w-0 px-3 py-3 sm:px-4">
+      <div className="home-campaign-info min-w-0 px-3 py-3 sm:px-4">
         <div className="mb-2 flex flex-wrap items-center gap-2">
           {campaign.category && (
             <span className="rounded-md bg-[#E6F8FB] px-2 py-1 text-xs font-bold text-[#007D9B]">
@@ -200,7 +200,7 @@ export default function CampaignCard({
 
         {/* ACTIONS */}
 
-        <div className="mt-3 flex items-center gap-2">
+        <div className="home-campaign-actions mt-3 flex items-center gap-2">
           {canDonate ? (
             <Link
               href={donationHref}

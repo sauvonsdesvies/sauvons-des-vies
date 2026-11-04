@@ -123,8 +123,8 @@ function StatisticCard({
   language: PublicLanguage;
 }) {
   return (
-    <div className="flex min-w-0 items-center gap-3 rounded-xl border border-[#E1EAF1] bg-white px-3 py-3 shadow-[0_3px_12px_rgba(9,43,80,0.05)] sm:gap-4 sm:px-5 sm:py-4">
-      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#E5F8FB] text-[#009DB8] sm:h-14 sm:w-14">
+    <div className="flex min-w-0 items-center gap-3 rounded-lg border border-[#E1EAF1] bg-white px-3 py-3 shadow-[0_3px_12px_rgba(9,43,80,0.05)] sm:gap-4 sm:px-5 sm:py-4">
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#E5F8FB] text-[#009DB8] sm:h-12 sm:w-12">
         <Icon
           size={25}
           strokeWidth={2}
@@ -140,7 +140,7 @@ function StatisticCard({
             className="mb-2 h-7 w-16 animate-pulse rounded-md bg-[#DCEAF1]"
           />
         ) : (
-          <p className="text-[24px] font-extrabold leading-none tabular-nums text-[#092B50] sm:text-[30px] lg:text-[34px]">
+          <p className="text-[24px] font-extrabold leading-none tabular-nums text-[#092B50] sm:text-[30px] lg:text-[28px]">
             {value === null
               ? "—"
               : formatNumber(value, language)}

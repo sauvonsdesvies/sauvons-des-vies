@@ -56,7 +56,7 @@ export default function HomeDonationBanner({
   return (
     <section
       aria-labelledby="home-donation-banner-heading"
-      className={`relative isolate min-h-[150px] overflow-hidden rounded-xl bg-[#073461] text-white shadow-[0_6px_22px_rgba(9,43,80,0.12)] sm:min-h-[165px] ${className}`}
+      className={`relative isolate min-h-[170px] overflow-hidden rounded-xl bg-[#073461] text-white shadow-[0_6px_22px_rgba(9,43,80,0.12)] sm:min-h-[165px] ${className}`}
     >
       {/* IMAGE D'ARRIÈRE-PLAN */}
 
@@ -65,14 +65,14 @@ export default function HomeDonationBanner({
         alt=""
         fill
         sizes="(max-width: 768px) 100vw, 1200px"
-        className="h-auto w-full object-contain"
+        className="object-cover object-right"
       />
 
       {/* DÉGRADÉ POUR LA LISIBILITÉ */}
 
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-[#062C53]/95 via-[#073461]/80 to-[#073461]/10"
+        className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#062C53]/95 via-[#073461]/80 to-[#073461]/10"
       />
 
       {/* CONTENU */}
@@ -94,7 +94,7 @@ export default function HomeDonationBanner({
 
         <Link
           href="/faire-un-don"
-          className="mt-4 inline-flex min-h-[43px] items-center justify-center gap-2 rounded-lg bg-[#E71E3D] px-5 py-2.5 text-sm font-extrabold text-white shadow-[0_4px_12px_rgba(231,30,61,0.22)] transition-all hover:bg-[#CB1734] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          className="mt-4 inline-flex min-h-[43px] items-center justify-center gap-2 rounded-md bg-[#E71E3D] px-5 py-2.5 text-sm font-extrabold text-white shadow-[0_4px_12px_rgba(231,30,61,0.22)] transition-all hover:bg-[#CB1734] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
         >
           <Heart
             size={16}

@@ -133,7 +133,7 @@ export default function UrgentCampaigns({
       {/* CAMPAGNES */}
 
       {visibleCampaigns.length > 0 ? (
-        <CardRail count={visibleCampaigns.length} label={urgentOnly ? labels.title : "Collectes"}>
+        <CardRail paginationDots count={visibleCampaigns.length} label={urgentOnly ? labels.title : "Collectes"}>
             {visibleCampaigns.map((campaign) => (
               <CampaignCard
                 key={campaign.id}
