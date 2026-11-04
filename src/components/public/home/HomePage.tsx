@@ -7,7 +7,6 @@ import HomeStats from "./HomeStats";
 import UrgentCampaigns from "./UrgentCampaigns";
 import HowItWorks from "./HowItWorks";
 import HomeNews from "./HomeNews";
-import HomeTrust from "./HomeTrust";
 import HomeDonationBanner from "./HomeDonationBanner";
 
 import type { HomeData } from "@/lib/public/home-types";
@@ -49,10 +48,7 @@ export default function HomePage({
           <HomeNews news={data.news} localized carousel limit={6} />
         </div>
         <HowItWorks />
-        <div className="grid min-w-0 items-stretch gap-4 xl:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
-          <HomeTrust />
-          <HomeDonationBanner />
-        </div>
+        <HomeDonationBanner />
       </div>
     </div>
   );
